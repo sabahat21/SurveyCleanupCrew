@@ -4,7 +4,7 @@
 
 Entity Relation Diagram
 
-![picture of Entity Relation Diagram featuring Question and Answer](/SBquestionnaire-ERD.png)
+![Picture of Entity Relation Diagram featuring Question and Answer](./SBquestionnaire-ERD.png)
 
 **By: Austin Sinclair, Ayushi Patel – Team Pathfinder**
 
@@ -19,7 +19,7 @@ The Answers Collection will record unique ID values for each response and will h
 _Answer Example:_
 
 {  
-\_id: a1  
+\_id: "a1"  
 response: {question_id: “q1”, answer: “Garudasana”}  
 };
 
