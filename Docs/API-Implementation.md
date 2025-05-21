@@ -11,6 +11,8 @@ This guide explains how we're actually building the API behind the scenes — st
 /controllers  # Handles logic for each request
 /models       # Defines database schemas and queries
 /middleware   # Authentication, validation, error handling
+/utils        # Holds the Utility files, custom error and response class
+/db           # handles Database connection
 ```
 
 ---
@@ -162,6 +164,6 @@ mongoose.connect(process.env.MONGO_URI, () => {
 
 ## 🧪 Testing
 
-Use **Postman** or **Thunder Client** to test routes during dev. Automate later using tools like Jest, Supertest.
+Use **Postman**  to test routes during dev. 
 
 ---
