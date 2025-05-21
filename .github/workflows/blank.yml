@@ -48,4 +48,4 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git add "Key Decisions"
           git commit -m "Auto-combine team Key Decisions" || echo "No changes to commit"
-          git push origin document
+          git push origin Documents
