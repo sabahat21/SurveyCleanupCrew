@@ -3,7 +3,7 @@ name: Combine Team Key Decisions
 on:
   push:
     branches:
-      - main  # Optional: remove this if you want it to work on any branch
+      - Documents  # Optional: remove this if you want it to work on any branch
     paths:
       - '404-Not-Found/Key Decisions'
       - 'Ninja/Key Decisions'
