@@ -1,0 +1,41 @@
+name: Combine Team Key Decisions
+
+on:
+  push:
+    paths:
+      - 'Documents/404-Not-Found/Key Decisions'
+      - 'Documents/Ninja/Key Decisions'
+      - 'Documents/PathFinder/Key Decisions'
+      - 'Documents/Sankalp/Key Decisions'
+
+jobs:
+  combine:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Combine Key Decisions into main file
+        run: |
+          echo "# Combined Key Decisions" > "Key Decisions"
+          
+          echo -e "\n## 404-Not-Found\n" >> "Key Decisions"
+          cat "404-Not-Found/Key Decisions" >> "Key Decisions" || echo "Missing 404-Not-Found file" >> "Key Decisions"
+
+          echo -e "\n## Ninja\n" >> "Key Decisions"
+          cat "Ninja/Key Decisions" >> "Key Decisions" || echo "Missing Ninja file" >> "Key Decisions"
+
+          echo -e "\n## PathFinder\n" >> "Key Decisions"
+          cat "PathFinder/Key Decisions" >> "Key Decisions" || echo "Missing PathFinder file" >> "Key Decisions"
+
+          echo -e "\n## Sankalp\n" >> "Key Decisions"
+          cat "Sankalp/Key Decisions" >> "Key Decisions" || echo "Missing Sankalp file" >> "Key Decisions"
+
+      - name: Commit and push updated main Key Decisions
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add "Key Decisions"
+          git commit -m "Auto-combine team Key Decisions"
+          git push
