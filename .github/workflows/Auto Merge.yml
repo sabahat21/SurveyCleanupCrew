@@ -30,7 +30,7 @@ jobs:
           echo -e "\n## PathFinder\n" >> "Key Decisions"
           cat "Documents/PathFinder/Key Decisions" >> "Key Decisions" || echo "Missing PathFinder file" >> "Key Decisions"
 
-          cho -e "\n## Sankalp\n" >> "Key Decisions"
+          echo -e "\n## Sankalp\n" >> "Key Decisions"
           cat "Documents/Sankalp/Key Decisions" >> "Key Decisions" || echo "Missing Sankalp file" >> "Key Decisions"
 
       - name: Commit and push updated main Key Decisions
