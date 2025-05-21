@@ -5,10 +5,10 @@ on:
     branches:
       - Documents  # Optional: remove this if you want it to work on any branch
     paths:
-      - '404-Not-Found/Key Decisions'
-      - 'Ninja/Key Decisions'
-      - 'PathFinder/Key Decisions'
-      - 'Sankalp/Key Decisions'
+      - 'Documents/404-Not-Found/Key Decisions'
+      - 'Documents/Ninja/Key Decisions'
+      - 'Documents/PathFinder/Key Decisions'
+      - 'Documents/Sankalp/Key Decisions'
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
 jobs:
