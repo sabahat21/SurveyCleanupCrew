@@ -3,10 +3,11 @@ name: Combine Team Key Decisions
 on:
   push:
     paths:
-      - '404-Not-Found/Key Decisions'
-      - 'Ninja/Key Decisions'
-      - 'PathFinder/Key Decisions'
-      - 'Sankalp/Key Decisions'
+      - 'Documents/404-Not-Found/Key Decisions'
+      - 'Documents/Ninja/Key Decisions'
+      - 'Documents/PathFinder/Key Decisions'
+      - 'Documents/Sankalp/Key Decisions'
+  workflow_dispatch:
 
 jobs:
   combine:
@@ -21,16 +22,16 @@ jobs:
           echo "# Combined Key Decisions" > "Key Decisions"
           
           echo -e "\n## 404-Not-Found\n" >> "Key Decisions"
-          cat "404-Not-Found/Key Decisions" >> "Key Decisions" || echo "Missing 404-Not-Found file" >> "Key Decisions"
+          cat "Documents/404-Not-Found/Key Decisions" >> "Key Decisions" || echo "Missing 404-Not-Found file" >> "Key Decisions"
 
           echo -e "\n## Ninja\n" >> "Key Decisions"
-          cat "Ninja/Key Decisions" >> "Key Decisions" || echo "Missing Ninja file" >> "Key Decisions"
+          cat "Documents/Ninja/Key Decisions" >> "Key Decisions" || echo "Missing Ninja file" >> "Key Decisions"
 
           echo -e "\n## PathFinder\n" >> "Key Decisions"
-          cat "PathFinder/Key Decisions" >> "Key Decisions" || echo "Missing PathFinder file" >> "Key Decisions"
+          cat "Documents/PathFinder/Key Decisions" >> "Key Decisions" || echo "Missing PathFinder file" >> "Key Decisions"
 
-          echo -e "\n## Sankalp\n" >> "Key Decisions"
-          cat "Sankalp/Key Decisions" >> "Key Decisions" || echo "Missing Sankalp file" >> "Key Decisions"
+          cho -e "\n## Sankalp\n" >> "Key Decisions"
+          cat "Documents/Sankalp/Key Decisions" >> "Key Decisions" || echo "Missing Sankalp file" >> "Key Decisions"
 
       - name: Commit and push updated main Key Decisions
         run: |
