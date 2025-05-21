@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - document
+      - Documents
     paths:
       - '404-Not-Found/Key Decisions'
       - 'Ninja/Key Decisions'
@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout `document` branch
+      - name: Checkout `Documents` branch
         uses: actions/checkout@v3
         with:
-          ref: document
+          ref: Documents
           fetch-depth: 0
 
       - name: Combine Key Decisions
