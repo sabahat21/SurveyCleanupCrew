@@ -29,7 +29,7 @@ A minimal backend API for managing survey questions and answers, built with Node
    ```sh
    git clone <repo-url>
    cd GameShow
-   git checkout PathFinder---EndPoint,-API-and-Database
+   git checkout remotes/origin/PathFinder---EndPoint,-API-and-Database
    ```
 
 2. **Install dependencies:**
