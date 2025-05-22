@@ -39,7 +39,7 @@ A minimal backend API for managing survey questions and answers, built with Node
 
 3. **Configure environment variables:**
 
-   Create a `.env` file in the `src` directory with the following content (see `.env` for example):
+   Create a `.env` file in the root directory, `GameShow`, with the following content (see `.env` for example):
 
    ```
    PORT=8000
