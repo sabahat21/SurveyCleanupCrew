@@ -1,12 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { QUESTION_TYPE } from "../constants.js";
-
-const answerSchema = new Schema({
-  answer: { type: String, required: false, trim: true },
-  score: { type: Number, required: false, min: 0 },
-  rank: { type: Number, required: false, min: 1 },
-  isRevealed: { type: Boolean, default: false },
-});
+import { QUESTION_CATEGORY, QUESTION_LEVEL, QUESTION_TYPE } from "../constants.js";
 
 const questionSchema = new Schema(
   {
@@ -16,6 +9,17 @@ const questionSchema = new Schema(
       enum: Object.values(QUESTION_TYPE),
       required: false,
     },
+    questionCategory: {
+      type: String,
+      enum: Object.values(QUESTION_CATEGORY),
+      required: false,
+    },
+    questionLevel: {
+      type: String,
+      enum: Object.values(QUESTION_LEVEL),
+      required: false,
+    },
+    timesSkipped: { type: Number, required: false, min: 0},
     answers: [answerSchema], // Embedded answers
   },
   { timestamps: true }

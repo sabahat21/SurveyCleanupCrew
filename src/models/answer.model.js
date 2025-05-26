@@ -1,0 +1,11 @@
+import mongoose, { Schema } from "mongoose";
+
+const answerSchema = new Schema(
+  {
+  answer: { type: String, required: false, trim: true },
+  score: { type: Number, required: false, min: 0 },
+  rank: { type: Number, required: false, min: 1 },
+  isRevealed: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
