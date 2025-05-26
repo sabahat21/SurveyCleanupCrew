@@ -72,7 +72,9 @@ A minimal backend API for managing survey questions and answers, built with Node
     ```json
     {
       "question": "What is your favorite color?",
-      "questionType": "Mcq"
+      "questionType": "Input",
+      "questionCategory": "Language",
+      "questionLevel": "Beginner"
     }
     ```
 
@@ -85,7 +87,13 @@ A minimal backend API for managing survey questions and answers, built with Node
 - **Add Answer to Question**
   - `PUT /api/v1/answers/`
   - Headers: `x-api-key: <API_KEY>`
-  - Body: *(to be defined in future MVP updates)*
+  - Body:
+    ```json
+    {
+      "questionID": "683487e92b1ce69eed66ecbd",
+      "answerTest": "Raja"
+    }
+    ```
 
 ---
 
@@ -121,7 +129,15 @@ src/
 
 - Question types are defined in `constants.js`:
   - `Mcq`
-  - `True or False`
+  - `Input`
+- Question Categories are:
+  - `Grammar`
+  - `Vocabulary`
+  - `Literature`
+ - Question levels are:
+  - `Beginner`
+  - `Intermediate`
+  - `Advanced`
 - All endpoints require a valid API key via the `x-api-key` header.
 - Pagination is set to 10 questions per page.
 - Answers functionality is a stub and can be extended.
