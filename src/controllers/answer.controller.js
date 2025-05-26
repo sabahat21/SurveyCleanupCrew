@@ -12,7 +12,7 @@ const addAnswerToQuestion = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required");
   }
 
-  const answerObj = new Answer({
+  const answerObj = await Answer.create({
     answer: answerText.toLowerCase().trim()
   });
 

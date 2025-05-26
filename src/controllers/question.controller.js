@@ -69,10 +69,11 @@ const getQuestion = asyncHandler(async (req, res) => {
 
   // Retrieving only question and questionType for all the questions
   const questions = await Question.find({})
-    .select("question questionType")
+    .select("question questionType answers")
     .sort({ createdAt: -1 }) // shows the latest questions on top
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate('answers');
 
   // If no questions found Throw Error
   if (questions.length === 0) {

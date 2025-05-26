@@ -20,7 +20,7 @@ const questionSchema = new Schema(
       required: false,
     },
     timesSkipped: { type: Number, required: false, min: 0},
-    answers: [answerSchema], // Embedded answers
+    answers: [ {type: Schema.Types.ObjectId, ref: "Answer", required: false} ], // Embedded answers
   },
   { timestamps: true }
 );
