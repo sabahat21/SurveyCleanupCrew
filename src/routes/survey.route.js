@@ -1,21 +1,17 @@
 import { Router } from "express";
-import {
-  addQuestions,
-  getQuestion,
-} from "../controllers/question.controller.js";
+import { getQuestion } from "../controllers/question.controller.js";
 import { addAnswerToQuestion } from "../controllers/answer.controller.js";
 import { checkApiKey } from "../middlewares/apiKey.js";
 import checkIfAdminRoute from "../middlewares/isAdmin.js";
 
+// routes handled under: api/v1/survey
+// for simple user actions
 const surveyRouter = Router();
 
-// [ POST ] METHOD to add questions to DB alongside API-KEY check middleware
-surveyRouter.route("/surveyQuestions").post(checkApiKey, addQuestions);
-
-// [ GET ] METHOD to retrieve all the questions follows pagination for users ONLY
+// [ GET ] METHOD to retrieve all the questions for USERS
 surveyRouter.route("/").get(checkApiKey, checkIfAdminRoute, getQuestion);
 
-// [ PUT ] METHOD to add answeres to the questions
+// [ PUT ] METHOD to add answers to the questions
 surveyRouter.route("/").put(checkApiKey, addAnswerToQuestion);
 
 export default surveyRouter;

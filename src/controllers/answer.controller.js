@@ -2,7 +2,6 @@ import { Question } from "../models/question.model.js";
 import { Answer } from "../models/answer.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import checkIfAdminRoute from "../middlewares/isAdmin.js";
 import { ApiError } from "../utils/ApiError.js";
 
 // User adds answers to the questions [ PUT ]
@@ -33,7 +32,7 @@ const addAnswerToQuestion = asyncHandler(async (req, res) => {
 
 // ADMIN deletes the Answers by this method
 const deleteAnswerByID = asyncHandler(async (req, res) => {
-  if (!checkIfAdminRoute) {
+  if (!req.isAdminRoute) {
     return res
       .status(404)
       .json(new ApiError(404, "Invalid Request. NO ADMIN privilege "));

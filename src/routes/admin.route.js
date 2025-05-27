@@ -1,15 +1,31 @@
 import { Router } from "express";
-import { getQuestion } from "../controllers/question.controller.js";
+import { 
+    addQuestions, 
+    getQuestion,
+    updateQuestionById,
+    deleteQuestionById
+ } from "../controllers/question.controller.js";
 import { checkApiKey } from "../middlewares/apiKey.js";
 import checkIfAdminRoute from "../middlewares/isAdmin.js";
 import { deleteAnswerByID } from "../controllers/answer.controller.js";
 
+// routes handled under: api/v1/admin
+// for admin-level CRUD operations
 const adminRouter = Router();
 
-// [ GET ] this will get all the questions and Answers
+// [ POST ] METHOD to add questions to DB alongside API-KEY check middleware
+adminRouter.route("/surveyQuestions").post(checkApiKey, checkIfAdminRoute, addQuestions);
+
+// [ GET ] this will get all the Questions and Answers for ADMIN
 adminRouter.route("/survey").get(checkApiKey, checkIfAdminRoute, getQuestion);
 
-// [ DELETE ] delete the Asnwers by ID
-adminRouter.route("/").delete(checkApiKey, checkIfAdminRoute, deleteAnswerByID);
+// [ PUT ] METHOD to retrieve one question by ID. Returns all question fields
+adminRouter.route("/").put(checkApiKey, checkIfAdminRoute, updateQuestionById);
+
+// [ DELETE ] METHOD to delete a question by its ID.
+adminRouter.route("/").delete(checkApiKey, checkIfAdminRoute, deleteQuestionById);
+
+// [ DELETE ] delete the Answers by ID
+adminRouter.route("/answer").delete(checkApiKey, checkIfAdminRoute, deleteAnswerByID);
 
 export default adminRouter;
