@@ -199,7 +199,7 @@ Request to delete an answer according to its Id value using `deleteAnswerById` m
             "answer": "Red"
         }
     ]
-}
+    }
     ```
     
 ### Survey Route
