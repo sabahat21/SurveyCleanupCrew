@@ -85,17 +85,13 @@ const addQuestions = asyncHandler(async (req, res) => {
   RETRIEVING QUESTIONS AND ANSWERS FROM DATABASE
 */
 const getQuestion = asyncHandler(async (req, res) => {
-  // Step 1: Set up pagination (10 questions per page)
-  const page = Number(req.query.page) || 1;
-  const limit = 10;
-  const skip = (page - 1) * limit;
+ 
 
   // Step 2: Build base query to fetch selected fields (excluding answers)
   let query = Question.find({})
     .select("question questionCategory questionLevel timesSkipped")
     .sort({ createdAt: -1 }) // shows the latest questions on top
-    .skip(skip)
-    .limit(limit);
+    
 
   // Step 3: If request is from ADMIN, include answers in the selection
   if (req.isAdminRoute) {
