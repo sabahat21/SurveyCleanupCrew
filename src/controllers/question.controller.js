@@ -2,6 +2,7 @@ import { Question } from "../models/question.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { toSentenceCase } from "../utils/stringModify.js";
 
 /*
   ROUTE METHOD FOR
@@ -41,7 +42,7 @@ const addQuestions = asyncHandler(async (req, res) => {
     }
 
     // Step 6: Normalize question text to avoid case-based duplicates
-    const normalizedQuestion = question.toLowerCase().trim();
+    const normalizedQuestion = toSentenceCase(question).trim();
     // Step 7: Check if the question already exists in the DB
     const alreadyExists = await Question.findOne({
       question: normalizedQuestion,
@@ -85,23 +86,20 @@ const addQuestions = asyncHandler(async (req, res) => {
   RETRIEVING QUESTIONS AND ANSWERS FROM DATABASE
 */
 const getQuestion = asyncHandler(async (req, res) => {
- 
-
-  // Step 2: Build base query to fetch selected fields (excluding answers)
+  // Step 1: Build base query to fetch selected fields (excluding answers)
   let query = Question.find({})
     .select("question questionCategory questionLevel timesSkipped")
-    .sort({ createdAt: -1 }) // shows the latest questions on top
-    
+    .sort({ createdAt: -1 }); // shows the latest questions on top
 
-  // Step 3: If request is from ADMIN, include answers in the selection
+  // Step 2: If request is from ADMIN, include answers in the selection
   if (req.isAdminRoute) {
     query = query.select("answers"); // adds "answers" to the already selected fields
   }
 
-  // Step 4: Execute the query
+  // Step 3: Execute the query
   const questions = await query;
 
-  // Step 5 if No questions are returned throw error
+  // Step 4 if No questions are returned throw error
   if (questions.length === 0) {
     throw new ApiError(404, "No questions found");
   }
@@ -151,7 +149,6 @@ const updateQuestionById = asyncHandler(async (req, res) => {
         questionCategory: questionCategory,
         questionLevel: questionLevel,
         questionType: questionType,
-        timesSkipped: 0,
       },
     },
     { new: true }
