@@ -1,0 +1,32 @@
+name: 🔁 Postman Integration Tests & Merge
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🧪 Install Newman
+        run: npm install -g newman
+
+      - name: ✅ Run Postman Tests Against Deployed Backend
+        run: |
+          newman run src/tests/survey-api-tests.json \
+            --env-var "apiKey=${{ secrets.ADMIN_API_KEY }}" \
+            --env-var "baseUrl=${{ secrets.DEPLOYED_BACKEND_URL }}"
+
+      - name: 🚀 Merge master → main if tests pass
+        uses: devmasx/merge-branch@v1.4.0
+        with:
+          type: now
+          from_branch: master
+          target_branch: main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
