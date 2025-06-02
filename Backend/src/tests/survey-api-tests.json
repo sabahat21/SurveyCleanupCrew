@@ -26,7 +26,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"question\": \"What is the capital of India?\", \"questionType\": \"Input\", \"questionCategory\": \"Literature\", \"questionLevel\": \"Beginner\" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/surveyQuestions"
+        "url": "{{baseUrl}}/api/v1/admin/surveyQuestions"
       }
     },
 
@@ -39,7 +39,7 @@
           "mode": "raw",
           "raw": "{ \"questionID\": \"{{questionID}}\", \"question\": \"Updated capital of India?\", \"questionCategory\": \"Literature\", \"questionLevel\": \"Beginner\", \"questionType\": \"Input\" }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/"
+        "url": "{{baseUrl}}/api/v1/admin/"
       }
     },
 
@@ -52,7 +52,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"_id\": \"{{questionID}}\" }], \"answers\": [{ \"answer\": \"New Delhi\" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/survey"
+        "url": "{{baseUrl}}/api/v1/survey"
       }
     },
     {
@@ -64,7 +64,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"question\": \"\", \"questionCategory\": \"\", \"questionLevel\": \"\" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/surveyQuestions"
+        "url": "{{baseUrl}}/api/v1/admin/surveyQuestions"
       }
     },
 
@@ -77,7 +77,7 @@
           "mode": "raw",
           "raw": "{ \"questionID\": \"notAnObjectId\", \"question\": \"Invalid\", \"questionCategory\": \"Literature\", \"questionLevel\": \"Beginner\" }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/"
+        "url": "{{baseUrl}}/api/v1/admin/"
       }
     },
 
@@ -90,7 +90,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"_id\": \"{{questionID}}\" }], \"answers\": [] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/survey"
+        "url": "{{baseUrl}}/api/v1/survey"
       }
     },
 
@@ -103,7 +103,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"_id\": \"65f0c555eeeeeeeeeeeeeeee\" }], \"answers\": [{ \"answer\": \"test\" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/survey"
+        "url": "{{baseUrl}}/api/v1/survey"
       }
     },
 
@@ -116,7 +116,7 @@
           "mode": "raw",
           "raw": "{ \"questionID\": \"{{questionID}}\", \"answerID\": \"invalidAnswerID\" }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/answer"
+        "url": "{{baseUrl}}/api/v1/admin/answer"
       }
     },
 
@@ -129,7 +129,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/surveyQuestions"
+        "url": "{{baseUrl}}/api/v1/admin/surveyQuestions"
       }
     },
 
@@ -138,7 +138,7 @@
       "request": {
         "method": "GET",
         "header": [{ "key": "x-api-key", "value": "wrong-key" }],
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/survey"
+        "url": "{{baseUrl}}/api/v1/admin/survey"
       }
     },
     {
@@ -150,7 +150,7 @@
           "mode": "raw",
           "raw": "{ \"questionID\": \"{{questionID}}\" }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/"
+        "url": "{{baseUrl}}/api/v1/admin/"
       }
     },
 
@@ -163,7 +163,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"question\": \"\", \"questionCategory\": \"\", \"questionLevel\": \"\" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/surveyQuestions"
+        "url": "{{baseUrl}}/api/v1/admin/surveyQuestions"
       }
     },
 
@@ -176,7 +176,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"_id\": \"{{questionID}}\" }], \"answers\": [{ \"answer\": \"  \" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/survey"
+        "url": "{{baseUrl}}/api/v1/survey"
       }
     },
 
@@ -189,7 +189,7 @@
           "mode": "raw",
           "raw": "{ \"questionID\": \"12345\", \"question\": \"Invalid ID\", \"questionCategory\": \"Literature\", \"questionLevel\": \"Beginner\", \"questionType\": \"Input\" }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/"
+        "url": "{{baseUrl}}/api/v1/admin/"
       }
     },
 
@@ -202,7 +202,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"question\": \"  what is the capital of india?  \", \"questionType\": \"Input\", \"questionCategory\": \"Literature\", \"questionLevel\": \"Beginner\" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/surveyQuestions"
+        "url": "{{baseUrl}}/api/v1/admin/surveyQuestions"
       }
     },
 
@@ -215,7 +215,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"question\": \"Unauthorized\", \"questionType\": \"Input\", \"questionCategory\": \"Literature\", \"questionLevel\": \"Beginner\" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/surveyQuestions"
+        "url": "{{baseUrl}}/api/v1/admin/surveyQuestions"
       }
     },
     {
@@ -227,7 +227,7 @@
           "mode": "raw",
           "raw": ""
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/surveyQuestions"
+        "url": "{{baseUrl}}/api/v1/admin/surveyQuestions"
       }
     },{
       "name": "[USER] Submit Answer with Extra Fields",
@@ -238,7 +238,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"_id\": \"{{questionID}}\" }], \"answers\": [{ \"answer\": \"Delhi\", \"extra\": \"should be ignored\" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/survey"
+        "url": "{{baseUrl}}/api/v1/survey"
       }
     },
     {
@@ -250,7 +250,7 @@
           "mode": "raw",
           "raw": ""
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/"
+        "url": "{{baseUrl}}/api/v1/admin/"
       }
     },
     {
@@ -262,7 +262,7 @@
           "mode": "raw",
           "raw": "{ \"questions\": [{ \"_id\": \"{{questionID}}\", \"question\": \"Duplicate ID?\", \"questionType\": \"Input\", \"questionCategory\": \"Literature\", \"questionLevel\": \"Beginner\" }] }"
         },
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/surveyQuestions"
+        "url": "{{baseUrl}}/api/v1/admin/surveyQuestions"
       }
     },
     {
@@ -270,7 +270,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": "https://sbnabackendnew.onrender.com/api/v1/admin/survey"
+        "url": "{{baseUrl}}/api/v1/admin/survey"
       }
     }
     
