@@ -18,7 +18,7 @@ jobs:
 
       - name: ✅ Run Postman Tests Against Deployed Backend
         run: |
-          newman run src/tests/survey-api-tests.json \
+          newman run Backend/src/tests/survey-api-tests.json \
             --env-var "apiKey=${{ secrets.ADMIN_API_KEY }}" \
             --env-var "baseUrl=${{ secrets.DEPLOYED_BACKEND_URL }}"
 
