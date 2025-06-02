@@ -1,4 +1,4 @@
-name: 🔁 Postman Integration Tests & Merge
+name: Postman Integration Tests & Merge
 
 on:
   push:
