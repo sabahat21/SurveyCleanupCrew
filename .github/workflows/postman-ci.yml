@@ -22,11 +22,4 @@ jobs:
             --env-var "apiKey=${{ secrets.ADMIN_API_KEY }}" \
             --env-var "baseUrl=${{ secrets.DEPLOYED_BACKEND_URL }}"
 
-      - name: 🔃 Create Pull Request from Master → main
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: "✅ Auto PR: Merge master → main (after tests passed)"
-          commit-message: "chore: merge master to main after successful API tests"
-          base: main
-          branch: Master
+     
