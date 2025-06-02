@@ -1,4 +1,4 @@
-name: Postman Integration Tests & Merge
+name: Postman Integration Tests & Create PR
 
 on:
   push:
@@ -22,11 +22,11 @@ jobs:
             --env-var "apiKey=${{ secrets.ADMIN_API_KEY }}" \
             --env-var "baseUrl=${{ secrets.DEPLOYED_BACKEND_URL }}"
 
-      - name: 🚀 Merge master → main if tests pass
-        uses: devmasx/merge-branch@v1.4.0
+      - name: 🔃 Create Pull Request from Master → main
+        uses: peter-evans/create-pull-request@v5
         with:
-          type: now
-          from_branch: Master
-          target_branch: main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "✅ Auto PR: Merge master → main (after tests passed)"
+          commit-message: "chore: merge master to main after successful API tests"
+          base: main
+          branch: Master
