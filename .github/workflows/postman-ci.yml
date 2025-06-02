@@ -3,7 +3,7 @@ name: Postman Integration Tests & Merge
 on:
   push:
     branches:
-      - master
+      - Master
 
 jobs:
   api-test:
