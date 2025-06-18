@@ -35,6 +35,18 @@ jobs:
       run: terraform apply -auto-approve
       working-directory: terraform
 
+    - name: Debug Terraform Outputs
+      working-directory: terraform
+      run: |
+        echo "========== Raw terraform output (no -raw) =========="
+        terraform output
+
+        echo "========== Raw s3_bucket_name (with -raw) =========="
+        terraform output -raw s3_bucket_name || echo "FAILED"
+
+        echo "========== Raw cloudfront_distribution_id (with -raw) =========="
+        terraform output -raw cloudfront_distribution_id || echo "FAILED"
+
     - name: Extract Terraform Outputs
       id: tf_outputs
       working-directory: terraform
@@ -44,7 +56,15 @@ jobs:
 
         echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> $GITHUB_ENV
         echo "DISTRIBUTION_ID=$DISTRIBUTION_ID" >> $GITHUB_ENV
-
+    
+    - name: Confirm extracted env vars
+      run: |
+        echo "✅ Confirmed values from Terraform:"
+        echo "S3_BUCKET_NAME: $S3_BUCKET_NAME"
+        echo "DISTRIBUTION_ID: $DISTRIBUTION_ID"
+      env:
+        S3_BUCKET_NAME: ${{ env.S3_BUCKET_NAME }}
+        DISTRIBUTION_ID: ${{ env.DISTRIBUTION_ID }}
 
       
     - name: Install dependencies and build React app
