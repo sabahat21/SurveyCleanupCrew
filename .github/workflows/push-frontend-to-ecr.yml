@@ -13,7 +13,7 @@ jobs:
       AWS_REGION: us-east-1
       ECR_REPOSITORY: react-frontend
       IMAGE_TAG: latest
-      ECR_REGISTRY: 852989323192.dkr.ecr.us-east-1.amazonaws.com
+      ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
 
     steps:
     - name: Checkout repo
