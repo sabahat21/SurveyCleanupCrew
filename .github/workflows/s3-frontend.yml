@@ -37,11 +37,16 @@ jobs:
 
     - name: Extract Terraform Outputs
       id: tf_outputs
-      run: |
-        echo "S3_BUCKET_NAME=$(terraform output -raw s3_bucket_name)" >> $GITHUB_ENV
-        echo "DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)" >> $GITHUB_ENV
       working-directory: terraform
+      run: |
+        S3_BUCKET_NAME=$(terraform output -raw s3_bucket_name 2>/dev/null)
+        DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id 2>/dev/null)
 
+        echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> $GITHUB_ENV
+        echo "DISTRIBUTION_ID=$DISTRIBUTION_ID" >> $GITHUB_ENV
+
+
+      
     - name: Install dependencies and build React app
       working-directory: ./frontend
       run: |
