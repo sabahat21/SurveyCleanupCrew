@@ -1,0 +1,60 @@
+name: Setup and Deploy React App to S3 + CloudFront
+
+on:
+  push:
+    branches:
+      - 404-Not-Found-Deployment-Testing
+  workflow_dispatch:
+
+jobs:
+  setup-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: us-east-1
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: terraform
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: terraform
+
+    - name: Extract Terraform Outputs
+      id: tf_outputs
+      run: |
+        echo "S3_BUCKET_NAME=$(terraform output -raw s3_bucket_name)" >> $GITHUB_ENV
+        echo "DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id)" >> $GITHUB_ENV
+      working-directory: terraform
+
+    - name: Install dependencies and build React app
+      working-directory: ./frontend
+      run: |
+        npm ci
+        npm run build
+
+    - name: Upload build/ to S3
+      run: |
+        aws s3 sync ./frontend/build s3://$S3_BUCKET_NAME --delete
+
+    - name: Invalidate CloudFront cache (optional but recommended)
+      if: env.DISTRIBUTION_ID != ''
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id $DISTRIBUTION_ID \
+          --paths "/*"
