@@ -16,7 +16,17 @@ resource "aws_s3_bucket" "frontend_bucket" {
   }
 }
 
-# 2. Bucket policy for public access (needed for static website hosting)
+# 2. Disable S3 block public access (needed for bucket policy to apply)
+resource "aws_s3_bucket_public_access_block" "frontend_access_block" {
+  bucket = aws_s3_bucket.frontend_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+# 3. Public read bucket policy
 resource "aws_s3_bucket_policy" "frontend_policy" {
   bucket = aws_s3_bucket.frontend_bucket.id
 
@@ -34,14 +44,17 @@ resource "aws_s3_bucket_policy" "frontend_policy" {
   })
 }
 
-# 3. CloudFront distribution pointing to S3 website endpoint
+# 4. CloudFront distribution pointing to S3 static website
 resource "aws_cloudfront_distribution" "frontend_cdn" {
   origin {
     domain_name = aws_s3_bucket.frontend_bucket.website_endpoint
     origin_id   = "S3WebsiteOrigin"
 
-    s3_origin_config {
-      origin_access_identity = ""
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
@@ -78,7 +91,7 @@ resource "aws_cloudfront_distribution" "frontend_cdn" {
   }
 }
 
-# 4. Outputs used by GitHub Actions workflow
+# 5. Outputs used by GitHub Actions
 output "s3_bucket_name" {
   value = aws_s3_bucket.frontend_bucket.id
 }
