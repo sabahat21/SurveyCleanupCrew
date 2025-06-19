@@ -49,6 +49,7 @@ jobs:
 
     - name: Extract Terraform Outputs (Clean & Safe)
       id: tf_outputs
+      shell: bash
       working-directory: terraform
       run: |
         S3_BUCKET_NAME=$(terraform output -raw s3_bucket_name 2>&1 | grep -v "::debug")
