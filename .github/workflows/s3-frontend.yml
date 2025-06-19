@@ -1,10 +1,10 @@
 name: Setup and Deploy React App to S3 + CloudFront
 
-#on:
- # push:
-   # branches:
-      # - 404-Not-Found-Deployment-Testing
-  # workflow_dispatch:
+on:
+  push:
+    branches:
+       - 404-Not-Found-Deployment-Testing
+  workflow_dispatch:
 
 jobs:
   setup-and-deploy:
@@ -47,30 +47,24 @@ jobs:
         echo "========== Raw cloudfront_distribution_id (with -raw) =========="
         terraform output -raw cloudfront_distribution_id || echo "FAILED"
 
-    # 🔧 Install jq (required for parsing JSON outputs)
-    - name: Install jq
-      run: sudo apt-get install -y jq
-  
-    - name: Extract Terraform Outputs (Simple + Reliable)
+    - name: Extract Terraform Outputs (Safe Fallback)
       id: tf_outputs
       working-directory: terraform
       run: |
-        terraform output -json > tf.json
+        set -e
+        RAW_S3_BUCKET_NAME=$(terraform output -raw s3_bucket_name 2>/dev/null || true)
+        RAW_DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id 2>/dev/null || true)
 
-        S3_BUCKET_NAME=$(jq -r '.s3_bucket_name.value' tf.json)
-        DISTRIBUTION_ID=$(jq -r '.cloudfront_distribution_id.value' tf.json)
-
-        if [ -z "$S3_BUCKET_NAME" ] || [ -z "$DISTRIBUTION_ID" ]; then
-          echo "❌ Failed to extract one or more Terraform outputs"
-          cat tf.json
-          exit 1
+        if [ -z "$RAW_S3_BUCKET_NAME" ]; then
+          RAW_S3_BUCKET_NAME=$(terraform output s3_bucket_name | sed 's/::.*//' | tr -d ' "')
         fi
 
-        echo "✅ S3_BUCKET_NAME=$S3_BUCKET_NAME"
-        echo "✅ DISTRIBUTION_ID=$DISTRIBUTION_ID"
+        if [ -z "$RAW_DISTRIBUTION_ID" ]; then
+          RAW_DISTRIBUTION_ID=$(terraform output cloudfront_distribution_id | sed 's/::.*//' | tr -d ' "')
+        fi
 
-        echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> $GITHUB_ENV
-        echo "DISTRIBUTION_ID=$DISTRIBUTION_ID" >> $GITHUB_ENV
+        echo "S3_BUCKET_NAME=$RAW_S3_BUCKET_NAME" >> $GITHUB_ENV
+        echo "DISTRIBUTION_ID=$RAW_DISTRIBUTION_ID" >> $GITHUB_ENV
 
     - name: Confirm extracted env vars
       run: |
