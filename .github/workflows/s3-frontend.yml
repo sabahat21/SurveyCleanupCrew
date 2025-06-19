@@ -47,16 +47,16 @@ jobs:
         echo "========== Raw cloudfront_distribution_id (with -raw) =========="
         terraform output -raw cloudfront_distribution_id || echo "FAILED"
 
-    - name: Extract Terraform Outputs
+    - name: Extract Terraform Outputs (Safe Fallback)
       id: tf_outputs
       working-directory: terraform
       run: |
-        S3_BUCKET_NAME=$(terraform output -raw s3_bucket_name 2>/dev/null)
-        DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id 2>/dev/null)
+        S3_BUCKET_NAME=$(terraform output s3_bucket_name | awk -F '=' '{print $2}' | sed 's/::.*//' | tr -d ' "')
+        DISTRIBUTION_ID=$(terraform output cloudfront_distribution_id | awk -F '=' '{print $2}' | sed 's/::.*//' | tr -d ' "')
 
         echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> $GITHUB_ENV
         echo "DISTRIBUTION_ID=$DISTRIBUTION_ID" >> $GITHUB_ENV
-    
+        
     - name: Confirm extracted env vars
       run: |
         echo "✅ Confirmed values from Terraform:"
