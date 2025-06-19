@@ -35,36 +35,24 @@ jobs:
       run: terraform apply -auto-approve
       working-directory: terraform
 
-    - name: Debug Terraform Outputs
-      working-directory: terraform
-      run: |
-        echo "========== Raw terraform output (no -raw) =========="
-        terraform output
-
-        echo "========== Raw s3_bucket_name (with -raw) =========="
-        terraform output -raw s3_bucket_name || echo "FAILED"
-
-        echo "========== Raw cloudfront_distribution_id (with -raw) =========="
-        terraform output -raw cloudfront_distribution_id || echo "FAILED"
-
-    - name: Extract Terraform Outputs (Clean & Safe)
-      id: tf_outputs
+    - name: Extract S3 and CloudFront Info from AWS
+      id: aws_outputs
       shell: bash
-      working-directory: terraform
       run: |
-        S3_BUCKET_NAME=$(terraform output -raw s3_bucket_name 2>&1 | grep -v "::debug")
-        DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id 2>&1 | grep -v "::debug")
+        # Find S3 bucket name by prefix (adjust the filter if needed)
+        S3_BUCKET_NAME=$(aws s3api list-buckets --query "Buckets[?starts_with(Name, 'my-sanskrit-survey-frontend')].Name" --output text)
 
-        echo "==================="
-        echo "✅ Extracted S3_BUCKET_NAME as: '$S3_BUCKET_NAME'"
-        echo "✅ Extracted DISTRIBUTION_ID as: '$DISTRIBUTION_ID'"
-        echo "==================="
+        # Find CloudFront distribution ID by comment or origin (adjust filter if needed)
+        DISTRIBUTION_ID=$(aws cloudfront list-distributions \
+          --query "DistributionList.Items[?Origins.Items[0].DomainName.contains(@, '$S3_BUCKET_NAME')].Id" \
+          --output text)
 
         echo "✅ S3_BUCKET_NAME=$S3_BUCKET_NAME"
         echo "✅ DISTRIBUTION_ID=$DISTRIBUTION_ID"
 
         echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> $GITHUB_ENV
         echo "DISTRIBUTION_ID=$DISTRIBUTION_ID" >> $GITHUB_ENV
+
 
     - name: Confirm extracted env vars
       run: |
