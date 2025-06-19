@@ -51,11 +51,24 @@ jobs:
       id: tf_outputs
       working-directory: terraform
       run: |
-        S3_BUCKET_NAME=$(terraform output s3_bucket_name | awk -F '=' '{print $2}' | sed 's/::.*//' | tr -d ' "')
-        DISTRIBUTION_ID=$(terraform output cloudfront_distribution_id | awk -F '=' '{print $2}' | sed 's/::.*//' | tr -d ' "')
+        set -e
+
+        # Try to get raw values first
+        S3_BUCKET_NAME=$(terraform output -raw s3_bucket_name 2>/dev/null || true)
+        DISTRIBUTION_ID=$(terraform output -raw cloudfront_distribution_id 2>/dev/null || true)
+
+        # If raw failed, fall back to parsing manually
+        if [ -z "$S3_BUCKET_NAME" ]; then
+          S3_BUCKET_NAME=$(terraform output s3_bucket_name | sed 's/::.*//' | tr -d ' "')
+        fi
+
+        if [ -z "$DISTRIBUTION_ID" ]; then
+          DISTRIBUTION_ID=$(terraform output cloudfront_distribution_id | sed 's/::.*//' | tr -d ' "')
+        fi
 
         echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> $GITHUB_ENV
         echo "DISTRIBUTION_ID=$DISTRIBUTION_ID" >> $GITHUB_ENV
+
         
     - name: Confirm extracted env vars
       run: |
