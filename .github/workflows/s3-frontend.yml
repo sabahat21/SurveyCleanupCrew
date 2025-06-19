@@ -50,21 +50,28 @@ jobs:
     # 🔧 Install jq (required for parsing JSON outputs)
     - name: Install jq
       run: sudo apt-get install -y jq
-
-    - name: Extract Terraform Outputs via JSON
+  
+    - name: Extract Terraform Outputs (Simple + Reliable)
       id: tf_outputs
       working-directory: terraform
       run: |
-        # Get outputs using JSON and extract fields cleanly
-        S3_BUCKET_NAME=$(terraform output -json | jq -r '.s3_bucket_name.value')
-        DISTRIBUTION_ID=$(terraform output -json | jq -r '.cloudfront_distribution_id.value')
+        terraform output -json > tf.json
 
-        # Export to GitHub Actions ENV
+        S3_BUCKET_NAME=$(jq -r '.s3_bucket_name.value' tf.json)
+        DISTRIBUTION_ID=$(jq -r '.cloudfront_distribution_id.value' tf.json)
+
+        if [ -z "$S3_BUCKET_NAME" ] || [ -z "$DISTRIBUTION_ID" ]; then
+          echo "❌ Failed to extract one or more Terraform outputs"
+          cat tf.json
+          exit 1
+        fi
+
+        echo "✅ S3_BUCKET_NAME=$S3_BUCKET_NAME"
+        echo "✅ DISTRIBUTION_ID=$DISTRIBUTION_ID"
+
         echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> $GITHUB_ENV
         echo "DISTRIBUTION_ID=$DISTRIBUTION_ID" >> $GITHUB_ENV
 
-
-        
     - name: Confirm extracted env vars
       run: |
         echo "✅ Confirmed values from Terraform:"
