@@ -97,7 +97,6 @@ jobs:
             sudo systemctl enable docker
             sudo systemctl start docker
             sudo usermod -aG docker ec2-user
-            newgrp docker
           EOF
         shell: bash
       
