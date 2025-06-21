@@ -85,7 +85,6 @@ jobs:
           echo "EC2_PUBLIC_DNS=$EC2_PUBLIC_DNS" >> $GITHUB_ENV
         shell: bash
 
-
       - name: Write EC2 private key to file
         run: |
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > backend-keypair.pem
@@ -94,10 +93,11 @@ jobs:
       - name: Install Docker on EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
-            sudo yum update -y
-            sudo amazon-linux-extras install docker -y
+            sudo dnf install docker -y
             sudo systemctl enable docker
             sudo systemctl start docker
+            sudo usermod -aG docker ec2-user
+            newgrp docker
           EOF
         shell: bash
       
