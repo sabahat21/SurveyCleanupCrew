@@ -70,22 +70,23 @@ jobs:
 
       - name: Install Docker on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$EC2_PUBLIC_IP << 'EOF'
-            sudo apt update
-            sudo apt install -y docker.io
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ec2-user@$EC2_PUBLIC_IP << 'EOF'
+            sudo yum update -y
+            sudo amazon-linux-extras install docker -y
             sudo systemctl enable docker
             sudo systemctl start docker
           EOF
-
+      
       - name: Copy backend and .env to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -i ec2_key.pem -r backend ubuntu@$EC2_PUBLIC_IP:/home/ubuntu/
-          scp -o StrictHostKeyChecking=no -i ec2_key.pem backend/.env ubuntu@$EC2_PUBLIC_IP:/home/ubuntu/backend/.env
-
+          scp -o StrictHostKeyChecking=no -i ec2_key.pem -r backend ec2-user@$EC2_PUBLIC_IP:/home/ec2-user/
+          scp -o StrictHostKeyChecking=no -i ec2_key.pem backend/.env ec2-user@$EC2_PUBLIC_IP:/home/ec2-user/backend/.env
+      
       - name: Build and run backend Docker container on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$EC2_PUBLIC_IP << 'EOF'
-            cd /home/ubuntu/backend
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ec2-user@$EC2_PUBLIC_IP << 'EOF'
+            cd /home/ec2-user/backend
             docker build -t backend-app .
             docker run -d -p 8000:8000 --env-file .env backend-app
           EOF
+
