@@ -36,11 +36,11 @@ jobs:
           git pull origin 404-Not-Found-Deployment-Testing
 
       - name: Terraform Destroy (reset everything)
-        run: terraform destroy -auto-approve -state=terraform/backend-ec2/terraform.tfstate
+        run: terraform destroy -auto-approve -state=terraform.tfstate
         working-directory: terraform/backend-ec2
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -state=terraform/backend-ec2/terraform.tfstate
+        run: terraform apply -auto-approve -state-out=terraform.tfstate
         working-directory: terraform/backend-ec2
 
       - name: Debug - list files
