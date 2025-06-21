@@ -43,6 +43,9 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: terraform/backend-ec2
 
+      - name: Debug:list files
+        run: ls -la terraform/backend-ec2
+
       - name: Commit updated .tfstate to repo
         run: |
           git config --global user.email "github-actions@github.com"
