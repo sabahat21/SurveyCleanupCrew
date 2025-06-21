@@ -49,18 +49,33 @@ jobs:
             --filters "Name=tag:Name,Values=NodeBackendEC2" \
             --query "Reservations[0].Instances[0].InstanceId" \
             --output text)
-
+      
           echo "🆔 INSTANCE_ID=$INSTANCE_ID"
-
-          # Get the public IP of the instance
-          EC2_PUBLIC_IP=$(aws ec2 describe-instances \
-            --instance-ids $INSTANCE_ID \
-            --query "Reservations[0].Instances[0].PublicIpAddress" \
-            --output text)
-
-          echo "🌐 EC2_PUBLIC_IP=$EC2_PUBLIC_IP"
-
+      
+          # Retry logic to get public IP
+          for attempt in {1..5}; do
+            EC2_PUBLIC_IP=$(aws ec2 describe-instances \
+              --instance-ids "$INSTANCE_ID" \
+              --query "Reservations[0].Instances[0].PublicIpAddress" \
+              --output text)
+      
+            if [[ "$EC2_PUBLIC_IP" != "None" && -n "$EC2_PUBLIC_IP" ]]; then
+              echo "✅ Public IP acquired: $EC2_PUBLIC_IP"
+              break
+            fi
+      
+            echo "⏳ Attempt $attempt: Public IP not yet available. Retrying in 10 seconds..."
+            sleep 10
+          done
+      
+          # Final check
+          if [[ "$EC2_PUBLIC_IP" == "None" || -z "$EC2_PUBLIC_IP" ]]; then
+            echo "❌ Failed to retrieve EC2 Public IP after multiple attempts."
+            exit 1
+          fi
+      
           # Export to GitHub environment variable
+          echo "🌐 EC2_PUBLIC_IP=$EC2_PUBLIC_IP"
           echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
 
       - name: Write EC2 private key to file
