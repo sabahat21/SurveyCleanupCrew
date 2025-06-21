@@ -36,14 +36,14 @@ jobs:
           git pull origin 404-Not-Found-Deployment-Testing
 
       - name: Terraform Destroy (reset everything)
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -state=terraform/backend-ec2/terraform.tfstate
         working-directory: terraform/backend-ec2
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -state=terraform/backend-ec2/terraform.tfstate
         working-directory: terraform/backend-ec2
 
-      - name: Debug:list files
+      - name: Debug - list files
         run: ls -la terraform/backend-ec2
 
       - name: Commit updated .tfstate to repo
@@ -53,9 +53,3 @@ jobs:
           git add terraform/backend-ec2/terraform.tfstate
           git diff --quiet || git commit -m "Update terraform state file"
           git push
-
-
-    
-
-
-
