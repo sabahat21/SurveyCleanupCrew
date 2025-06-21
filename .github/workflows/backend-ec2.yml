@@ -1,8 +1,8 @@
 name: Deploy Backend EC2
 
-#on:
-  #push:
-    #branches: 404-Not-Found-Deployment-Testing
+on:
+  push:
+    branches: 404-Not-Found-Deployment-Testing
 
 jobs:
   setup-and-deploy:
@@ -27,6 +27,10 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: terraform
+
+      - name: Terraform Destroy (reset everything)
+        run: terraform destroy -auto-approve
         working-directory: terraform
 
       - name: Terraform Apply
