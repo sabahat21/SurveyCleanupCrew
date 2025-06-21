@@ -1,0 +1,7 @@
+# Prevent Terraform state files from being committed
+*.tfstate
+*.tfstate.backup
+
+# Optional: exclude Terraform working directory and crash logs
+.terraform/
+crash.log
