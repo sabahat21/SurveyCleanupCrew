@@ -1,8 +1,8 @@
 name: Deploy Backend EC2
 
-#on:
-  #push:
-    #branches: 404-Not-Found-Deployment-Testing
+on:
+  push:
+    branches: 404-Not-Found-Deployment-Testing
 
 jobs:
   setup-and-deploy:
@@ -29,27 +29,13 @@ jobs:
         run: terraform init
         working-directory: terraform/backend-ec2
 
-      - name: Pull latest repo (to get updated .tfstate)
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions"
-          git pull origin 404-Not-Found-Deployment-Testing
-
       - name: Terraform Destroy (reset everything)
-        run: terraform destroy -auto-approve -state=terraform.tfstate
+        run: terraform destroy -auto-approve
         working-directory: terraform/backend-ec2
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -state-out=terraform.tfstate
+        run: terraform apply -auto-approve
         working-directory: terraform/backend-ec2
 
       - name: Debug - list files
         run: ls -la terraform/backend-ec2
-
-      - name: Commit updated .tfstate to repo
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions"
-          git add terraform/backend-ec2/terraform.tfstate
-          git diff --quiet || git commit -m "Update terraform state file"
-          git push
