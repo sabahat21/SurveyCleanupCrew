@@ -78,12 +78,12 @@ jobs:
           echo "🌐 EC2_PUBLIC_IP=$EC2_PUBLIC_IP"
           echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
 
-          - name: Get EC2 DNS
-            id: ec2_dns
-            run: |
-              EC2_PUBLIC_DNS="ec2-${EC2_PUBLIC_IP//./-}.compute-1.amazonaws.com"
-              echo "EC2_PUBLIC_DNS=$EC2_PUBLIC_DNS" >> $GITHUB_ENV
-            shell: bash
+      - name: Get EC2 DNS
+        id: ec2_dns
+        run: |
+          EC2_PUBLIC_DNS="ec2-${EC2_PUBLIC_IP//./-}.compute-1.amazonaws.com"
+          echo "EC2_PUBLIC_DNS=$EC2_PUBLIC_DNS" >> $GITHUB_ENV
+        shell: bash
 
 
       - name: Write EC2 private key to file
