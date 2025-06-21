@@ -33,9 +33,9 @@ jobs:
         run: terraform destroy -auto-approve
         working-directory: terraform/backend-ec2
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-        working-directory: terraform/backend-ec2
+      #- name: Terraform Apply
+       # run: terraform apply -auto-approve
+       # working-directory: terraform/backend-ec2
 
       - name: Debug - list files
         run: ls -la terraform/backend-ec2
