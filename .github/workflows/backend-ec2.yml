@@ -44,12 +44,12 @@ jobs:
         id: ec2_output
         shell: bash
         run: |
-          # Get the instance ID by tag Name=NodeBackendEC2
+          # Get the instance ID by tag Name=NodeBackendEC2 and state=running
           INSTANCE_ID=$(aws ec2 describe-instances \
-            --filters "Name=tag:Name,Values=NodeBackendEC2" \
+            --filters "Name=tag:Name,Values=NodeBackendEC2" "Name=instance-state-name,Values=running" \
             --query "Reservations[0].Instances[0].InstanceId" \
             --output text)
-      
+
           echo "🆔 INSTANCE_ID=$INSTANCE_ID"
       
           # Retry logic to get public IP
