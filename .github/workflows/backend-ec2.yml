@@ -33,9 +33,43 @@ jobs:
         run: terraform destroy -auto-approve
         working-directory: terraform/backend-ec2
 
-      #- name: Terraform Apply
-       # run: terraform apply -auto-approve
-       # working-directory: terraform/backend-ec2
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: terraform/backend-ec2
 
       - name: Debug - list files
         run: ls -la terraform/backend-ec2
+        
+      - name: Get Terraform Output (EC2 IP)
+        id: get_output
+        run: |
+          cd terraform/backend-ec2
+          terraform output -raw ec2_public_ip > ec2_ip.txt
+          echo "EC2_PUBLIC_IP=$(cat ec2_ip.txt)" >> $GITHUB_ENV
+
+      - name: Write EC2 private key to file
+        run: |
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ec2_key.pem
+          chmod 600 ec2_key.pem
+
+      - name: Install Docker on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$EC2_PUBLIC_IP << 'EOF'
+            sudo apt update
+            sudo apt install -y docker.io
+            sudo systemctl enable docker
+            sudo systemctl start docker
+          EOF
+
+      - name: Copy backend and .env to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i ec2_key.pem -r backend ubuntu@$EC2_PUBLIC_IP:/home/ubuntu/
+          scp -o StrictHostKeyChecking=no -i ec2_key.pem backend/.env ubuntu@$EC2_PUBLIC_IP:/home/ubuntu/backend/.env
+
+      - name: Build and run backend Docker container on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ec2_key.pem ubuntu@$EC2_PUBLIC_IP << 'EOF'
+            cd /home/ubuntu/backend
+            docker build -t backend-app .
+            docker run -d -p 8000:8000 --env-file .env backend-app
+          EOF
