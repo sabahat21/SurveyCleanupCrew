@@ -14,9 +14,8 @@ connectDB()
       throw error;
     });
 
-    // Start the Express server
-    app.listen(process.env.PORT || 8000, () => {
-      console.log(`Server is running at port: ${process.env.PORT}`);
+    app.listen(process.env.PORT || 8000, "0.0.0.0", () => {
+      console.log(`Server is running at port: ${process.env.PORT || 8000}`);
     });
   })
   .catch((error) => {
