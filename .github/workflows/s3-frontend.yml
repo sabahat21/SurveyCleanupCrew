@@ -1,10 +1,10 @@
 name: Setup and Deploy React App to S3 + CloudFront
 
-#on:
-  #push:
-    #branches:
-       #- 404-Not-Found-Deployment-Testing
-  #workflow_dispatch:
+on:
+  push:
+    branches:
+       - 404-Not-Found-Deployment-Testing
+  workflow_dispatch:
 
 jobs:
   setup-and-deploy:
@@ -29,11 +29,15 @@ jobs:
 
     - name: Terraform Init
       run: terraform init
-      working-directory: terraform
+      working-directory: terraform/frontend-s3
+
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve
+      working-directory: terraform/frontend-s3
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
-      working-directory: terraform
+      working-directory: terraform/frontend-s3
 
     - name: Extract S3 and CloudFront Info from AWS
       id: aws_outputs
