@@ -144,13 +144,17 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: terraform/frontend-s3
     
-      - name: Create .env file for React App
+      - name: Create .env file and build React App
+        working-directory: ./frontend
         run: |
-          echo "REACT_APP_MONGO_API=http://$EC2_PUBLIC_IP:8000" > frontend/.env
-          echo "REACT_APP_API_KEY=H0y1H0mpyATxhhRUV3iMEfQnq1xkZ1oUuGN9g26OubSw6Od5H0xWkGGMJhaY7TwL" >> frontend/.env
+          echo "REACT_APP_MONGO_API=http://$EC2_PUBLIC_IP:8000" > .env
+          echo "REACT_APP_API_KEY=H0y1H0mpyATxhhRUV3iMEfQnq1xkZ1oUuGN9g26OubSw6Od5H0xWkGGMJhaY7TwL" >> .env
 
-      - name: Debug .env file contents
-        run: cat frontend/.env
+          echo "✅ .env file created:"
+          cat .env
+
+          npm ci
+          npm run build
 
       - name: Extract S3 and CloudFront Info from AWS
         id: aws_outputs
