@@ -1,8 +1,8 @@
 name: Deploy Backend EC2
 
-on:
-  push:
-    branches: 404-Not-Found-Deployment-Testing
+#on:
+  #push:
+    #branches: 404-Not-Found-Deployment-Testing
 
 jobs:
   setup-and-deploy:
