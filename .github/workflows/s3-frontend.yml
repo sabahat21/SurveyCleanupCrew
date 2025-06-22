@@ -31,6 +31,11 @@ jobs:
       run: terraform init
       working-directory: terraform/frontend-s3
 
+    - name: Empty S3 bucket before destroy
+      run: |
+        BUCKET_NAME="my-sanskrit-survey-frontend-bucket"
+        aws s3 rm s3://$BUCKET_NAME --recursive
+
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
       working-directory: terraform/frontend-s3
