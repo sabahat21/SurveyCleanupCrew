@@ -15,6 +15,14 @@ resource "aws_security_group" "backend_sg" {
   }
 
   ingress {
+    description = "Allow backend API access (port 8000)"
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     description = "Allow SSH from my computer"
     from_port = 22
     to_port = 22
