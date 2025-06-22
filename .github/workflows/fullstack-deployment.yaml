@@ -124,10 +124,17 @@ jobs:
         run: terraform init
         working-directory: terraform/frontend-s3
 
-      - name: Empty S3 bucket before destroy
+      - name: Empty S3 bucket before destroy (only if exists)
         run: |
           BUCKET_NAME="my-sanskrit-survey-frontend-bucket"
-          aws s3 rm s3://$BUCKET_NAME --recursive
+          
+          # Check if the bucket exists
+          if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
+            echo "✅ Bucket exists. Proceeding to empty it..."
+            aws s3 rm s3://$BUCKET_NAME --recursive
+          else
+            echo "⚠️ Bucket $BUCKET_NAME does not exist. Skipping empty step."
+          fi
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
