@@ -11,9 +11,10 @@ import checkIfAdminRoute from "../middlewares/isAdmin.js";
 const surveyRouter = Router();
 
 // [ GET ] METHOD to retrieve all the questions for USERS
-surveyRouter.get("/", checkApiKey, getQuestion);
+surveyRouter.route("/").get(checkApiKey, checkIfAdminRoute, getQuestion);
 
 // [ PUT ] METHOD to add answers to the questions
-surveyRouter.put("/", checkApiKey, addAnswerToQuestion);
+surveyRouter.route("/").put(checkApiKey, addAnswerToQuestion);
 
 export default surveyRouter;
+
