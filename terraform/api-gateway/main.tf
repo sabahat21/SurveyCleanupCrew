@@ -14,7 +14,7 @@ resource "aws_apigatewayv2_integration" "this" {
   integration_type = "HTTP_PROXY"
   integration_method = "ANY"
 
-  integration_uri = "http://${var.ec2_public_dns}:8000"
+  integration_uri = "http://${var.ec2_public_ip}:8000"
 }
 
 resource "aws_apigatewayv2_route" "this" {
