@@ -20,6 +20,9 @@ resource "aws_apigatewayv2_integration" "this" {
   integration_method = "ANY"
 
   integration_uri = "http://${var.ec2_public_ip}:8000"
+
+  payload_format_version = "1.0"
+
 }
 
 resource "aws_apigatewayv2_route" "this" {
