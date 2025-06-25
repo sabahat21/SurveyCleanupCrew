@@ -1,8 +1,8 @@
 name: Full Stack Deployment
 
-#on:
-  #push:
-   # branches: 404-Not-Found-Deployment-Testing
+on:
+  push:
+    branches: 404-Not-Found-Deployment-Testing
 
 jobs:
   setup-and-deploy:
@@ -116,6 +116,30 @@ jobs:
             docker build -t backend-app .
             docker run -d -p 8000:8000 --env-file .env backend-app
           EOF
+
+# ─────────────────────────────
+# API Gateway
+# ─────────────────────────────
+
+      - name: Terraform Init (API Gateway)
+        run: terraform init
+        working-directory: terraform/api-gateway
+
+      - name: Terraform Destroy (API Gateway)
+        run: terraform destroy -auto-approve -var="ec2_public_ip=$EC2_PUBLIC_IP"
+        working-directory: terraform/api-gateway
+
+      - name: Terraform Apply (API Gateway)
+        run: terraform apply -auto-approve -var="ec2_public_ip=$EC2_PUBLIC_IP"
+        working-directory: terraform/api-gateway
+
+      - name: Get API Gateway URL
+        id: api_output
+        run: |
+          API_GATEWAY_URL=$(terraform -chdir=terraform/api-gateway output -raw api_gateway_url)
+          echo "API_GATEWAY_URL=$API_GATEWAY_URL" >> $GITHUB_ENV
+
+          
 # ─────────────────────────────
 # Frontend: React + S3 + CloudFront
 # ─────────────────────────────
@@ -147,7 +171,7 @@ jobs:
       - name: Create .env file and build React App
         working-directory: ./frontend
         run: |
-          echo "REACT_APP_MONGO_API=http://$EC2_PUBLIC_IP:8000" > .env
+          echo "REACT_APP_MONGO_API=$API_GATEWAY_URL" > .env
           echo "REACT_APP_API_KEY=H0ylHQmpyATxhhRUV3iMEfQnq1xkZl0uUGN9g26OubSw6Od5H0XwKGCMJhaY7TwL" >> .env
 
           echo "✅ .env file created:"
