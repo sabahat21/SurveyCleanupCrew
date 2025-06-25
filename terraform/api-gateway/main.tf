@@ -4,6 +4,11 @@ provider "aws" {
   region = "us-east-1"
 }
 
+variable "ec2_public_ip" {
+  description = "The public IP of the EC2 instance to connect API Gateway to"
+  type        = string
+}
+
 resource "aws_apigatewayv2_api" "this" {
   name          = "ec2-backend-api"
   protocol_type = "HTTP"
