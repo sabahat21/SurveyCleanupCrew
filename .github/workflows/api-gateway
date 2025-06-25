@@ -3,7 +3,7 @@ name: Deploy API Gateway
 on:
   push:
     branches:
-       - 404-Not-Found-Deployment-Testing
+      - 404-Not-Found-Deployment-Testing
   workflow_dispatch:
 
 jobs:
