@@ -28,7 +28,6 @@ resource "aws_apigatewayv2_route" "survey" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "ANY /api/v1/survey/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.this.id}"
-  api_key_required  = true
 }
 
 # Route for /api/v1/admin/*
@@ -36,7 +35,6 @@ resource "aws_apigatewayv2_route" "admin" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "ANY /api/v1/admin/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.this.id}"
-  api_key_required  = true
 }
 
 # Stage
