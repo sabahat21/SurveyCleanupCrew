@@ -94,6 +94,15 @@ jobs:
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > backend-keypair.pem
           chmod 600 backend-keypair.pem
 
+      - name: Wait for EC2 SSH to be Ready
+        run: |
+          echo "Waiting for SSH on $EC2_PUBLIC_DNS..."
+          for i in {1..10}; do
+            nc -z -w5 $EC2_PUBLIC_DNS 22 && echo "SSH is available!" && break
+            echo "Attempt $i: SSH not ready yet. Retrying in 10 seconds..."
+            sleep 10
+          done
+      
       - name: Install Docker on EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
