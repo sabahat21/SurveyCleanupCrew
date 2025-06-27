@@ -19,7 +19,7 @@ resource "aws_apigatewayv2_integration" "this" {
   api_id                 = aws_apigatewayv2_api.this.id
   integration_type       = "HTTP_PROXY"
   integration_method     = "ANY"
-  integration_uri        = "http://${var.ec2_public_ip}:8000"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/{proxy}"
   payload_format_version = "1.0"
 }
 
