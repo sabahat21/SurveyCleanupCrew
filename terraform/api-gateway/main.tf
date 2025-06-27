@@ -22,9 +22,6 @@ resource "aws_apigatewayv2_integration" "this" {
   integration_uri = "http://${var.ec2_public_ip}:8000/api/v1/survey"
 
   payload_format_version = "1.0"
-
-  request_parameters = {
-    "append:header.x-api-key" = "H0ylHQmpyATxhhRUV3iMEfQnq1xkZl0uUGN9g26OubSw6Od5H0XwKGCMJhaY7TwL"
   }
 
 }
