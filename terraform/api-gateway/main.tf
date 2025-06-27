@@ -1,5 +1,3 @@
-# terraform/api-gateway/main.tf
-
 provider "aws" {
   region = "us-east-1"
 }
@@ -14,37 +12,50 @@ resource "aws_apigatewayv2_api" "this" {
   protocol_type = "HTTP"
 }
 
-# Integration with EC2 backend
-resource "aws_apigatewayv2_integration" "this" {
+# ───────────── Integrations ─────────────
+
+# Integration for /survey
+resource "aws_apigatewayv2_integration" "survey_integration" {
   api_id                 = aws_apigatewayv2_api.this.id
   integration_type       = "HTTP_PROXY"
   integration_method     = "ANY"
-  integration_uri        = "http://${var.ec2_public_ip}:8000/{proxy}"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/survey/{proxy}"
   payload_format_version = "1.0"
 }
 
-# Route for /api/v1/survey/*
-resource "aws_apigatewayv2_route" "survey" {
+# Integration for /admin
+resource "aws_apigatewayv2_integration" "admin_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "ANY"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/admin/{proxy}"
+  payload_format_version = "1.0"
+}
+
+# ───────────── Routes ─────────────
+
+resource "aws_apigatewayv2_route" "survey_route" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "ANY /api/v1/survey/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.this.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.survey_integration.id}"
 }
 
-# Route for /api/v1/admin/*
-resource "aws_apigatewayv2_route" "admin" {
+resource "aws_apigatewayv2_route" "admin_route" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "ANY /api/v1/admin/{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.this.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.admin_integration.id}"
 }
 
-# Stage
+# ───────────── Stage ─────────────
+
 resource "aws_apigatewayv2_stage" "this" {
   api_id      = aws_apigatewayv2_api.this.id
   name        = "$default"
   auto_deploy = true
 }
 
-# Output the invoke URL
+# ───────────── Output ─────────────
+
 output "api_gateway_url" {
   description = "Public URL for API Gateway"
   value       = aws_apigatewayv2_stage.this.invoke_url
