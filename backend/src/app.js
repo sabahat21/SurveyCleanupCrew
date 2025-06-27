@@ -30,6 +30,26 @@ app.use((req, res, next) => {
   console.log(`🔍 ${req.method} ${req.originalUrl}`);
   next();
 });
+
+app.use((req, res, next) => {
+  console.log("🔍 Headers received by backend:", req.headers);
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log("📦 Request body:", req.body);
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log("🔑 x-api-key header:", req.headers["x-api-key"]);
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log(`🕒 ${new Date().toISOString()} - ${req.method} ${req.originalUrl}`);
+  next();
+});
 // -------- ROUTES --------
 
 import surveyRouter from "./routes/survey.route.js";
