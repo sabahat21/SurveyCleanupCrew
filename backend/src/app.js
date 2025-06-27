@@ -26,6 +26,10 @@ app.use(express.static("public"));
 // Parse cookies from the request headers
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  console.log(`🔍 ${req.method} ${req.originalUrl}`);
+  next();
+});
 // -------- ROUTES --------
 
 import surveyRouter from "./routes/survey.route.js";
