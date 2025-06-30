@@ -140,6 +140,10 @@ jobs:
 # API Gateway
 # ─────────────────────────────
 
+      - name: Authenticate with Terraform Cloud
+        run: |
+          echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_API_TOKEN }}\" }" > ~/.terraformrc
+
       - name: Terraform Init (API Gateway)
         run: terraform init
         working-directory: terraform/api-gateway
@@ -177,6 +181,10 @@ jobs:
 # ─────────────────────────────
 # Frontend: React + S3 + CloudFront
 # ─────────────────────────────
+
+      - name: Authenticate with Terraform Cloud
+        run: |
+          echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_API_TOKEN }}\" }" > ~/.terraformrc
 
       - name: Terraform Init
         run: terraform init
