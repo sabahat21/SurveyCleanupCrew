@@ -1,8 +1,8 @@
-name: Deploy Backend EC2
+name: Deleting all services
 
-#on:
-  #push:
-    #branches: 404-Not-Found-Deployment-Testing
+on:
+  push:
+    branches: 404-Not-Found-Deployment-Testing
 
 jobs:
   setup-and-deploy:
@@ -22,17 +22,69 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+# Delete EC2 Backend
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
 
+      - name: Authenticate with Terraform Cloud
+        run: |
+          echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_API_TOKEN }}\" }" > ~/.terraformrc
       - name: Terraform Init
         run: terraform init
         working-directory: terraform/backend-ec2
 
-      - name: Terraform Destroy (reset everything)
+      - name: Verify Terraform Cloud workspace is connected
+        run: terraform workspace show
+        working-directory: terraform/backend-ec2
+
+      - name: Terraform Destroy
         run: terraform destroy -auto-approve
         working-directory: terraform/backend-ec2
 
+# Delete API Gateway
 
+      - name: Authenticate with Terraform Cloud
+        run: |
+          echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_API_TOKEN }}\" }" > ~/.terraformrc
+      - name: Terraform Init (API Gateway)
+        run: terraform init
+        working-directory: terraform/api-gateway
+
+      - name: Verify Terraform Cloud Workspace (API Gateway)
+        run: terraform workspace show
+        working-directory: terraform/api-gateway
+
+      - name: Terraform Destroy (API Gateway)
+        run: terraform destroy -auto-approve -var="ec2_public_ip=$EC2_PUBLIC_IP"
+        working-directory: terraform/api-gateway
+
+# Delete S3-cloudFront frontend
+
+      - name: Authenticate with Terraform Cloud
+        run: |
+          echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_API_TOKEN }}\" }" > ~/.terraformrc
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform/frontend-s3
+
+      - name: Verify Terraform Cloud Workspace (Frontend)
+        run: terraform workspace show
+        working-directory: terraform/frontend-s3
+
+      - name: Empty S3 bucket before destroy (only if exists)
+        run: |
+          BUCKET_NAME="my-sanskrit-survey-frontend-bucket"
+          
+          # Check if the bucket exists
+          if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
+            echo "✅ Bucket exists. Proceeding to empty it..."
+            aws s3 rm s3://$BUCKET_NAME --recursive
+          else
+            echo "⚠️ Bucket $BUCKET_NAME does not exist. Skipping empty step."
+          fi
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+        working-directory: terraform/frontend-s3
 
 
