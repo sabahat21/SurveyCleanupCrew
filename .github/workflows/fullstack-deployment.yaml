@@ -1,8 +1,8 @@
 name: Full Stack Deployment
 
-#on:
-  #push:
-    #branches: 404-Not-Found-Deployment-Testing
+on:
+  push:
+    branches: 404-Not-Found-Deployment-Testing
 
 jobs:
   setup-and-deploy:
@@ -177,6 +177,10 @@ jobs:
         run: terraform init
         working-directory: terraform/frontend-s3
 
+      - name: Verify Terraform Cloud Workspace (Frontend)
+        run: terraform workspace show
+        working-directory: terraform/frontend-s3
+
       - name: Empty S3 bucket before destroy (only if exists)
         run: |
           BUCKET_NAME="my-sanskrit-survey-frontend-bucket"
@@ -239,11 +243,7 @@ jobs:
 
 
         
-      - name: Install dependencies and build React app
-        working-directory: ./frontend
-        run: |
-          npm ci
-          npm run build
+     # - name: Install dependencies and build React app working-directory: ./frontend run: | npm cinpm run build
 
       - name: Upload build/ to S3
         run: |
