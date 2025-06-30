@@ -33,6 +33,11 @@ jobs:
         run: terraform init
         working-directory: terraform/backend-ec2
 
+      - name: Verify Terraform Cloud workspace is connected
+        run: terraform workspace show
+        working-directory: terraform/backend-ec2
+
+
       - name: Terraform Destroy (reset everything)
         run: terraform destroy -auto-approve
         working-directory: terraform/backend-ec2
