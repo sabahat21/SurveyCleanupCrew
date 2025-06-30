@@ -31,27 +31,27 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+          export TF_API_TOKEN=${{ secrets.TF_API_TOKEN }}
+          terraform init
         working-directory: terraform/backend-ec2
-        env:  
-          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
       - name: Verify Terraform Cloud workspace is connected
         run: terraform workspace show
         working-directory: terraform/backend-ec2
 
 
-      - name: Terraform Destroy (reset everything)
-        run: terraform destroy -auto-approve
+      - name: Terraform Destroy
+        run: |
+          export TF_API_TOKEN=${{ secrets.TF_API_TOKEN }}
+          terraform destroy -auto-approve
         working-directory: terraform/backend-ec2
-        env:  
-          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: |
+          export TF_API_TOKEN=${{ secrets.TF_API_TOKEN }}
+          terraform apply -auto-approve
         working-directory: terraform/backend-ec2
-        env:  
-          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
       - name: Debug - list files
         run: ls -la terraform/backend-ec2
