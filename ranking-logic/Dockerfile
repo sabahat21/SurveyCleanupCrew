@@ -9,7 +9,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the full application
-COPY ..
+COPY . .
 
 # Expose the Flask port (default: 5000)
 EXPOSE 5000
