@@ -48,6 +48,9 @@ export const Header: React.FC<HeaderProps> = ({
   };
   const handleCancelUpdate = () => setShowUpdatePrompt(false);
 
+  const rankingPageUrl = process.env.REACT_APP_RANKING_UI_URL;
+
+
   return (
     <>
       <header className="sticky top-0 z-50 w-full bg-white bg-opacity-95 backdrop-blur-sm border-b-2 border-indigo-100 shadow-lg">
@@ -105,10 +108,9 @@ export const Header: React.FC<HeaderProps> = ({
                 <span>Analytics</span>
               </button>
 
-              const rankingPageUrl = process.env.REACT_APP_RANKING_UI_URL;
 
               <button
-                onClick={() => window.open("rankingPageUrl", "_blank")}
+                onClick={() => window.open(rankingPageUrl, "_blank")}
                 className="flex items-center gap-2 px-4 py-2.5 text-orange-700 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 hover:border-orange-300 transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">🏆</span>
