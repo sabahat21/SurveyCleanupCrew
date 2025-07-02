@@ -32,6 +32,14 @@ resource "aws_apigatewayv2_integration" "admin_integration" {
   payload_format_version = "1.0"
 }
 
+resource "aws_apigatewayv2_integration" "ranking_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "ANY"
+  integration_uri        = "http://${var.ec2_public_ip}:5000/{proxy}"
+  payload_format_version = "1.0"
+}
+
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -46,6 +54,12 @@ resource "aws_apigatewayv2_route" "admin_route" {
   target    = "integrations/${aws_apigatewayv2_integration.admin_integration.id}"
 }
 
+# Route for /rank
+resource "aws_apigatewayv2_route" "ranking_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "ANY /{proxy+}"
+  target    = "integrations/${aws_apigatewayv2_integration.ranking_integration.id}"
+}
 # ───────────── Stage ─────────────
 
 resource "aws_apigatewayv2_stage" "this" {
