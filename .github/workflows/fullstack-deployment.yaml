@@ -1,8 +1,8 @@
 name: Full Stack Deployment
 
-#on:
-  #push:
-    #branches: 404-Not-Found-Deployment-Testing
+on:
+  push:
+    branches: 404-Not-Found-Deployment-Testing
 
 jobs:
   setup-and-deploy:
@@ -120,6 +120,11 @@ jobs:
             sudo systemctl enable docker
             sudo systemctl start docker
             sudo usermod -aG docker ec2-user
+
+            newgrp docker <<EONG
+            docker network create app-network || true
+            EONG
+            docker network create app-network || true  # Ignore if already exists
           EOF
         shell: bash
       
@@ -127,14 +132,27 @@ jobs:
         run: |
           scp -o StrictHostKeyChecking=no -i backend-keypair.pem -r backend ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/
           scp -o StrictHostKeyChecking=no -i backend-keypair.pem backend/.env ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/backend/.env
+
+      - name: Copy ranking-logic and .env to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i backend-keypair.pem -r ranking-logic ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/
+          scp -o StrictHostKeyChecking=no -i backend-keypair.pem ranking-logic/.env ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/ranking-logic/.env
+
       
-      - name: Build and run backend Docker container on EC2
+      - name: Build and run backend + ranking-logic containers on EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
+            # Backend
             cd /home/ec2-user/backend
             docker build -t backend-app .
-            docker run -d -p 8000:8000 --env-file .env backend-app
+            docker run -d -p 8000:8000 --env-file .env --name backend-container --network app-network backend-app
+
+            # Ranking Logic
+            cd /home/ec2-user/ranking-logic
+            docker build -t ranking-logic-app .
+            docker run -d -p 5000:5000 --env-file .env --name ranking-logic-container --network app-network ranking-logic-app
           EOF
+
 
 # ─────────────────────────────
 # API Gateway
@@ -175,6 +193,7 @@ jobs:
           API_GATEWAY_URL="https://${API_ID}.execute-api.us-east-1.amazonaws.com"
       
           echo "🌐 API Gateway URL: $API_GATEWAY_URL"
+          
           echo "API_GATEWAY_URL=$API_GATEWAY_URL" >> $GITHUB_ENV
 
           
@@ -219,6 +238,9 @@ jobs:
         run: |
           echo "REACT_APP_MONGO_API=$API_GATEWAY_URL" > .env
           echo "REACT_APP_API_KEY=H0ylHQmpyATxhhRUV3iMEfQnq1xkZl0uUGN9g26OubSw6Od5H0XwKGCMJhaY7TwL" >> .env
+          echo "REACT_APP_RANKING_UI_URL=${API_GATEWAY_URL}/rank/" >> .env
+          echo "" >> .env
+
 
           echo "✅ .env file created:"
           cat .env
