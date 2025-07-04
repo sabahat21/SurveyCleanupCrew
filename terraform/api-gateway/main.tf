@@ -57,7 +57,7 @@ resource "aws_apigatewayv2_route" "admin_route" {
 # Route for rank
 resource "aws_apigatewayv2_route" "ranking_route" {
   api_id    = aws_apigatewayv2_api.this.id
-  route_key = "ANY /rank/{proxy+}"
+  route_key = "ANY /api/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.ranking_integration.id}"
 }
 # ───────────── Stage ─────────────
