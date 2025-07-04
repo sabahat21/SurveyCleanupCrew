@@ -729,35 +729,35 @@ def health():
     status_code = 500 if result["status"] == "error" else 200
     return jsonify(result), status_code
 
-@app.route('/api/v1/admin/survey/test-connection')
+@app.route('/test-connection')
 def test_connection():
     """Test API connection"""
     result = api_endpoints.test_connection()
     status_code = 500 if result["status"] == "error" else 200
     return jsonify(result), status_code
 
-@app.route('/api/v1/admin/survey/get-questions')
+@app.route('/get-questions')
 def get_questions():
     """Fetch questions from API"""
     result = api_endpoints.get_questions()
     status_code = 500 if result["status"] == "error" else 200
     return jsonify(result), status_code
 
-@app.route('/api/v1/admin/survey/process-ranking', methods=['POST'])
+@app.route('/process-ranking', methods=['POST'])
 def process_ranking():
     """Process ranking for Input questions only"""
     result = api_endpoints.process_ranking()
     status_code = 500 if result["status"] == "error" else 200
     return jsonify(result), status_code
 
-@app.route('/api/v1/admin/survey/post-final-answers', methods=['POST'])
+@app.route('/post-final-answers', methods=['POST'])
 def post_final_answers():
     """POST final answers to /admin/survey/final"""
     result = api_endpoints.post_final_answers()
     status_code = 500 if result["status"] == "error" else 200
     return jsonify(result), status_code
 
-@app.route('/api/v1/admin/survey/logs')
+@app.route('/logs')
 def get_logs():
     """Get recent logs (simulated)"""
     return jsonify({
