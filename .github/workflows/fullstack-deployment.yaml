@@ -247,7 +247,7 @@ jobs:
         run: |
           echo "REACT_APP_MONGO_API=$API_GATEWAY_URL" > .env
           echo "REACT_APP_API_KEY=H0ylHQmpyATxhhRUV3iMEfQnq1xkZl0uUGN9g26OubSw6Od5H0XwKGCMJhaY7TwL" >> .env
-          echo "REACT_APP_RANKING_UI_URL=${API_GATEWAY_URL}/rank/" >> .env
+          echo "REACT_APP_RANKING_UI_URL=${API_GATEWAY_URL}/api/" >> .env
           echo "" >> .env
 
 
