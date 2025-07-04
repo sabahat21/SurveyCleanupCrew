@@ -133,8 +133,13 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
             cd /home/ec2-user/backend
             docker build -t backend-app .
+            
+            # Ensure Docker network exists (skip error if already created)
+            docker network create app-network || true
+            
             docker run -d -p 8000:8000 --env-file .env --name backend-container --network app-network backend-app
           EOF
+
 
 # ─────────────────────────────
 # API Gateway
