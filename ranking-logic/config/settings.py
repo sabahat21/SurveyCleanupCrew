@@ -65,7 +65,11 @@ class Config:
     @classmethod
     def get_full_api_url(cls) -> str:
         """Get the complete API URL"""
-        return f"{cls.API_BASE_URL}{cls.API_ENDPOINT}"
+        full_url = f"{cls.API_BASE_URL}{cls.API_ENDPOINT}"
+        print(f"[DEBUG] API_BASE_URL = {cls.API_BASE_URL}")
+        print(f"[DEBUG] API_ENDPOINT = {cls.API_ENDPOINT}")
+        print(f"[DEBUG] Full API URL = {full_url}")
+        return full_url
     
     @classmethod
     def get_api_headers(cls) -> dict:
