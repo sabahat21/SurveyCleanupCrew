@@ -189,7 +189,7 @@ jobs:
 
       - name: Inject full API URL into ranking-logic .env
         run: |
-          sed -i "s|^API_BASE_URL=.*|API_BASE_URL=${API_GATEWAY_URL}/api/v1/admin/survey|" ranking-logic/.env
+          sed -i "s|^API_BASE_URL=.*|API_BASE_URL=${API_GATEWAY_URL}|" ranking-logic/.env
 
       - name: Copy ranking-logic and .env to EC2
         run: |
