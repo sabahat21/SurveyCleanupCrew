@@ -48,6 +48,46 @@ resource "aws_apigatewayv2_integration" "test_connection_integration" {
   payload_format_version = "1.0"
 }
 
+resource "aws_apigatewayv2_integration" "health_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "GET"
+  integration_uri        = "http://${var.ec2_public_ip}:5000/api/health"
+  payload_format_version = "1.0"
+}
+
+resource "aws_apigatewayv2_integration" "get_questions_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "GET"
+  integration_uri        = "http://${var.ec2_public_ip}:5000/api/get-questions"
+  payload_format_version = "1.0"
+}
+
+resource "aws_apigatewayv2_integration" "process_ranking_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "POST"
+  integration_uri        = "http://${var.ec2_public_ip}:5000/api/process-ranking"
+  payload_format_version = "1.0"
+}
+
+resource "aws_apigatewayv2_integration" "post_final_answers_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "POST"
+  integration_uri        = "http://${var.ec2_public_ip}:5000/api/post-final-answers"
+  payload_format_version = "1.0"
+}
+
+resource "aws_apigatewayv2_integration" "logs_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "GET"
+  integration_uri        = "http://${var.ec2_public_ip}:5000/api/logs"
+  payload_format_version = "1.0"
+}
+
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -73,6 +113,36 @@ resource "aws_apigatewayv2_route" "test_connection_route" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "GET /api/test-connection"
   target    = "integrations/${aws_apigatewayv2_integration.test_connection_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "health_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "GET /api/health"
+  target    = "integrations/${aws_apigatewayv2_integration.health_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "get_questions_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "GET /api/get-questions"
+  target    = "integrations/${aws_apigatewayv2_integration.get_questions_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "process_ranking_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "POST /api/process-ranking"
+  target    = "integrations/${aws_apigatewayv2_integration.process_ranking_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "post_final_answers_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "POST /api/post-final-answers"
+  target    = "integrations/${aws_apigatewayv2_integration.post_final_answers_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "logs_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "GET /api/logs"
+  target    = "integrations/${aws_apigatewayv2_integration.logs_integration.id}"
 }
 
 # ───────────── Stage ─────────────
