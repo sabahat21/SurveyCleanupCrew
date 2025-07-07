@@ -40,6 +40,14 @@ resource "aws_apigatewayv2_integration" "ranking_integration" {
   payload_format_version = "1.0"
 }
 
+resource "aws_apigatewayv2_integration" "test_connection_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "GET"
+  integration_uri        = "http://${var.ec2_public_ip}:5000/api/test-connection"
+  payload_format_version = "1.0"
+}
+
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -60,6 +68,13 @@ resource "aws_apigatewayv2_route" "ranking_route" {
   route_key = "ANY /api/{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.ranking_integration.id}"
 }
+
+resource "aws_apigatewayv2_route" "test_connection_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "GET /api/test-connection"
+  target    = "integrations/${aws_apigatewayv2_integration.test_connection_integration.id}"
+}
+
 # ───────────── Stage ─────────────
 
 resource "aws_apigatewayv2_stage" "this" {
