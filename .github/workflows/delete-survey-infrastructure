@@ -1,6 +1,6 @@
 name: Deleting all services
 
-#on:
+on:
   push:
     branches: 404-Not-Found-Deployment-Testing
 
