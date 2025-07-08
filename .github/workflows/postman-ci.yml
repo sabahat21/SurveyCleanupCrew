@@ -1,7 +1,6 @@
 name: Postman Integration Tests & Create PR
 
 on:
-  push:
     branches:
       - Master
 
