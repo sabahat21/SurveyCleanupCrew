@@ -11,7 +11,7 @@ resource "aws_ecr_repository" "node_backend_repo" {
 }
 
 resource "aws_ecr_repository" "flask_ranker_repo" {
-  name = "falsk-ranker"
+  name = "flask-ranker"
   image_scanning_configuration {
     scan_on_push = true
   }
