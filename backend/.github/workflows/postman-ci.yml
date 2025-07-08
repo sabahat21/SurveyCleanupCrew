@@ -1,0 +1,25 @@
+name: Postman Integration Tests & Create PR
+
+on:
+  push:
+    branches:
+      - Master
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🧪 Install Newman
+        run: npm install -g newman
+
+      - name: ✅ Run Postman Tests Against Deployed Backend
+        run: |
+          newman run Backend/src/tests/survey-api-tests.json \
+            --env-var "apiKey=${{ secrets.ADMIN_API_KEY }}" \
+            --env-var "baseUrl=${{ secrets.DEPLOYED_BACKEND_URL }}"
+
+     
