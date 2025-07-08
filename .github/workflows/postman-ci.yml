@@ -1,9 +1,9 @@
-name: Postman Integration Tests & Create PR
+name: 🔁 Postman Integration Tests
 
 on:
-    push:
-        branches:
-          - Master
+  push:
+    branches:
+      - 404-Not-Found---Integration-
 
 jobs:
   api-test:
@@ -13,13 +13,25 @@ jobs:
       - name: ⬇️ Checkout Code
         uses: actions/checkout@v3
 
+      - name: 🧪 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📦 Install Backend Dependencies
+        run: npm install
+
+      - name: 🟢 Start Backend Server with MongoDB URI
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        run: |
+          npm run dev &   # or `npm start`
+          sleep 10
+
       - name: 🧪 Install Newman
         run: npm install -g newman
 
-      - name: ✅ Run Postman Tests Against Deployed Backend
+      - name: ✅ Run Postman Tests
         run: |
           newman run backend/src/test/survey-api-tests.json \
-            --env-var "apiKey=${{ secrets.ADMIN_API_KEY }}" \
-            --env-var "baseUrl=${{ secrets.DEPLOYED_BACKEND_URL }}"
-
-     
+            --env-var "apiKey=${{ secrets.ADMIN_API_KEY }}"
