@@ -1,8 +1,9 @@
 name: Postman Integration Tests & Create PR
 
 on:
-    branches:
-      - Master
+    push:
+        branches:
+          - Master
 
 jobs:
   api-test:
