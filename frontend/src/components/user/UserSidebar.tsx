@@ -29,7 +29,7 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
             }}
           />
         </div>
-        <p className="text-sm text-gray-600 mt-2 text-center font-medium">
+        <p className="text-sm text-gray-600 mt-2 text-center font-medium" data-testid="progress-count">
           {answeredCount} of {questions.length} completed
         </p>
       </div>

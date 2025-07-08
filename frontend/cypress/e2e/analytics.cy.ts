@@ -1,15 +1,14 @@
+/// <reference types="cypress" />
+
 describe('Survey Analytics Dashboard', () => {
   beforeEach(() => {
+    localStorage.setItem('isAdmin', 'true');
     cy.visit('/login');
     cy.contains('Admin').click();
     cy.get('input[placeholder="Admin Name"]').type('admin');
     cy.get('input[placeholder="Password"]').type('AdminForm123');
     cy.contains('Login as Admin').click();
-
-    
     cy.contains('Analytics').click();
-
-    
     cy.url().should('include', '/analytics');
   });
 
@@ -20,24 +19,31 @@ describe('Survey Analytics Dashboard', () => {
     cy.contains('Overall Skip Rate').should('be.visible');
   });
 
-  it('renders charts', () => {
-    // Bar chart: Questions per Category
-    cy.get('canvas').should('exist'); // If you're using Chart.js or similar
-
-    // Pie chart for levels
-    cy.get('canvas').should('have.length.at.least', 2); // Expecting both charts
+  it('renders the level chart specifically', () => {
+    cy.get('canvas').should('have.length', 1); 
   });
 
-  it('renders leaderboard questions', () => {
-    cy.contains('Leaderboard - Top 5 Answered Questions').should('be.visible');
-    cy.get('ul li').should('have.length.at.least', 1);
+  it('has chart container wrapping charts', () => {
+    cy.get('.flex.flex-col.lg\\:flex-row').should('exist');
   });
 
+  it('displays numeric total responses', () => {
+    cy.contains('Total Responses')
+      .next()
+      .invoke('text')
+      .should('match', /^\d+$/);
+  });
+
+  it('displays most skipped questions', () => {
+    cy.contains('Most Skipped Questions').should('be.visible');
+    cy.get('table').should('exist');
+    cy.get('thead').should('contain.text', 'Skip %');
+  });
 
   it('refresh and back buttons work', () => {
     cy.contains('Refresh').should('be.visible').click();
     cy.contains('Back').should('be.visible').click();
-    cy.url().should('include', '/dashboard'); 
+    cy.url().should('include', '/dashboard');
   });
 
   it('redirects non-admin user from analytics page to login', () => {
@@ -57,60 +63,79 @@ describe('Survey Analytics Dashboard', () => {
     cy.url().should('include', '/responses');
   });
 
-  it('goes back to dashboard when back button is clicked', () => {
-    cy.contains('Back').click();
-    cy.url().should('include', '/dashboard');
-  });
-
-  it('refresh button updates content', () => {
+  it('refresh button triggers loading state', () => {
     cy.contains('Refresh').click();
     cy.contains('Loading analytics...').should('exist');
   });
-  
- it('renders bar and pie charts', () => {
-  cy.get('canvas').should('have.length.at.least', 2);
- });
 
- it('renders the category chart specifically', () => {
-  cy.get('canvas').eq(0).should('exist');
- });
-
- it('renders the level chart specifically', () => {
-  cy.get('canvas').eq(1).should('exist');
-});
-
-it('has chart container wrapping charts', () => {
-  cy.get('.flex.flex-col.lg\\:flex-row').should('exist');
-});
-
-it('displays numeric total responses', () => {
-  cy.contains('Total Responses').next().invoke('text').should('match', /^\d+$/);
-});
-
-it('shows top 5 questions in leaderboard', () => {
-  cy.get('ul li').should('have.length.lte', 5);
-});
-
-it('each leaderboard item contains a question', () => {
-  cy.get('ul li').each(($el) => {
-    cy.wrap($el).find('span').first().invoke('text').should('not.be.empty');
+  it('renders the page title and header icon', () => {
+    cy.contains('Survey Analytics Dashboard').should('be.visible');
+    cy.get('span').contains('📊').should('be.visible');
   });
-});
 
-it('each leaderboard item contains response count', () => {
-  cy.get('ul li').each(($el) => {
-    cy.wrap($el).find('span').eq(1).invoke('text').should('match', /\d+ answers/);
+  it('has working navigation buttons: Responses and Back', () => {
+    cy.contains('Responses').should('exist');
+    cy.contains('Back').should('exist');
   });
-});
 
-it('displays leaderboard section title', () => {
-  cy.contains('Leaderboard - Top 5 Answered Questions').should('be.visible');
-});
+  it('shows level chart with canvas element', () => {
+    cy.get('canvas').should('have.length', 1);
+  });
 
-it('updates leaderboard after refresh click', () => {
-  cy.contains('Refresh').click();
-  cy.contains('p', 'Total Responses').should('exist');
-});
+  it('renders StatsOverview with all stat labels', () => {
+    cy.contains('Total Responses').should('exist');
+    cy.contains('Total Answered').should('exist');
+    cy.contains('Total Skipped').should('exist');
+    cy.contains('Overall Skip Rate').should('exist');
+  });
+
+  it('shows "Most Skipped Questions" section title', () => {
+    cy.contains('Most Skipped Questions').should('be.visible');
+  });
+
+  it('renders most skipped table with headers: Question and Skip %', () => {
+    cy.get('table thead').within(() => {
+      cy.contains('Question').should('exist');
+      cy.contains('Skip %').should('exist');
+    });
+  });
+
+  it('shows proper empty state message when no questions in DB', () => {
+    cy.intercept('GET', '**/api/v1/admin/survey', {
+      statusCode: 200,
+      body: { questions: [], answers: [] },
+    }).as('getEmptyAnalytics');
+
+    cy.visit('/analytics');
+    cy.contains('No Survey Data Available').should('exist');
+    cy.contains('Go to Admin Dashboard').should('exist');
+  });
+
+  it('keeps the Refresh button enabled after click', () => {
+    cy.contains('Refresh').as('refreshBtn').click();
+    cy.get('@refreshBtn').should('not.be.disabled');
+  });
+
+  it('renders all top-right navigation buttons', () => {
+    cy.contains('Refresh').should('exist');
+    cy.contains('Responses').should('exist');
+    cy.contains('Back').should('exist');
+  });
+
+  it('shows loading spinner and message on initial load', () => {
+    cy.intercept('GET', '**/api/v1/admin/survey', (req) => {
+      req.on('response', (res) => {
+        res.setDelay(1000); // 1 second delay
+      });
+    }).as('delayedAnalytics');
+
+    localStorage.setItem('isAdmin', 'true');
+    cy.visit('/analytics');
+
+    cy.contains('Loading analytics...').should('be.visible');
+    cy.get('.animate-spin').should('exist');
+  });
+
 
 
 });
