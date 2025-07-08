@@ -29,7 +29,6 @@ jobs:
         run: |
           npm run dev &  # Or replace with `npm start` if needed
           sleep 10       # Wait for server to boot
-          curl -I http://localhost:8000/api/health || echo "Backend health check failed"
  
       - name: 🧪 Install Newman
         run: npm install -g newman
