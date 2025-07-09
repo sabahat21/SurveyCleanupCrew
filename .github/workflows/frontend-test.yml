@@ -6,57 +6,58 @@ on:
   pull_request:
     branches: Master
 
+concurrency:
+  group: cypress-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: frontend
 
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: 🧪 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - name: Cache npm
+      - name: 📦 Cache npm
         uses: actions/cache@v3
         with:
           path: ~/.npm
           key: npm-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: npm-cache-${{ runner.os }}-
 
-      - name: Cache Cypress binary
+      - name: 🧪 Cache Cypress binary
         uses: actions/cache@v3
         with:
           path: ~/.cache/Cypress
           key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: cypress-cache-${{ runner.os }}-
 
-      - name: Remove node_modules and cache folders
+      - name: 🧹 Clean install folders
         run: |
           rm -rf node_modules
-          rm -rf .cache/babel-loader || true
+          rm -rf .cache
+          rm -rf node_modules/.cache
+          rm -rf node_modules/.vite || true
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: npm ci
 
-      - name: Start frontend app
+      - name: 🚀 Start frontend app
         run: npm start &
         env:
           NODE_ENV: development
 
-      - name: Wait for app to be ready
+      - name: ⏳ Wait for frontend to be ready
         run: npx wait-on http://localhost:3000 --timeout 120000
 
-      - name: Verify app is listening on port 3000
-        run: |
-          ss -tulpn | grep 3000 || netstat -tulpn | grep 3000
-
-      - name: Run Cypress tests
+      - name: 🧪 Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
           working-directory: frontend
