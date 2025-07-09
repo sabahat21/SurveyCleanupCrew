@@ -1,10 +1,6 @@
 name: 🔁 Postman Integration Tests
  
-on:
-  push:
-    branches:
-      - Master  
- 
+
 jobs:
   api-test:
     runs-on: ubuntu-latest
