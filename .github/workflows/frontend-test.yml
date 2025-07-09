@@ -27,12 +27,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: 📦 Cache npm
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: npm-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-
       - name: 🧪 Cache Cypress binary
         uses: actions/cache@v3
         with:
@@ -61,6 +55,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: frontend
+          install: false               # ← prevents second npm install!
           config-file: cypress.config.js
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
