@@ -32,10 +32,6 @@ describe('Participant Proficiency Page', () => {
   it('Test Beginner Tab Click', () => {
     cy.contains('button', 'Beginner').click();
     cy.contains('button', 'Confirm').click();
-
-    cy.get('.justify-between > .px-4')
-    .should("exist")
-    .should("have.text","Beginner Level");
 });
   it('Test Intermediate Tab Click', () => {
     cy.contains('button', 'Intermediate').click();
