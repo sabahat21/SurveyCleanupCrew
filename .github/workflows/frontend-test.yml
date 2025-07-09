@@ -1,4 +1,4 @@
-name: 🔁 Cypress End-to-End Tests
+name: 🔁 Cypress E2E Tests
 
 on:
   push:
@@ -26,11 +26,21 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🔨 Build app (optional, if required)
-        run: npm run build || echo "No build script"
+      - name: 🔨 Start frontend app
+        run: npm run dev &
+        env:
+          NODE_ENV: development
+
+      - name: ⏱️ Wait for app to start
+        uses: jakejarvis/wait-action@master
+        with:
+          url: http://localhost:3000/login
+          timeout: 60
 
       - name: 🧫 Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
           working-directory: frontend
           config-file: cypress.config.js
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 60
