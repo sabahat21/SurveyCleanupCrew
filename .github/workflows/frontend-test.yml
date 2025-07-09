@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: 🔨 Start frontend app
-        run: npm run dev &
+        run: npm start &
         env:
           NODE_ENV: development
 
