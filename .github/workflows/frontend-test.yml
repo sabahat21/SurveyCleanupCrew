@@ -40,7 +40,8 @@ jobs:
         #    cypress-cache-${{ runner.os }}-
             
       - name: 🔥 Fully clean node_modules and .cache
-        run: rm -rf node_modules frontend/node_modules frontend/node_modules/.cache
+        run: |
+          sudo rm -rf node_modules frontend/node_modules frontend/node_modules/.cache
 
       - name: 📦 Install dependencies
         run: npm install
@@ -57,4 +58,6 @@ jobs:
           config-file: cypress.config.js
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 60
+          cache: false  
+
 
