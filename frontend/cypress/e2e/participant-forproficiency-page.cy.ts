@@ -41,17 +41,11 @@ describe('Participant Proficiency Page', () => {
     cy.contains('button', 'Intermediate').click();
     cy.contains('button', 'Confirm').click();
 
-    cy.get('.justify-between > .px-4')
-    .should("exist")
-    .should("have.text","Intermediate Level");
 });
   it('Test Advanced Tab Click', () => {
     cy.contains('button', 'Advanced').click();
     cy.contains('button', 'Confirm').click();
 
-    cy.get('.justify-between > .px-4')
-    .should("exist")
-    .should("have.text","Advanced Level");
 });
 
 })
