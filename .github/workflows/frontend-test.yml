@@ -2,9 +2,9 @@ name: 🔁 Cypress E2E Tests
 
 on:
   push:
-    branches: Master
+    branches: [Master]
   pull_request:
-    branches: Master
+    branches: [Master]
 
 jobs:
   cypress-run:
@@ -34,12 +34,6 @@ jobs:
         env:
           NODE_ENV: development
 
-      - name: ⏱️ Wait for app to start
-        uses: jakejarvis/wait-action@master
-        with:
-          url: http://localhost:3000/login
-          timeout: 60
-
       - name: 🧫 Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
@@ -47,4 +41,3 @@ jobs:
           config-file: cypress.config.js
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 60
-
