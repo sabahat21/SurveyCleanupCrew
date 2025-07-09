@@ -2,9 +2,9 @@ name: 🔁 Cypress End-to-End Tests
 
 on:
   push:
-    branches: 404-Not-Found-Deployment-Testing
+    branches: Master
   pull_request:
-    branches: 404-Not-Found-Deployment Testing
+    branches: Master
 
 jobs:
   cypress-run:
