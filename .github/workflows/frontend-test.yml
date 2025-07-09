@@ -2,9 +2,9 @@ name: 🔁 Cypress E2E Tests
 
 on:
   push:
-    branches: [Master]
+    branches: Master
   pull_request:
-    branches: [Master]
+    branches: Master
 
 jobs:
   cypress-run:
@@ -23,6 +23,22 @@ jobs:
         with:
           node-version: 20
 
+      - name: 📁 Restore Cypress binary cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            cypress-cache-${{ runner.os }}-
+
+      - name: 📁 Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-cache-${{ runner.os }}-
+
       - name: 🧹 Clean cache (fixes ENOTEMPTY error)
         run: rm -rf node_modules/.cache
 
@@ -34,6 +50,12 @@ jobs:
         env:
           NODE_ENV: development
 
+      - name: ⏱️ Wait for app to start
+        uses: jakejarvis/wait-action@master
+        with:
+          url: http://localhost:3000/login
+          timeout: 60
+
       - name: 🧫 Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
@@ -41,3 +63,4 @@ jobs:
           config-file: cypress.config.js
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 60
+
