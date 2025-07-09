@@ -36,8 +36,10 @@ jobs:
           key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: cypress-cache-${{ runner.os }}-
 
-      - name: Remove node_modules
-        run: rm -rf node_modules
+      - name: Remove node_modules and cache folders
+        run: |
+          rm -rf node_modules
+          rm -rf .cache/babel-loader || true
 
       - name: Install dependencies
         run: npm ci
@@ -48,10 +50,12 @@ jobs:
           NODE_ENV: development
 
       - name: Wait for app to start
-        uses: jakejarvis/wait-action@master
-        with:
-          url: http://localhost:3000/login
-          timeout: 60
+        run: |
+          for i in {1..30}; do
+            curl --silent --fail http://localhost:3000/login && break
+            echo "Waiting for frontend..."
+            sleep 2
+          done
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
@@ -60,4 +64,3 @@ jobs:
           config-file: cypress.config.js
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 60
-
