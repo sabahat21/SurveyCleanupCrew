@@ -14,7 +14,7 @@ jobs:
         working-directory: frontend
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -49,13 +49,12 @@ jobs:
         env:
           NODE_ENV: development
 
-      - name: Wait for app to start
+      - name: Wait for app to be ready
+        run: npx wait-on http://localhost:3000 --timeout 120000
+
+      - name: Verify app is listening on port 3000
         run: |
-          for i in {1..30}; do
-            curl --silent --fail http://localhost:3000/login && break
-            echo "Waiting for frontend..."
-            sleep 2
-          done
+          ss -tulpn | grep 3000 || netstat -tulpn | grep 3000
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
@@ -63,4 +62,4 @@ jobs:
           working-directory: frontend
           config-file: cypress.config.js
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 60
+          wait-on-timeout: 120
