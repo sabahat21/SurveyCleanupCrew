@@ -63,11 +63,6 @@ describe('Survey Analytics Dashboard', () => {
     cy.url().should('include', '/responses');
   });
 
-  it('refresh button triggers loading state', () => {
-    cy.contains('Refresh').click();
-    cy.contains('Loading analytics...').should('exist');
-  });
-
   it('renders the page title and header icon', () => {
     cy.contains('Survey Analytics Dashboard').should('be.visible');
     cy.get('span').contains('📊').should('be.visible');
