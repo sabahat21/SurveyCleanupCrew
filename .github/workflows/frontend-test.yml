@@ -33,14 +33,11 @@ jobs:
           path: ~/.cache/Cypress
           key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: 🧹 Clean install folders
+      - name: 🧹 Clean install folders (frontend)
         run: |
-          rm -rf node_modules
-          rm -rf .cache
-          rm -rf node_modules/.cache
-          rm -rf node_modules/.vite || true
+          rm -rf node_modules .cache node_modules/.cache node_modules/.vite || true
 
-      - name: 📦 Install dependencies
+      - name: 📦 Install frontend dependencies
         run: npm ci
 
       - name: 🚀 Start frontend app
@@ -48,14 +45,28 @@ jobs:
         env:
           NODE_ENV: development
 
+      - name: 📦 Install backend dependencies
+        run: npm install
+        working-directory: backend
+
+      - name: 🚀 Start backend server
+        run: npm run dev &
+        working-directory: backend
+        env:
+          NODE_ENV: development
+
       - name: ⏳ Wait for frontend to be ready
         run: npx wait-on http://localhost:3000 --timeout 120000
+
+      - name: ⏳ Wait for backend to be ready
+        run: npx wait-on http://localhost:8000 --timeout 120000
+        # Replace port 5000 with your actual backend port
 
       - name: 🧪 Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
           working-directory: frontend
-          install: false               # ← prevents second npm install!
+          install: false
           config-file: cypress.config.js
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
