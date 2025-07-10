@@ -4,4 +4,5 @@
 
 # Optional: exclude Terraform working directory and crash logs
 .terraform/
+.github/workflows/
 crash.log
