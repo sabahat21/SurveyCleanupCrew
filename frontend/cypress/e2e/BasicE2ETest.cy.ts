@@ -20,7 +20,7 @@ describe('E2E Full Tests', () => {
 
     cy.request({
       method: 'GET',
-      url: `https://pathfinder-v4-test.onrender.com/api/v1/admin/survey`,
+      url: `http://localhost:8000/api/v1/admin/survey`,
       headers: {
       'x-api-key': 'H0ylHQmpyATxhhRUV3iMEfQnq1xkZl0uUGN9g26OubSw6Od5H0XwKGCMJhaY7TwL',
     },
@@ -40,7 +40,7 @@ describe('E2E Full Tests', () => {
 
     cy.request({
       method: 'GET',
-      url: `https://pathfinder-v4-test.onrender.com/api/v1/admin/survey`,
+      url: `http://localhost:8000/api/v1/admin/survey`,
       headers: {
       'x-api-key': 'H0ylHQmpyATxhhRUV3iMEfQnq1xkZl0uUGN9g26OubSw6Od5H0XwKGCMJhaY7TwL',
     },
@@ -60,7 +60,7 @@ describe('E2E Full Tests', () => {
     });
     cy.request({
       method: 'GET',
-      url: `https://pathfinder-v4-test.onrender.com/api/v1/admin/survey`,
+      url: `http://localhost:8000/api/v1/admin/survey`,
       headers: {
       'x-api-key': 'H0ylHQmpyATxhhRUV3iMEfQnq1xkZl0uUGN9g26OubSw6Od5H0XwKGCMJhaY7TwL',
     },
