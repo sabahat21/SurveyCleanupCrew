@@ -17,7 +17,7 @@ compute_type = "float16" if device == "cuda" else "int8"
 
 print(f"✅ Using device: {device}")
 
-asr_model = WhisperModel("large-v3", device=device, compute_type=compute_type)
+asr_model = WhisperModel("medium", device=device, compute_type=compute_type)
 
 gemini_key = os.getenv("GEMINI_API_KEY")
 if not gemini_key:
