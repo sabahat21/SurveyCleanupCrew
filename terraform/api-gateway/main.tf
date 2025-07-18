@@ -88,6 +88,14 @@ resource "aws_apigatewayv2_integration" "logs_integration" {
   payload_format_version = "1.0"
 }
 
+resource "aws_apigatewayv2_integration" "whisper_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "POST"
+  integration_uri        = "http://${var.ec2_public_ip}:7860/predict"
+  payload_format_version = "1.0"
+}
+
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -145,6 +153,11 @@ resource "aws_apigatewayv2_route" "logs_route" {
   target    = "integrations/${aws_apigatewayv2_integration.logs_integration.id}"
 }
 
+resource "aws_apigatewayv2_route" "whisper_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "POST /api/whisper"
+  target    = "integrations/${aws_apigatewayv2_integration.whisper_integration.id}"
+}
 # ───────────── Stage ─────────────
 
 resource "aws_apigatewayv2_stage" "this" {
