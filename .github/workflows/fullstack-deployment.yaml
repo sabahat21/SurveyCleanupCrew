@@ -141,36 +141,6 @@ jobs:
           EOF
 
 # ─────────────────────────────
-# Gradio + Whisper: EC2 + Docker
-# ─────────────────────────────
-          
-      - name: Copy whisper-stt folder to EC2
-        run: |
-          scp -o StrictHostKeyChecking=no -i backend-keypair.pem -r whisper-stt ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/
-      
-      - name: Set up .env on EC2 with GEMINI_API_KEY
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << EOF
-            echo "GEMINI_API_KEY=${GEMINI_API_KEY}" > /home/ec2-user/whisper-stt/.env
-          EOF
-      
-      - name: Build and Run whisper-stt container on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
-            cd /home/ec2-user/whisper-stt
-            docker build -t whisper-stt-app .
-            docker run -d -p 7860:7860 \
-              --env-file .env \
-              --name whisper-stt-container \
-              --network app-network \
-              whisper-stt-app
-          EOF
-
-
-
-# ─────────────────────────────
 # API Gateway
 # ─────────────────────────────
 
@@ -234,7 +204,38 @@ jobs:
             docker run -d -p 5000:5000 --env-file .env --name ranking-logic-container --network app-network ranking-logic-app
           EOF
         shell: bash
-          
+
+
+# ─────────────────────────────
+# Gradio + Whisper: EC2 + Docker
+# ─────────────────────────────
+
+      - name: Wait 90 seconds before starting Whisper
+        run: sleep 90
+        
+      - name: Copy whisper-stt folder to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i backend-keypair.pem -r whisper-stt ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/
+      
+      - name: Set up .env on EC2 with GEMINI_API_KEY
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << EOF
+            echo "GEMINI_API_KEY=${GEMINI_API_KEY}" > /home/ec2-user/whisper-stt/.env
+          EOF
+      
+      - name: Build and Run whisper-stt container on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
+            cd /home/ec2-user/whisper-stt
+            docker build -t whisper-stt-app .
+            docker run -d -p 7860:7860 \
+              --env-file .env \
+              --name whisper-stt-container \
+              --network app-network \
+              whisper-stt-app
+          EOF
 # ─────────────────────────────
 # Frontend: React + S3 + CloudFront
 # ─────────────────────────────
