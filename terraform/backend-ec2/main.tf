@@ -15,6 +15,14 @@ resource "aws_security_group" "backend_sg" {
   }
 
   ingress {
+    description = "Allow Gradio UI access"
+    from_port   = 7860
+    to_port     = 7860
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     description = "Allow backend API access (port 8000)"
     from_port   = 8000
     to_port     = 8000
@@ -63,6 +71,12 @@ resource "aws_instance" "backend_server" {
               service docker start
               usermod -a -G docker ec2-user
               EOF
+
+  root_block_device {
+    volume_size = 30          # Size in GB
+    volume_type = "gp2"       # General purpose SSD 
+    delete_on_termination = true
+  }
 
   tags = {
     Name = "NodeBackendEC2"
