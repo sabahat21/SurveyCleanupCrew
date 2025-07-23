@@ -27,8 +27,8 @@ ENV HF_HOME=/app/.cache
 # Create the cache directory and set permissions
 RUN mkdir -p /app/.cache && chmod -R 777 /app/.cache
 
-# Pre-download the Whisper model to cache (optional, improves speed)
-# RUN python -c "from faster_whisper import WhisperModel; WhisperModel('small', download_root='/app/.cache')"
+#Pre-download the Whisper model to cache (optional, improves speed)
+RUN python -c "from faster_whisper import WhisperModel; WhisperModel('small', download_root='/app/.cache')"
 
 # Expose the Gradio port
 EXPOSE 7860
