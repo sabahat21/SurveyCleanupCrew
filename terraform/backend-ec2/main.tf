@@ -63,13 +63,17 @@ resource "aws_instance" "backend_server" {
   instance_type = "t2.micro"
   key_name      = "backend-keypair"
   vpc_security_group_ids = [aws_security_group.backend_sg.id]
+  iam_instance_profile = aws_iam_instance_profile.ec2_asr_profile.name
+
 
   user_data = <<-EOF
               #!/bin/bash
-              yum update -y
-              amazon-linux-extras install docker -y
-              service docker start
+              yum update -y || dnf -y update
+              amazon-linux-extras install docker -y || yum install -y docker || dnf install -y docker
+              service docker start || systemctl start docker
               usermod -a -G docker ec2-user
+              # ensure aws cli exists for aws s3 cp during deploy
+              yum install -y awscli || dnf install -y awscli
               EOF
 
   root_block_device {
