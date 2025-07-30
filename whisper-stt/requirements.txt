@@ -1,9 +1,0 @@
-gradio
-transformers
-torch
-torchaudio
-faster-whisper
-google-generativeai
-python-dotenv
-deepfilternet
-soundfile
