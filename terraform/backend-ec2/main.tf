@@ -75,6 +75,20 @@ resource "aws_instance" "backend_server" {
               usermod -a -G docker ec2-user
               # ensure aws cli exists for aws s3 cp during deploy
               yum install -y awscli || dnf install -y awscli
+              # ───────────────
+              # Create 2 GB swap file if it doesn't exist
+              # ───────────────
+              if [ ! -f /swapfile ]; then
+                echo "Creating 2 GB swapfile..."
+                fallocate -l 2G /swapfile || dd if=/dev/zero of=/swapfile bs=1M count=2048
+                chmod 600 /swapfile
+                mkswap /swapfile
+                swapon /swapfile
+                echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
+              fi
+            
+              # Verify swap is active (optional log)
+              free -h
               EOF
 
   root_block_device {
