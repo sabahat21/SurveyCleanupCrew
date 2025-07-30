@@ -70,6 +70,7 @@ resource "aws_instance" "backend_server" {
               #!/bin/bash
               yum update -y || dnf -y update
               amazon-linux-extras install docker -y || yum install -y docker || dnf install -y docker
+              systemctl enable docker || true
               service docker start || systemctl start docker
               usermod -a -G docker ec2-user
               # ensure aws cli exists for aws s3 cp during deploy
