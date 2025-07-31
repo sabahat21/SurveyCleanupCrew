@@ -94,7 +94,7 @@ resource "aws_apigatewayv2_integration" "asr_upload" {
   integration_type       = "HTTP_PROXY"
   integration_method     = "POST"
   integration_uri        = "http://${var.ec2_public_ip}:7860/upload"
-  payload_format_version = "2.0"
+  payload_format_version = "1.0"
   timeout_milliseconds   = 30000
 }
 
@@ -104,7 +104,7 @@ resource "aws_apigatewayv2_integration" "asr_predict" {
   integration_type       = "HTTP_PROXY"
   integration_method     = "POST"
   integration_uri        = "http://${var.ec2_public_ip}:7860/api/predict/"
-  payload_format_version = "2.0"
+  payload_format_version = "1.0"
   timeout_milliseconds   = 30000
 }
 
