@@ -88,12 +88,24 @@ resource "aws_apigatewayv2_integration" "logs_integration" {
   payload_format_version = "1.0"
 }
 
-resource "aws_apigatewayv2_integration" "whisper_integration" {
+# Integration: proxy to Gradio /upload
+resource "aws_apigatewayv2_integration" "asr_upload" {
   api_id                 = aws_apigatewayv2_api.this.id
   integration_type       = "HTTP_PROXY"
   integration_method     = "POST"
-  integration_uri        = "http://${var.ec2_public_ip}:7860/predict"
-  payload_format_version = "1.0"
+  integration_uri        = "http://${var.ec2_public_ip}:7860/upload"
+  payload_format_version = "2.0"
+  timeout_milliseconds   = 30000
+}
+
+# Integration: proxy to Gradio /api/predict/
+resource "aws_apigatewayv2_integration" "asr_predict" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "POST"
+  integration_uri        = "http://${var.ec2_public_ip}:7860/api/predict/"
+  payload_format_version = "2.0"
+  timeout_milliseconds   = 30000
 }
 
 # ───────────── Routes ─────────────
@@ -157,6 +169,20 @@ resource "aws_apigatewayv2_route" "whisper_route" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "POST /api/whisper"
   target    = "integrations/${aws_apigatewayv2_integration.whisper_integration.id}"
+}
+
+# Route: what your frontend will call
+resource "aws_apigatewayv2_route" "asr_upload_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "POST /asr/upload"
+  target    = "integrations/${aws_apigatewayv2_integration.asr_upload.id}"
+}
+
+# Route: frontend calls this with { "data": ["<serverPath>"] }
+resource "aws_apigatewayv2_route" "asr_predict_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "POST /asr/predict"
+  target    = "integrations/${aws_apigatewayv2_integration.asr_predict.id}"
 }
 # ───────────── Stage ─────────────
 
