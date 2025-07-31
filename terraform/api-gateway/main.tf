@@ -165,12 +165,6 @@ resource "aws_apigatewayv2_route" "logs_route" {
   target    = "integrations/${aws_apigatewayv2_integration.logs_integration.id}"
 }
 
-resource "aws_apigatewayv2_route" "whisper_route" {
-  api_id    = aws_apigatewayv2_api.this.id
-  route_key = "POST /api/whisper"
-  target    = "integrations/${aws_apigatewayv2_integration.whisper_integration.id}"
-}
-
 # Route: what your frontend will call
 resource "aws_apigatewayv2_route" "asr_upload_route" {
   api_id    = aws_apigatewayv2_api.this.id
