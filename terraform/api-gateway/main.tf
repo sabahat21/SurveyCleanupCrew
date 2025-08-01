@@ -7,6 +7,22 @@ variable "ec2_public_ip" {
   type        = string
 }
 
+# ------------------ HTTP API + CORS (ADD CORS HERE) ------------------
+resource "aws_apigatewayv2_api" "this" {
+  name          = "ec2-backend-api"
+  protocol_type = "HTTP"
+
+  # CORS for browser requests
+  cors_configuration {
+    # For testing you can keep "*". For production, set your CloudFront domain instead.
+    allow_origins = ["*"]
+    allow_methods = ["OPTIONS", "POST", "GET", "PUT", "DELETE", "PATCH"]
+    allow_headers = ["content-type", "x-api-key", "authorization"]
+    max_age       = 3600
+    # allow_credentials = true  # uncomment if you use cookies/credentials
+  }
+}
+
 resource "aws_apigatewayv2_api" "this" {
   name          = "ec2-backend-api"
   protocol_type = "HTTP"
@@ -93,7 +109,7 @@ resource "aws_apigatewayv2_integration" "asr_transcribe" {
   api_id                 = aws_apigatewayv2_api.this.id
   integration_type       = "HTTP_PROXY"
   integration_method     = "POST"
-  integration_uri        = "http://${var.ec2_public_ip}:7860/api/v1/audio/transcribe"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/audio/transcribe"
   payload_format_version = "1.0"         
   timeout_milliseconds   = 30000
 }
@@ -103,7 +119,7 @@ resource "aws_apigatewayv2_integration" "asr_predict" {
   api_id                 = aws_apigatewayv2_api.this.id
   integration_type       = "HTTP_PROXY"
   integration_method     = "POST"
-  integration_uri        = "http://${var.ec2_public_ip}:7860/api/predict/"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/predict/"
   payload_format_version = "1.0"
   timeout_milliseconds   = 30000
 }
