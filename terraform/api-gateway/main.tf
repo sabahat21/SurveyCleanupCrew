@@ -88,13 +88,13 @@ resource "aws_apigatewayv2_integration" "logs_integration" {
   payload_format_version = "1.0"
 }
 
-# Integration: proxy to Gradio /upload
-resource "aws_apigatewayv2_integration" "asr_upload" {
+# Integration: proxy to backend Express route
+resource "aws_apigatewayv2_integration" "asr_transcribe" {
   api_id                 = aws_apigatewayv2_api.this.id
   integration_type       = "HTTP_PROXY"
   integration_method     = "POST"
-  integration_uri        = "http://${var.ec2_public_ip}:7860/upload"
-  payload_format_version = "1.0"
+  integration_uri        = "http://${var.ec2_public_ip}:7860/api/v1/audio/transcribe"
+  payload_format_version = "1.0"         
   timeout_milliseconds   = 30000
 }
 
@@ -165,11 +165,11 @@ resource "aws_apigatewayv2_route" "logs_route" {
   target    = "integrations/${aws_apigatewayv2_integration.logs_integration.id}"
 }
 
-# Route: what your frontend will call
-resource "aws_apigatewayv2_route" "asr_upload_route" {
+# Route that matches what the frontend calls
+resource "aws_apigatewayv2_route" "asr_transcribe_route" {
   api_id    = aws_apigatewayv2_api.this.id
-  route_key = "POST /asr/upload"
-  target    = "integrations/${aws_apigatewayv2_integration.asr_upload.id}"
+  route_key = "POST /api/v1/audio/transcribe"
+  target    = "integrations/${aws_apigatewayv2_integration.asr_transcribe.id}"
 }
 
 # Route: frontend calls this with { "data": ["<serverPath>"] }
