@@ -1,8 +1,8 @@
 name: Full Stack Deployment
 
-#on:
-  #push:
-    #branches: 404-Not-Found-Deployment-Testing
+on:
+  push:
+    branches: 404-Not-Found-Deployment-Testing
 
 jobs:
   setup-and-deploy:
@@ -204,79 +204,6 @@ jobs:
             docker run -d -p 5000:5000 --env-file .env --name ranking-logic-container --network app-network ranking-logic-app
           EOF
         shell: bash
-
-# ─────────────────────────────
-# ASR (NeMo Sanskrit) on EC2
-# ─────────────────────────────
-      - name: Copy ASR code to EC2 (Dockerfile + app.py only)
-        run: |
-          scp -o StrictHostKeyChecking=no -i backend-keypair.pem -r asr ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/
-        shell: bash
-      
-      - name: Download model from S3 onto EC2
-        env:
-          ASR_BUCKET: sanskrit-asr-model         # <-- your bucket name
-        run: |
-          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << EOF
-            set -e
-            # Make a place for the model (host path)
-            sudo mkdir -p /opt/asr/models
-            sudo chown ec2-user:ec2-user /opt/asr/models
-      
-            # Ensure AWS CLI and curl exist
-            command -v aws >/dev/null 2>&1 || sudo yum -y install awscli || sudo dnf -y install awscli
-            command -v curl >/dev/null 2>&1 || sudo yum -y install curl || sudo dnf -y install curl
-      
-            # Pull model from S3 (retry a few times)
-            for i in {1..5}; do
-              aws s3 cp s3://$ASR_BUCKET/sanskrit.nemo /opt/asr/models/sanskrit.nemo && break
-              echo "Retry $i: fetching model from S3..."; sleep 5
-            done
-      
-            ls -lh /opt/asr/models/sanskrit.nemo
-          EOF
-        shell: bash
-      
-      - name: Build and run ASR container (PUBLIC for now)
-        run: |
-          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
-            set -e
-            docker network create app-network || true
-            cd /home/ec2-user/asr
-      
-            # Build image from your asr/ folder
-            docker build -t asr-app .
-      
-            # Stop any old container
-            docker rm -f asr-container 2>/dev/null || true
-      
-            # Run publicly for now (so frontend can call it directly)
-            docker run -d \
-              --name asr-container \
-              --network app-network \
-              -p 0.0.0.0:7860:7860 \
-              -v /opt/asr/models/sanskrit.nemo:/app/sanskrit.nemo:ro \
-              -e PORT=7860 \
-              -e OMP_NUM_THREADS=1 \
-              -e MKL_NUM_THREADS=1 \
-              --restart unless-stopped \
-              asr-app
-      
-      - name: Wait for ASR (do not fail workflow)
-        continue-on-error: true
-        run: |
-          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
-            set +e
-            for i in {1..30}; do
-              if curl -sSf http://localhost:7860/ >/dev/null; then
-                echo "ASR up"; exit 0
-              fi
-              echo "Waiting for ASR (attempt $i)"; sleep 10
-            done
-            echo "ASR not responding after wait; continuing anyway."
-            exit 0
-          EOF
-
 
 # ─────────────────────────────
 # Frontend: React + S3 + CloudFront
