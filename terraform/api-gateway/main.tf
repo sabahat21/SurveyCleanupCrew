@@ -23,11 +23,6 @@ resource "aws_apigatewayv2_api" "this" {
   }
 }
 
-resource "aws_apigatewayv2_api" "this" {
-  name          = "ec2-backend-api"
-  protocol_type = "HTTP"
-}
-
 # ───────────── Integrations ─────────────
 
 # Integration for /survey
