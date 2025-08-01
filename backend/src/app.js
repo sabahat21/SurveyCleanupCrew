@@ -54,7 +54,14 @@ app.use((req, res, next) => {
 
 import surveyRouter from "./routes/survey.route.js";
 import adminRouter from "./routes/admin.route.js";
+import transcribeRouter from "./routes/transcribe.route.js"; 
+import ttsRouter from "./routes/tts.route.js";
+
+
 // routes handlers
 app.use("/api/v1/survey", surveyRouter);
 app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/audio", transcribeRouter); 
+app.use("/api/v1/tts", ttsRouter); 
+
 export default app;
