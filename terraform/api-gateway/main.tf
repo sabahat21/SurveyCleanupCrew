@@ -109,16 +109,6 @@ resource "aws_apigatewayv2_integration" "asr_transcribe" {
   timeout_milliseconds   = 30000
 }
 
-# Integration: proxy to Gradio /api/predict/
-resource "aws_apigatewayv2_integration" "asr_predict" {
-  api_id                 = aws_apigatewayv2_api.this.id
-  integration_type       = "HTTP_PROXY"
-  integration_method     = "POST"
-  integration_uri        = "http://${var.ec2_public_ip}:8000/api/predict/"
-  payload_format_version = "1.0"
-  timeout_milliseconds   = 30000
-}
-
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -183,12 +173,6 @@ resource "aws_apigatewayv2_route" "asr_transcribe_route" {
   target    = "integrations/${aws_apigatewayv2_integration.asr_transcribe.id}"
 }
 
-# Route: frontend calls this with { "data": ["<serverPath>"] }
-resource "aws_apigatewayv2_route" "asr_predict_route" {
-  api_id    = aws_apigatewayv2_api.this.id
-  route_key = "POST /asr/predict"
-  target    = "integrations/${aws_apigatewayv2_integration.asr_predict.id}"
-}
 # ───────────── Stage ─────────────
 
 resource "aws_apigatewayv2_stage" "this" {
