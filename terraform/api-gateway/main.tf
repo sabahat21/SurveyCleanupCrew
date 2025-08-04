@@ -109,6 +109,14 @@ resource "aws_apigatewayv2_integration" "asr_transcribe" {
   timeout_milliseconds   = 30000
 }
 
+# Mock integration for CORS preflight (OPTIONS)
+resource "aws_apigatewayv2_integration" "mock_cors_audio_transcribe" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "MOCK"
+  integration_method     = "OPTIONS"
+  payload_format_version = "1.0"
+}
+
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -171,6 +179,13 @@ resource "aws_apigatewayv2_route" "asr_transcribe_route" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "POST /api/v1/audio/transcribe"
   target    = "integrations/${aws_apigatewayv2_integration.asr_transcribe.id}"
+}
+
+# Route to handle OPTIONS /api/v1/audio/transcribe
+resource "aws_apigatewayv2_route" "asr_transcribe_options_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "OPTIONS /api/v1/audio/transcribe"
+  target    = "integrations/${aws_apigatewayv2_integration.mock_cors_audio_transcribe.id}"
 }
 
 # ───────────── Stage ─────────────
