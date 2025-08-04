@@ -123,6 +123,14 @@ resource "aws_apigatewayv2_integration" "tts_integration" {
   integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/tts"
   payload_format_version = "1.0"
 }
+resource "aws_apigatewayv2_integration" "tts_options_proxy" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "OPTIONS"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/tts"
+  payload_format_version = "1.0"
+}
+
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -197,6 +205,12 @@ resource "aws_apigatewayv2_route" "tts_route" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "GET /api/v1/tts"
   target    = "integrations/${aws_apigatewayv2_integration.tts_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "tts_options_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "OPTIONS /api/v1/tts"
+  target    = "integrations/${aws_apigatewayv2_integration.tts_options_proxy.id}"
 }
 # ───────────── Stage ─────────────
 
