@@ -7,19 +7,18 @@ variable "ec2_public_ip" {
   type        = string
 }
 
-# ------------------ HTTP API + CORS (ADD CORS HERE) ------------------
+# ------------------ HTTP API + CORS ------------------
 resource "aws_apigatewayv2_api" "this" {
   name          = "ec2-backend-api"
   protocol_type = "HTTP"
 
   # CORS for browser requests
   cors_configuration {
-    # For testing you can keep "*". For production, set your CloudFront domain instead.
     allow_origins = ["*"]
     allow_methods = ["OPTIONS", "POST", "GET", "PUT", "DELETE", "PATCH"]
     allow_headers = ["content-type", "x-api-key", "authorization"]
     max_age       = 3600
-    # allow_credentials = true  # uncomment if you use cookies/credentials
+    # allow_credentials = true  
   }
 }
 
@@ -117,6 +116,13 @@ resource "aws_apigatewayv2_integration" "transcribe_options_proxy" {
   payload_format_version = "1.0"
 }
 
+resource "aws_apigatewayv2_integration" "tts_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "GET"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/tts"
+  payload_format_version = "1.0"
+}
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -185,6 +191,12 @@ resource "aws_apigatewayv2_route" "transcribe_options_route" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "OPTIONS /api/v1/audio/transcribe"
   target    = "integrations/${aws_apigatewayv2_integration.transcribe_options_proxy.id}"
+}
+
+resource "aws_apigatewayv2_route" "tts_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "GET /api/v1/tts"
+  target    = "integrations/${aws_apigatewayv2_integration.tts_integration.id}"
 }
 # ───────────── Stage ─────────────
 
