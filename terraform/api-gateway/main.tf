@@ -109,6 +109,14 @@ resource "aws_apigatewayv2_integration" "asr_transcribe" {
   timeout_milliseconds   = 30000
 }
 
+resource "aws_apigatewayv2_integration" "transcribe_options_proxy" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "OPTIONS"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/audio/transcribe"
+  payload_format_version = "1.0"
+}
+
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -171,6 +179,12 @@ resource "aws_apigatewayv2_route" "asr_transcribe_route" {
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "POST /api/v1/audio/transcribe"
   target    = "integrations/${aws_apigatewayv2_integration.asr_transcribe.id}"
+}
+
+resource "aws_apigatewayv2_route" "transcribe_options_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "OPTIONS /api/v1/audio/transcribe"
+  target    = "integrations/${aws_apigatewayv2_integration.transcribe_options_proxy.id}"
 }
 # ───────────── Stage ─────────────
 
