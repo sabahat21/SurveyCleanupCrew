@@ -7,9 +7,19 @@ variable "ec2_public_ip" {
   type        = string
 }
 
+# ------------------ HTTP API + CORS ------------------
 resource "aws_apigatewayv2_api" "this" {
   name          = "ec2-backend-api"
   protocol_type = "HTTP"
+
+  # CORS for browser requests
+  cors_configuration {
+    allow_origins = ["*"]
+    allow_methods = ["OPTIONS", "POST", "GET", "PUT", "DELETE", "PATCH"]
+    allow_headers = ["content-type", "x-api-key", "authorization"]
+    max_age       = 3600
+    # allow_credentials = true  
+  }
 }
 
 # ───────────── Integrations ─────────────
@@ -88,6 +98,39 @@ resource "aws_apigatewayv2_integration" "logs_integration" {
   payload_format_version = "1.0"
 }
 
+# Integration: proxy to backend Express route
+resource "aws_apigatewayv2_integration" "asr_transcribe" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "POST"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/audio/transcribe"
+  payload_format_version = "1.0"         
+  timeout_milliseconds   = 30000
+}
+
+resource "aws_apigatewayv2_integration" "transcribe_options_proxy" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "OPTIONS"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/audio/transcribe"
+  payload_format_version = "1.0"
+}
+
+resource "aws_apigatewayv2_integration" "tts_integration" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "GET"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/tts"
+  payload_format_version = "1.0"
+}
+resource "aws_apigatewayv2_integration" "tts_options_proxy" {
+  api_id                 = aws_apigatewayv2_api.this.id
+  integration_type       = "HTTP_PROXY"
+  integration_method     = "OPTIONS"
+  integration_uri        = "http://${var.ec2_public_ip}:8000/api/v1/tts"
+  payload_format_version = "1.0"
+}
+
 # ───────────── Routes ─────────────
 
 resource "aws_apigatewayv2_route" "survey_route" {
@@ -145,6 +188,30 @@ resource "aws_apigatewayv2_route" "logs_route" {
   target    = "integrations/${aws_apigatewayv2_integration.logs_integration.id}"
 }
 
+# Route that matches what the frontend calls
+resource "aws_apigatewayv2_route" "asr_transcribe_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "POST /api/v1/audio/transcribe"
+  target    = "integrations/${aws_apigatewayv2_integration.asr_transcribe.id}"
+}
+
+resource "aws_apigatewayv2_route" "transcribe_options_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "OPTIONS /api/v1/audio/transcribe"
+  target    = "integrations/${aws_apigatewayv2_integration.transcribe_options_proxy.id}"
+}
+
+resource "aws_apigatewayv2_route" "tts_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "GET /api/v1/tts"
+  target    = "integrations/${aws_apigatewayv2_integration.tts_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "tts_options_route" {
+  api_id    = aws_apigatewayv2_api.this.id
+  route_key = "OPTIONS /api/v1/tts"
+  target    = "integrations/${aws_apigatewayv2_integration.tts_options_proxy.id}"
+}
 # ───────────── Stage ─────────────
 
 resource "aws_apigatewayv2_stage" "this" {
