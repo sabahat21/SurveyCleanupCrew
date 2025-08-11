@@ -1,0 +1,306 @@
+name: Full Stack Deployment
+
+#on:
+  #push:
+    #branches: 404-Not-Found-Deployment-Testing
+
+jobs:
+  setup-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: us-east-1
+      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+# ─────────────────────────────
+# Backend: EC2 + Docker
+# ─────────────────────────────
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Authenticate with Terraform Cloud
+        run: |
+          echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_API_TOKEN }}\" }" > ~/.terraformrc
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform/backend-ec2
+
+      - name: Verify Terraform Cloud workspace is connected
+        run: terraform workspace show
+        working-directory: terraform/backend-ec2
+
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+        working-directory: terraform/backend-ec2
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: terraform/backend-ec2
+
+      - name: Debug - list files
+        run: ls -la terraform/backend-ec2
+        
+      - name: Extract EC2 Public IP from AWS
+        id: ec2_output
+        shell: bash
+        run: |
+          # Get the instance ID by tag Name=NodeBackendEC2 and state=running
+          INSTANCE_ID=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=NodeBackendEC2" "Name=instance-state-name,Values=running" \
+            --query "Reservations[0].Instances[0].InstanceId" \
+            --output text)
+
+          echo "🆔 INSTANCE_ID=$INSTANCE_ID"
+      
+          # Retry logic to get public IP
+          for attempt in {1..5}; do
+            EC2_PUBLIC_IP=$(aws ec2 describe-instances \
+              --instance-ids "$INSTANCE_ID" \
+              --query "Reservations[0].Instances[0].PublicIpAddress" \
+              --output text)
+      
+            if [[ "$EC2_PUBLIC_IP" != "None" && -n "$EC2_PUBLIC_IP" ]]; then
+              echo "✅ Public IP acquired: $EC2_PUBLIC_IP"
+              break
+            fi
+      
+            echo "⏳ Attempt $attempt: Public IP not yet available. Retrying in 10 seconds..."
+            sleep 10
+          done
+      
+          # Final check
+          if [[ "$EC2_PUBLIC_IP" == "None" || -z "$EC2_PUBLIC_IP" ]]; then
+            echo "❌ Failed to retrieve EC2 Public IP after multiple attempts."
+            exit 1
+          fi
+      
+          # Export to GitHub environment variable
+          echo "🌐 EC2_PUBLIC_IP=$EC2_PUBLIC_IP"
+          echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
+
+      - name: Get EC2 DNS
+        id: ec2_dns
+        run: |
+          EC2_PUBLIC_DNS="ec2-${EC2_PUBLIC_IP//./-}.compute-1.amazonaws.com"
+          echo "EC2_PUBLIC_DNS=$EC2_PUBLIC_DNS" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Write EC2 private key to file
+        run: |
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > backend-keypair.pem
+          chmod 600 backend-keypair.pem
+
+      - name: Wait for EC2 SSH to be Ready
+        run: |
+          echo "Waiting for SSH on $EC2_PUBLIC_DNS..."
+          for i in {1..10}; do
+            nc -z -w5 $EC2_PUBLIC_DNS 22 && echo "SSH is available!" && break
+            echo "Attempt $i: SSH not ready yet. Retrying in 10 seconds..."
+            sleep 10
+          done
+      
+      - name: Install Docker on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
+            sudo dnf install docker -y
+            sudo systemctl enable docker
+            sudo systemctl start docker
+            sudo usermod -aG docker ec2-user
+          EOF
+        shell: bash
+      
+      - name: Copy backend and .env to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i backend-keypair.pem -r backend ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/
+          scp -o StrictHostKeyChecking=no -i backend-keypair.pem backend/.env ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/backend/.env
+      
+      - name: Build and run backend Docker container on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
+            cd /home/ec2-user/backend
+            docker build -t backend-app .
+            
+            # Ensure Docker network exists (skip error if already created)
+            docker network create app-network || true
+            
+            docker run -d -p 8000:8000 --env-file .env --name backend-container --network app-network backend-app
+          EOF
+
+# ─────────────────────────────
+# API Gateway
+# ─────────────────────────────
+
+      - name: Authenticate with Terraform Cloud
+        run: |
+          echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_API_TOKEN }}\" }" > ~/.terraformrc
+
+      - name: Terraform Init (API Gateway)
+        run: terraform init
+        working-directory: terraform/api-gateway
+
+      - name: Verify Terraform Cloud Workspace (API Gateway)
+        run: terraform workspace show
+        working-directory: terraform/api-gateway
+
+      - name: Terraform Destroy (API Gateway)
+        run: terraform destroy -auto-approve -var="ec2_public_ip=$EC2_PUBLIC_IP"
+        working-directory: terraform/api-gateway
+
+      - name: Terraform Apply (API Gateway)
+        run: terraform apply -auto-approve -var="ec2_public_ip=$EC2_PUBLIC_IP"
+        working-directory: terraform/api-gateway
+        
+      - name: Get API Gateway URL directly from AWS
+        id: api_output
+        run: |
+          API_ID=$(aws apigatewayv2 get-apis \
+            --query "Items[?contains(Name, 'ec2-backend-api')].ApiId" \
+            --output text)
+      
+          if [ -z "$API_ID" ]; then
+            echo "❌ Failed to retrieve API ID"
+            exit 1
+          fi
+      
+          API_GATEWAY_URL="https://${API_ID}.execute-api.us-east-1.amazonaws.com"
+      
+          echo "🌐 API Gateway URL: $API_GATEWAY_URL"
+          
+          echo "API_GATEWAY_URL=$API_GATEWAY_URL" >> $GITHUB_ENV
+
+# ─────────────────────────────
+# Building The Ranking logic containers
+# ─────────────────────────────
+
+      - name: Inject full API URL into ranking-logic .env
+        run: |
+          sed -i "s|^API_BASE_URL=.*|API_BASE_URL=http://backend-container:8000|" ranking-logic/.env
+
+      - name: Copy ranking-logic and .env to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i backend-keypair.pem -r ranking-logic ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/
+          scp -o StrictHostKeyChecking=no -i backend-keypair.pem ranking-logic/.env ec2-user@$EC2_PUBLIC_DNS:/home/ec2-user/ranking-logic/.env
+        shell: bash
+      
+      - name: Build and Run ranking-logic containers on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i backend-keypair.pem ec2-user@$EC2_PUBLIC_DNS << 'EOF'
+            cd /home/ec2-user/ranking-logic
+            docker build -t ranking-logic-app .
+            docker run -d -p 5000:5000 --env-file .env --name ranking-logic-container --network app-network ranking-logic-app
+          EOF
+        shell: bash
+
+# ─────────────────────────────
+# Frontend: React + S3 + CloudFront
+# ─────────────────────────────
+
+      - name: Authenticate with Terraform Cloud
+        run: |
+          echo "credentials \"app.terraform.io\" { token = \"${{ secrets.TF_API_TOKEN }}\" }" > ~/.terraformrc
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform/frontend-s3
+
+      - name: Verify Terraform Cloud Workspace (Frontend)
+        run: terraform workspace show
+        working-directory: terraform/frontend-s3
+
+      - name: Empty S3 bucket before destroy (only if exists)
+        run: |
+          BUCKET_NAME="my-sanskrit-survey-frontend-bucket"
+          
+          # Check if the bucket exists
+          if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
+            echo "✅ Bucket exists. Proceeding to empty it..."
+            aws s3 rm s3://$BUCKET_NAME --recursive
+          else
+            echo "⚠️ Bucket $BUCKET_NAME does not exist. Skipping empty step."
+          fi
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+        working-directory: terraform/frontend-s3
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: terraform/frontend-s3
+    
+      - name: Create .env file and build React App
+        working-directory: ./frontend
+        run: |
+          echo "REACT_APP_MONGO_API=$API_GATEWAY_URL" > .env
+          echo "REACT_APP_API_KEY=H0ylHQmpyATxhhRUV3iMEfQnq1xkZl0uUGN9g26OubSw6Od5H0XwKGCMJhaY7TwL" >> .env
+          echo "REACT_APP_RANKING_UI_URL=${API_GATEWAY_URL}/api/" >> .env
+          echo "" >> .env
+
+
+          echo "✅ .env file created:"
+          cat .env
+
+          npm ci
+          npm run build
+
+      - name: Extract S3 and CloudFront Info from AWS
+        id: aws_outputs
+        shell: bash
+        run: |
+          # Find S3 bucket name by prefix (adjust the filter if needed)
+          S3_BUCKET_NAME=$(aws s3api list-buckets --query "Buckets[?starts_with(Name, 'my-sanskrit-survey-frontend')].Name" --output text)
+
+          # Find CloudFront distribution ID by comment or origin (adjust filter if needed)
+          DISTRIBUTION_ID=$(aws cloudfront list-distributions \
+            --query "DistributionList.Items[?Origins.Items[0].DomainName.contains(@, '$S3_BUCKET_NAME')].Id" \
+            --output text)
+
+          echo "✅ S3_BUCKET_NAME=$S3_BUCKET_NAME"
+          echo "✅ DISTRIBUTION_ID=$DISTRIBUTION_ID"
+
+          echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> $GITHUB_ENV
+          echo "DISTRIBUTION_ID=$DISTRIBUTION_ID" >> $GITHUB_ENV
+
+
+      - name: Confirm extracted env vars
+        run: |
+          echo "🌐 Confirmed:"
+          echo "S3_BUCKET_NAME: $S3_BUCKET_NAME"
+          echo "DISTRIBUTION_ID: $DISTRIBUTION_ID"
+        env:
+          S3_BUCKET_NAME: ${{ env.S3_BUCKET_NAME }}
+          DISTRIBUTION_ID: ${{ env.DISTRIBUTION_ID }}
+
+
+        
+     # - name: Install dependencies and build React app working-directory: ./frontend run: | npm cinpm run build
+
+      - name: Upload build/ to S3
+        run: |
+          aws s3 sync ./frontend/build s3://$S3_BUCKET_NAME --delete
+
+      - name: Invalidate CloudFront cache (optional but recommended)
+        if: env.DISTRIBUTION_ID != ''
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.DISTRIBUTION_ID }} \
+            --paths "/*"
+
+
+
+
+
+
