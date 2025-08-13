@@ -5,7 +5,7 @@ Clean and Enhanced API communication handler
 import json
 import requests
 import logging
-from typing import Dict, Optional
+from typing import Optional, Dict
 from constants import HTTPStatus, Defaults, LogMessages, ErrorMessages
 
 logger = logging.getLogger('survey_analytics')
@@ -393,3 +393,39 @@ class APIHandler:
             # Restore original endpoint
             self.endpoint = original_endpoint
             self.url = original_url
+    
+    def _full_url(self, endpoint_override: Optional[str] = None) -> str:
+        base = self.base_url.rstrip("/")
+        ep = (endpoint_override or self.endpoint or "").lstrip("/")
+        return f"{base}/{ep}" if ep else base
+
+    def _headers(self) -> Dict[str, str]:
+        h = {"Content-Type": "application/json"}
+        if getattr(self, "api_key", None):
+            h["x-api-key"] = self.api_key
+        return h
+
+    def _request(self, method: str, json: Optional[Dict] = None, endpoint: Optional[str] = None):
+        url = self._full_url(endpoint)
+        logger.debug(f"→ {method} {url}")
+        if isinstance(json, dict):
+            logger.debug(f"→ Data: {list(json.keys())}")
+        resp = requests.request(method, url, headers=self._headers(), json=json, timeout=30)
+        body_len = len(resp.text or "")
+        logger.debug(f"← {resp.status_code} ({body_len} chars)")
+        if resp.status_code >= 400:
+            preview = resp.text[:2000]
+            logger.error(f"[API ERROR] {method} {url} -> {resp.status_code}\n{preview}")
+        return resp
+
+    def get(self, endpoint: Optional[str] = None):
+        return self._request("GET", endpoint=endpoint)
+
+    def put(self, json: Optional[Dict] = None, endpoint: Optional[str] = None):
+        return self._request("PUT", json=json, endpoint=endpoint)
+
+    def post(self, json: Optional[Dict] = None, endpoint: Optional[str] = None):
+        return self._request("POST", json=json, endpoint=endpoint)
+
+    def delete(self, json: Optional[Dict] = None, endpoint: Optional[str] = None):
+        return self._request("DELETE", json=json, endpoint=endpoint)

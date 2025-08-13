@@ -1,170 +1,149 @@
-
-from typing import Dict, List, Optional
+from typing import Dict, List
 from constants import QuestionFields, AnswerFields, Defaults
+
+
+def _to_bool(v) -> bool:
+    if isinstance(v, bool):
+        return v
+    if isinstance(v, str):
+        return v.strip().lower() in {"true", "1", "yes", "y"}
+    return bool(v)
+
+
+def _to_int(v) -> int:
+    try:
+        return int(v)
+    except Exception:
+        return 0
+
+
+def _def(name: str, fallback):
+    try:
+        return getattr(Defaults, name)
+    except Exception:
+        return fallback
 
 
 class AnswerFormatter:
     """Utility class for formatting answer data"""
-    
+
     @staticmethod
     def format_for_api(answer: Dict) -> Dict:
-        """Format answer for API submission"""
+        """
+        Format answer for API submission WITHOUT overwriting existing
+        rank / score if already computed.
+        """
+        # Work on a shallow copy
+        a = dict(answer)
+
+        # Ensure essentials (only set defaults if missing)
+        a.setdefault(AnswerFields.ANSWER, _def("ANSWER_TEXT", ""))
+        a.setdefault(AnswerFields.IS_CORRECT, _def("IS_CORRECT", False))
+        a.setdefault(AnswerFields.RESPONSE_COUNT, _def("RESPONSE_COUNT", 0))
+        a.setdefault(AnswerFields.RANK, _def("RANK", 0))
+        a.setdefault(AnswerFields.SCORE, _def("SCORE", 0))
+
+        # Copy id forms
+        if AnswerFields.ID in a and AnswerFields.ANSWER_ID not in a:
+            a[AnswerFields.ANSWER_ID] = a[AnswerFields.ID]
+
         return {
-            AnswerFields.ANSWER: str(answer.get(AnswerFields.ANSWER, Defaults.ANSWER_TEXT)),
-            AnswerFields.IS_CORRECT: bool(answer.get(AnswerFields.IS_CORRECT, Defaults.IS_CORRECT)),
-            AnswerFields.RESPONSE_COUNT: int(answer.get(AnswerFields.RESPONSE_COUNT, Defaults.RESPONSE_COUNT)),
-            AnswerFields.RANK: int(answer.get(AnswerFields.RANK, Defaults.RANK)),
-            AnswerFields.SCORE: int(answer.get(AnswerFields.SCORE, Defaults.SCORE)),
-            AnswerFields.ANSWER_ID: str(answer.get(AnswerFields.ANSWER_ID) or answer.get(AnswerFields.ID, ''))
+            AnswerFields.ANSWER: a.get(AnswerFields.ANSWER),
+            AnswerFields.IS_CORRECT: _to_bool(a.get(AnswerFields.IS_CORRECT)),
+            AnswerFields.RESPONSE_COUNT: _to_int(a.get(AnswerFields.RESPONSE_COUNT)),
+            AnswerFields.RANK: _to_int(a.get(AnswerFields.RANK)),
+            AnswerFields.SCORE: _to_int(a.get(AnswerFields.SCORE)),
+            AnswerFields.ANSWER_ID: a.get(AnswerFields.ANSWER_ID) or a.get(AnswerFields.ID, ""),
         }
-    
-    @staticmethod
-    def ensure_defaults(answer: Dict) -> Dict:
-        """Ensure answer has all required fields with defaults"""
-        answer.setdefault(AnswerFields.ANSWER, Defaults.ANSWER_TEXT)
-        answer.setdefault(AnswerFields.IS_CORRECT, Defaults.IS_CORRECT)
-        answer.setdefault(AnswerFields.RESPONSE_COUNT, Defaults.RESPONSE_COUNT)
-        answer.setdefault(AnswerFields.RANK, Defaults.RANK)
-        answer.setdefault(AnswerFields.SCORE, Defaults.SCORE)
-        return answer
-    
-    @staticmethod
-    def copy_id_fields(answer: Dict) -> Dict:
-        """Copy _id to answerID for API compatibility"""
-        if AnswerFields.ID in answer:
-            answer[AnswerFields.ANSWER_ID] = answer[AnswerFields.ID]
-        return answer
 
 
 class QuestionFormatter:
     """Utility class for formatting question data"""
-    
-    @staticmethod
-    def format_for_api(question: Dict) -> Dict:
-        """Format question for API submission"""
-        answers = question.get(QuestionFields.ANSWERS, [])
-        formatted_answers = [AnswerFormatter.format_for_api(answer) for answer in answers]
-        
-        return {
-            QuestionFields.QUESTION_ID: str(question.get(QuestionFields.ID) or question.get(QuestionFields.QUESTION_ID)),
-            QuestionFields.QUESTION: str(question.get(QuestionFields.QUESTION, '')),
-            QuestionFields.QUESTION_TYPE: str(question.get(QuestionFields.QUESTION_TYPE, '')),
-            QuestionFields.QUESTION_CATEGORY: str(question.get(QuestionFields.QUESTION_CATEGORY, '')),
-            QuestionFields.QUESTION_LEVEL: str(question.get(QuestionFields.QUESTION_LEVEL, '')),
-            QuestionFields.TIMES_SKIPPED: int(question.get(QuestionFields.TIMES_SKIPPED, 0)),
-            QuestionFields.TIMES_ANSWERED: int(question.get(QuestionFields.TIMES_ANSWERED, 0)),
-            QuestionFields.ANSWERS: formatted_answers
-        }
-    
-    @staticmethod
-    def ensure_compatibility(question: Dict) -> Dict:
-        """Ensure question has all required fields for internal processing"""
-        # Copy _id to questionID for API compatibility
-        if QuestionFields.ID in question:
-            question[QuestionFields.QUESTION_ID] = question[QuestionFields.ID]
-        
-        # Ensure answers field exists
-        if QuestionFields.ANSWERS not in question or question[QuestionFields.ANSWERS] is None:
-            question[QuestionFields.ANSWERS] = []
-        
-        # Process answers
-        for answer in question[QuestionFields.ANSWERS]:
-            AnswerFormatter.copy_id_fields(answer)
-            AnswerFormatter.ensure_defaults(answer)
-        
-        return question
-    
+
     @staticmethod
     def get_question_id(question: Dict) -> str:
-        """Get question ID from either _id or questionID field"""
-        return question.get(QuestionFields.ID) or question.get(QuestionFields.QUESTION_ID, 'UNKNOWN')
+        """
+        Single authoritative method (remove duplicate definitions).
+        """
+        return (question.get(QuestionFields.QUESTION_ID)
+                or question.get(QuestionFields.ID)
+                or "")
+
+    @staticmethod
+    def ensure_compatibility(question: Dict) -> Dict:
+        """
+        Normalize question/answers to expected shapes and types.
+        Preserves existing rank/score; fills missing fields with defaults.
+        """
+        q = dict(question)
+
+        # Normalize ID
+        if q.get(QuestionFields.ID) and not q.get(QuestionFields.QUESTION_ID):
+            q[QuestionFields.QUESTION_ID] = q[QuestionFields.ID]
+
+        # Safe counters with defaults
+        q[QuestionFields.TIMES_SKIPPED] = _to_int(q.get(QuestionFields.TIMES_SKIPPED, _def("TIMES_SKIPPED", 0)))
+        q[QuestionFields.TIMES_ANSWERED] = _to_int(q.get(QuestionFields.TIMES_ANSWERED, _def("TIMES_ANSWERED", 0)))
+
+        # Normalize answers
+        answers = q.get(QuestionFields.ANSWERS) or []
+        norm_answers: List[Dict] = []
+        for a in answers:
+            aa = dict(a)
+            if aa.get(AnswerFields.ID) and not aa.get(AnswerFields.ANSWER_ID):
+                aa[AnswerFields.ANSWER_ID] = aa[AnswerFields.ID]
+            aa.setdefault(AnswerFields.ANSWER, _def("ANSWER_TEXT", ""))
+            aa[AnswerFields.IS_CORRECT] = _to_bool(aa.get(AnswerFields.IS_CORRECT, _def("IS_CORRECT", False)))
+            aa[AnswerFields.RESPONSE_COUNT] = _to_int(aa.get(AnswerFields.RESPONSE_COUNT, _def("RESPONSE_COUNT", 0)))
+            aa[AnswerFields.RANK] = _to_int(aa.get(AnswerFields.RANK, _def("RANK", 0)))
+            aa[AnswerFields.SCORE] = _to_int(aa.get(AnswerFields.SCORE, _def("SCORE", 0)))
+            norm_answers.append(aa)
+        q[QuestionFields.ANSWERS] = norm_answers
+
+        return q
+
+    @staticmethod
+    def format_for_api(question: Dict) -> Dict:
+        q = dict(question)
+        answers = [AnswerFormatter.format_for_api(a) for a in q.get(QuestionFields.ANSWERS, []) or []]
+        return {
+            QuestionFields.QUESTION_ID: q.get(QuestionFields.QUESTION_ID) or q.get(QuestionFields.ID),
+            QuestionFields.QUESTION_TYPE: q.get(QuestionFields.QUESTION_TYPE),
+            QuestionFields.QUESTION: q.get(QuestionFields.QUESTION),
+            # REQUIRED by backend
+            QuestionFields.QUESTION_CATEGORY: q.get(QuestionFields.QUESTION_CATEGORY),
+            QuestionFields.QUESTION_LEVEL: q.get(QuestionFields.QUESTION_LEVEL),
+            # Safe counters
+            QuestionFields.TIMES_SKIPPED: _to_int(q.get(QuestionFields.TIMES_SKIPPED, _def("TIMES_SKIPPED", 0))),
+            QuestionFields.TIMES_ANSWERED: _to_int(q.get(QuestionFields.TIMES_ANSWERED, _def("TIMES_ANSWERED", 0))),
+            QuestionFields.ANSWERS: answers,
+        }
 
 
 class DataValidator:
-    """Utility class for validating data structures"""
-    
     @staticmethod
     def validate_answer(answer: Dict, question_id: str, answer_index: int) -> bool:
-        """Validate individual answer structure"""
-        required_checks = [
-            (AnswerFields.ANSWER, str, "answer field must be string"),
-            (AnswerFields.IS_CORRECT, bool, "isCorrect field must be boolean"),
-            (AnswerFields.RESPONSE_COUNT, int, "responseCount field must be integer"),
-            (AnswerFields.RANK, int, "rank field must be integer"),
-            (AnswerFields.SCORE, int, "score field must be integer")
-        ]
-        
-        for field, expected_type, error_msg in required_checks:
-            if not isinstance(answer.get(field), expected_type):
-                from utils.logger import setup_logger
-                logger = setup_logger()
-                logger.error(f"Question {question_id}, answer {answer_index}: {error_msg}")
-                return False
-        
-        return True
-    
+        return (
+            isinstance(answer.get(AnswerFields.ANSWER), str) and
+            isinstance(answer.get(AnswerFields.IS_CORRECT), bool) and
+            isinstance(answer.get(AnswerFields.RESPONSE_COUNT), int) and
+            isinstance(answer.get(AnswerFields.RANK), int) and
+            isinstance(answer.get(AnswerFields.SCORE), int)
+        )
+
     @staticmethod
     def validate_question(question: Dict) -> bool:
-        """Validate complete question structure"""
-        question_id = QuestionFormatter.get_question_id(question)
-        
-        if not question_id or question_id == 'UNKNOWN':
-            from utils.logger import setup_logger
-            logger = setup_logger()
-            logger.error(f"Question missing ID: {question}")
+        qid = QuestionFormatter.get_question_id(question)
+        if not qid:
             return False
-        
-        if not question.get(QuestionFields.ANSWERS):
-            from utils.logger import setup_logger
-            logger = setup_logger()
-            logger.warning(f"Question {question_id} has no answers")
+        if not question.get(QuestionFields.QUESTION_CATEGORY):
             return False
-        
-        # Validate each answer
-        for i, answer in enumerate(question[QuestionFields.ANSWERS]):
-            if not DataValidator.validate_answer(answer, question_id, i):
+        if not question.get(QuestionFields.QUESTION_LEVEL):
+            return False
+        answers = question.get(QuestionFields.ANSWERS) or []
+        if not isinstance(answers, list) or not answers:
+            return False
+        for i, a in enumerate(answers):
+            if not DataValidator.validate_answer(a, qid, i):
                 return False
-        
-        from utils.logger import setup_logger
-        logger = setup_logger()
-        logger.debug(f"Question {question_id} validation passed")
         return True
-
-
-class ResponseProcessor:
-    """Utility class for processing API responses"""
-    
-    @staticmethod
-    def extract_questions_from_response(response_data) -> List[Dict]:
-        """Extract questions list from various API response formats"""
-        if isinstance(response_data, dict):
-            # Handle API response structure: {statusCode, data, message, success}
-            if 'data' in response_data:
-                if not response_data.get('success', True):
-                    raise Exception(f"API returned error: {response_data.get('message', 'Unknown error')}")
-                questions = response_data['data']
-            elif 'questions' in response_data:
-                questions = response_data['questions']
-            else:
-                questions = [response_data] if '_id' in response_data else []
-            
-            if not isinstance(questions, list):
-                questions = [questions] if questions else []
-        elif isinstance(response_data, list):
-            questions = response_data
-        else:
-            questions = []
-        
-        return questions
-    
-    @staticmethod
-    def is_success_response(response_data) -> bool:
-        """Check if API response indicates success"""
-        if not isinstance(response_data, dict):
-            return True  # Assume success if not a dict
-        
-        return (
-            (response_data.get('success', False) and response_data.get('statusCode') == 200) or
-            response_data.get('statusCode') == 200 or
-            'data' in response_data
-        )

@@ -5,15 +5,12 @@ Enhanced Database Handler with comprehensive error handling and diagnostics
 
 import logging
 import json
-from typing import List, Dict, Optional, Tuple
-from config.settings import Config
+from typing import List, Dict, Optional
+from constants import APIKeys, QuestionFields
+from utils.data_formatters import QuestionFormatter  # keep QuestionFormatter
+from utils.response_processor import ResponseProcessor  # import ResponseProcessor here
 from utils.api_handler import APIHandler
-from utils.data_formatters import (
-    QuestionFormatter, 
-    ResponseProcessor, 
-    DataValidator
-)
-from constants import LogMessages, ErrorMessages, APIKeys
+from config.settings import Config  # ensure this exists
 
 logger = logging.getLogger('survey_analytics')
 
@@ -212,6 +209,80 @@ class DatabaseHandler:
         
         return processed_questions
     
+    def bulk_update_questions(self, questions: List[Dict]) -> Dict:
+        """
+        Send updates in chunks to avoid HTTP 413 (PayloadTooLarge).
+        Falls back to smaller chunk sizes and finally per-question update.
+        Returns { updated, total, chunks, failed_chunks }.
+        """
+        total = len(questions)
+        if total == 0:
+            return {"updated": 0, "total": 0, "chunks": 0, "failed_chunks": 0}
+
+        # Allow override via config
+        chunk_size = getattr(Config, "BULK_UPDATE_CHUNK_SIZE", 25)
+        idx = 0
+        updated = 0
+        chunks = 0
+        failed_chunks = 0
+
+        def send_chunk(chunk: List[Dict]) -> Optional[bool]:
+            formatted = [QuestionFormatter.format_for_api(q) for q in chunk]
+            payload = {APIKeys.QUESTIONS: formatted}
+            # Optional: small preview log
+            if formatted and formatted[0].get(QuestionFields.ANSWERS):
+                a0 = formatted[0][QuestionFields.ANSWERS][0]
+                logger.debug(f"[BULK] sending chunk={len(chunk)} firstAns rank={a0.get('rank')} score={a0.get('score')}")
+            resp = self.api.put(json=payload)
+            # If APIHandler returns a requests.Response-like object
+            status = getattr(resp, "status_code", 200)
+            if status == 413:
+                logger.error("❌ Chunk rejected: HTTP 413 (PayloadTooLarge)")
+                return None
+            ok = getattr(resp, "ok", True)
+            return bool(ok)
+
+        while idx < total:
+            chunk = questions[idx: idx + chunk_size]
+            result = send_chunk(chunk)
+            if result is None:
+                # 413 -> reduce chunk size
+                if chunk_size > 1:
+                    chunk_size = max(1, chunk_size // 2)
+                    logger.info(f"Reducing bulk chunk size to {chunk_size} and retrying current segment")
+                    continue
+                # Fall back to single-question updates
+                logger.info("Falling back to per-question updates due to payload size")
+                for q in chunk:
+                    ok = self.update_question_answers(
+                        QuestionFormatter.get_question_id(q),
+                        q.get(QuestionFields.ANSWERS, []),
+                    )
+                    updated += 1 if ok else 0
+                idx += len(chunk)
+                chunks += 1
+                continue
+
+            if result:
+                updated += len(chunk)
+                idx += len(chunk)
+                chunks += 1
+            else:
+                # Mark as failed and move on to avoid infinite loop
+                failed_chunks += 1
+                idx += len(chunk)
+
+        return {"updated": updated, "total": total, "chunks": chunks, "failed_chunks": failed_chunks}
+
+    def update_question_answers(self, question_id: str, answers: List[Dict]) -> bool:
+        """
+        Update a single question's answers (used as fallback when payload too large).
+        """
+        formatted = [QuestionFormatter.format_for_api({QuestionFields.ANSWERS: answers, QuestionFields.QUESTION_ID: question_id})]
+        payload = {APIKeys.QUESTIONS: formatted}
+        resp = self.api.put(json=payload)
+        return getattr(resp, "ok", True)
+    
     def update_question_answers(self, question_id: str, answers: List[Dict]) -> bool:
         """Update answers for a specific question via API"""
         try:
@@ -299,193 +370,68 @@ class DatabaseHandler:
         return {APIKeys.QUESTIONS: [formatted_question]}
     
     def bulk_update_questions(self, questions: List[Dict]) -> Dict:
-        """Bulk update multiple questions via single API call with enhanced validation"""
-        try:
-            logger.info(f"📤 Starting bulk update of {len(questions)} questions")
-            
-            # Enhanced validation before update
-            validation_result = self._validate_questions_for_bulk_update(questions)
-            
-            if validation_result["invalid_count"] > 0:
-                logger.warning(f"⚠️ Validation issues found:")
-                logger.warning(f"  Valid questions: {validation_result['valid_count']}")
-                logger.warning(f"  Invalid questions: {validation_result['invalid_count']}")
-                
-                # Log first few validation errors
-                for error in validation_result["validation_errors"][:5]:
-                    logger.warning(f"  • {error}")
-                
-                if validation_result["valid_count"] == 0:
-                    logger.error("❌ No valid questions to update")
-                    return self._create_update_result(0, len(questions), len(questions))
-            
-            valid_questions = validation_result["valid_questions"]
-            logger.info(f"📋 Proceeding with {len(valid_questions)} valid questions")
-            
-            # Perform bulk update
-            return self._execute_bulk_update(valid_questions, len(questions))
-            
-        except Exception as e:
-            logger.error(f"❌ Bulk update failed: {str(e)}")
-            self.last_operation_details = {
-                "operation": "bulk_update",
-                "success": False,
-                "error": str(e),
-                "question_count": len(questions)
-            }
-            raise
-    
-    def _validate_questions_for_bulk_update(self, questions: List[Dict]) -> Dict:
-        """Validate questions before bulk update with detailed reporting"""
-        valid_questions = []
-        validation_errors = []
-        
-        logger.debug(f"🔍 Validating {len(questions)} questions for bulk update")
-        
-        for i, question in enumerate(questions):
-            question_id = QuestionFormatter.get_question_id(question)
-            
-            # Basic structure validation
-            if not question_id or question_id == 'UNKNOWN':
-                validation_errors.append(f"Question {i}: Missing or invalid ID")
+        """
+        Send updates in chunks to avoid HTTP 413 (PayloadTooLarge).
+        Falls back to smaller chunk sizes and finally per-question update.
+        Returns { updated, total, chunks, failed_chunks }.
+        """
+        total = len(questions)
+        if total == 0:
+            return {"updated": 0, "total": 0, "chunks": 0, "failed_chunks": 0}
+
+        chunk_size = int(getattr(Config, "BULK_UPDATE_CHUNK_SIZE", 10))
+        idx = 0
+        updated = 0
+        chunks = 0
+        failed_chunks = 0
+
+        def send_chunk(chunk: List[Dict]) -> str:
+            formatted = [QuestionFormatter.format_for_api(q) for q in chunk]
+            payload = {APIKeys.QUESTIONS: formatted}
+            resp = self.api.put(json=payload)
+            sc = getattr(resp, "status_code", 200)
+            if sc == 413:
+                return "413"
+            if sc == 400:
+                # prints full error already in APIHandler; return code
+                return "400"
+            return "ok" if getattr(resp, "ok", True) else "fail"
+
+        while idx < total:
+            window = questions[idx: idx + chunk_size]
+            result = send_chunk(window)
+
+            if result == "ok":
+                updated += len(window)
+                idx += len(window)
+                chunks += 1
                 continue
-            
-            # Check if question has answers
-            if not question.get('answers'):
-                validation_errors.append(f"Question {question_id}: No answers")
+
+            if result == "413" and chunk_size > 1:
+                chunk_size = max(1, chunk_size // 2)
                 continue
-            
-            # Validate answer structure
-            answer_validation = self._validate_question_answers_bulk(question, question_id)
-            if not answer_validation["valid"]:
-                validation_errors.extend(answer_validation["errors"])
-                continue
-            
-            # Additional business logic validation
-            if not DataValidator.validate_question(question):
-                validation_errors.append(f"Question {question_id}: Failed business logic validation")
-                continue
-            
-            valid_questions.append(question)
-            logger.debug(f"✅ Question {question_id} passed validation")
-        
-        return {
-            "valid_questions": valid_questions,
-            "valid_count": len(valid_questions),
-            "invalid_count": len(questions) - len(valid_questions),
-            "validation_errors": validation_errors
-        }
-    
-    def _validate_question_answers_bulk(self, question: Dict, question_id: str) -> Dict:
-        """Validate individual question's answers for bulk update"""
-        errors = []
-        answers = question.get('answers', [])
-        
-        for i, answer in enumerate(answers):
-            if not isinstance(answer, dict):
-                errors.append(f"Question {question_id}, Answer {i}: Not a dictionary")
-                continue
-            
-            # Check required fields
-            required_fields = ['answer', 'isCorrect']
-            for field in required_fields:
-                if field not in answer:
-                    errors.append(f"Question {question_id}, Answer {i}: Missing '{field}' field")
-            
-            # Check data types
-            if 'isCorrect' in answer and not isinstance(answer['isCorrect'], bool):
-                errors.append(f"Question {question_id}, Answer {i}: 'isCorrect' must be boolean")
-            
-            if 'responseCount' in answer and not isinstance(answer['responseCount'], (int, float)):
-                errors.append(f"Question {question_id}, Answer {i}: 'responseCount' must be number")
-            
-            # Check for common data corruption issues
-            if 'rank' in answer and not isinstance(answer['rank'], (int, float)):
-                errors.append(f"Question {question_id}, Answer {i}: 'rank' must be number")
-            
-            if 'score' in answer and not isinstance(answer['score'], (int, float)):
-                errors.append(f"Question {question_id}, Answer {i}: 'score' must be number")
-        
-        return {
-            "valid": len(errors) == 0,
-            "errors": errors
-        }
-    
-    def _execute_bulk_update(self, formatted_questions: List[Dict], original_count: int) -> Dict:
-        """Execute the bulk update API call with enhanced error handling"""
-        try:
-            logger.info(f"🚀 Executing bulk update for {len(formatted_questions)} questions")
-            
-            # Prepare update payload
-            valid_formatted = []
-            for question in formatted_questions:
-                try:
-                    formatted_question = QuestionFormatter.format_for_api(question)
-                    valid_formatted.append(formatted_question)
-                except Exception as e:
-                    question_id = QuestionFormatter.get_question_id(question)
-                    logger.error(f"Failed to format question {question_id}: {str(e)}")
-            
-            if not valid_formatted:
-                logger.error("❌ No questions could be formatted for API")
-                return self._create_update_result(0, len(formatted_questions), original_count)
-            
-            bulk_update_data = {APIKeys.QUESTIONS: valid_formatted}
-            
-            # Log payload summary
-            logger.info(f"📦 Sending {len(valid_formatted)} formatted questions to API")
-            logger.debug(f"Sample question structure: {json.dumps(valid_formatted[0], indent=2, default=str)[:300]}...")
-            
-            # Make the API request
-            response = self.api.make_request("PUT", bulk_update_data)
-            
-            # Analyze response
-            if ResponseProcessor.is_success_response(response):
-                updated_count = len(valid_formatted)
-                logger.info(f"✅ Bulk update successful: {updated_count} questions updated")
-                
-                self.last_operation_details = {
-                    "operation": "bulk_update",
-                    "success": True,
-                    "updated_count": updated_count,
-                    "original_count": original_count,
-                    "response_preview": str(response)[:200]
-                }
-                
-                return self._create_update_result(updated_count, 0, original_count)
-            else:
-                error_msg = response.get(APIKeys.MESSAGE, str(response))
-                logger.error(f"❌ Bulk update failed: {error_msg}")
-                logger.error(f"Response: {response}")
-                
-                self.last_operation_details = {
-                    "operation": "bulk_update",
-                    "success": False,
-                    "error": error_msg,
-                    "response": response
-                }
-                
-                return self._create_update_result(0, len(valid_formatted), original_count)
-                
-        except Exception as e:
-            logger.error(f"❌ Bulk update execution failed: {str(e)}")
-            
-            self.last_operation_details = {
-                "operation": "bulk_update",
-                "success": False,
-                "error": str(e),
-                "error_type": type(e).__name__
-            }
-            
-            return self._create_update_result(0, len(formatted_questions), original_count)
-    
-    def _create_update_result(self, updated: int, failed: int, total: int) -> Dict:
-        """Create standardized update result dictionary"""
-        return {
-            "updated_count": updated,
-            "failed_count": failed,
-            "total_processed": total
-        }
+
+            # per-question fallback
+            for q in window:
+                payload = {APIKeys.QUESTIONS: [QuestionFormatter.format_for_api(q)]}
+                resp = self.api.put(json=payload)
+                if getattr(resp, "ok", True):
+                    updated += 1
+                else:
+                    failed_chunks += 1
+            idx += len(window)
+            chunks += 1
+
+        return {"updated": updated, "total": total, "chunks": chunks, "failed_chunks": failed_chunks}
+
+    def update_question_answers(self, question_id: str, answers: List[Dict]) -> bool:
+        """
+        Update a single question's answers (used as fallback when payload too large).
+        """
+        formatted = [QuestionFormatter.format_for_api({QuestionFields.ANSWERS: answers, QuestionFields.QUESTION_ID: question_id})]
+        payload = {APIKeys.QUESTIONS: formatted}
+        resp = self.api.put(json=payload)
+        return getattr(resp, "ok", True)
     
     def get_diagnostic_summary(self) -> Dict:
         """Get comprehensive diagnostic information"""
