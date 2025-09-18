@@ -10,19 +10,22 @@ interface AdminEmptyStateProps {
   error?: string;
 }
 
-const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({ 
-  onAddQuestion, 
-  isEmpty, 
-  error 
+const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({
+  onAddQuestion,
+  isEmpty,
+  error,
 }) => {
   const handleButtonClick = (level: Level) => {
-    console.log("🚀 AdminEmptyState: Starting to add question for level:", level);
+    console.log(
+      "🚀 AdminEmptyState: Starting to add question for level:",
+      level
+    );
     onAddQuestion(level);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex items-center justify-center p-6">
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center max-w-2xl mx-auto">
+      <div className="bg-primary rounded-2xl shadow-lg border border-gray-100 p-12 text-center max-w-2xl mx-auto">
         {/* Icon */}
         <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg
@@ -44,15 +47,13 @@ const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({
         <h3 className="text-3xl font-bold text-gray-900 mb-4">
           {isEmpty ? "No Questions Found" : "Welcome to Survey Builder"}
         </h3>
-        
+
         {error ? (
           <div className="mb-8">
             <p className="text-red-600 text-lg font-medium mb-4">
               Database Connection Issue
             </p>
-            <p className="text-gray-600 text-sm mb-6">
-              {error}
-            </p>
+            <p className="text-gray-600 text-sm mb-6">{error}</p>
             <div className="p-6 bg-amber-50 border border-amber-200 rounded-lg">
               <p className="text-amber-800 text-sm font-semibold mb-3">
                 What to do:
@@ -68,19 +69,21 @@ const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({
         ) : (
           <div className="mb-8">
             <p className="text-gray-600 text-lg mb-6">
-              {isEmpty 
+              {isEmpty
                 ? "Your survey database is empty. Start building your survey by adding questions to any difficulty level."
-                : "Start building your survey by adding questions to any difficulty level."
-              }
+                : "Start building your survey by adding questions to any difficulty level."}
             </p>
-            
+
             {isEmpty && (
               <div className="p-6 bg-blue-50 border border-blue-200 rounded-lg mb-6">
                 <p className="text-blue-800 text-sm font-semibold mb-3">
                   Getting Started:
                 </p>
                 <ul className="text-blue-700 text-sm space-y-2 text-left">
-                  <li>• Choose a difficulty level below to create your first question</li>
+                  <li>
+                    • Choose a difficulty level below to create your first
+                    question
+                  </li>
                   <li>• Fill in the question details and category</li>
                   <li>• Use the Preview button to review before saving</li>
                   <li>• Switch to Analytics once you have responses</li>
@@ -111,10 +114,20 @@ const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({
                 >
                   {/* Background animation effect */}
                   <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                  
+
                   <div className="relative flex items-center justify-center gap-3">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
                     </svg>
                     <span>Add {level} Question</span>
                   </div>
@@ -127,10 +140,9 @@ const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({
         {/* Additional Help Text */}
         <div className="mt-8 pt-6 border-t border-gray-200">
           <p className="text-gray-400 text-sm">
-            {isEmpty 
+            {isEmpty
               ? "Questions will appear in the sidebar once you create them"
-              : "Build comprehensive surveys with multiple difficulty levels"
-            }
+              : "Build comprehensive surveys with multiple difficulty levels"}
           </p>
           <p className="text-gray-400 text-xs mt-2">
             Need help? Check the documentation or contact support.
