@@ -24,8 +24,8 @@ const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex items-center justify-center p-6">
-      <div className="bg-primary rounded-2xl shadow-lg border border-gray-100 p-12 text-center max-w-2xl mx-auto">
+    <div className="min-h-screen bg-primary flex items-center justify-center p-6">
+      <div className="bg-yellow-100 rounded-2xl shadow-lg border border-gray-100 p-12 text-center max-w-2xl mx-auto">
         {/* Icon */}
         <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg

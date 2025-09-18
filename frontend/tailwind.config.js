@@ -17,6 +17,14 @@ module.exports = {
         accent: "var(--accent)",
         success: "var(--success)",
         warning: "var(--warning)",
+
+        // Background colors
+        "bg-primary": "var(--bg-primary)",
+        "bg-secondary": "var(--bg-secondary)",
+        "bg-card": "var(--bg-card)",
+        "bg-card-hover": "var(--bg-card-hover)",
+        "bg-input": "var(--bg-input)",
+        "bg-input-focus": "var(--bg-input-focus)",
       },
     },
   },
