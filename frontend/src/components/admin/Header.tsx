@@ -50,10 +50,9 @@ export const Header: React.FC<HeaderProps> = ({
 
   const rankingPageUrl = process.env.REACT_APP_RANKING_UI_URL;
 
-
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-white bg-opacity-95 backdrop-blur-sm border-b-2 border-indigo-100 shadow-lg">
+      <header className="sticky top-0 z-50 w-full bg-primary bg-opacity-95 backdrop-blur-sm border-b-2 border-indigo-100 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between w-full">
             {/* Left: Logo + Title */}
@@ -107,7 +106,6 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="text-base">📊</span>
                 <span>Analytics</span>
               </button>
-
 
               <button
                 onClick={() => window.open(rankingPageUrl, "_blank")}

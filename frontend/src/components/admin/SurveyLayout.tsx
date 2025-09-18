@@ -74,7 +74,7 @@ function SurveyLayout({
   const safeIndex = Math.min(currentIndex, Math.max(questions.length - 1, 0));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-secondary">
       <Header
         completedCount={completedCount}
         totalCount={questions.length}
