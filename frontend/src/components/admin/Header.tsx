@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className={`px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-sm border transition-all duration-200 ${
                   mode === "create"
                     ? "bg-secondary text-white border-accent shadow-md"
-                    : "bg-secondary-light text-blue-600 border-emerald-200 hover:bg-emerald-50 hover:border-emerald-300"
+                    : "bg-secondary-light text-blue-600 border-accent hover:bg-emerald-50 hover:border-emerald-300"
                 }`}
               >
                 <span className="text-base ">
@@ -101,8 +101,8 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={onSwitchToEdit}
                 className={`px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-sm border transition-all duration-200 ${
                   mode === "edit"
-                    ? "bg-secondary text-white border-blue-600 shadow-md"
-                    : "bg-secondary-light text-blue-700 border-blue-200 hover:bg-blue-50 hover:border-blue-300"
+                    ? "bg-secondary text-white border-accent shadow-md"
+                    : "bg-secondary-light text-blue-700 border-accent hover:bg-blue-50 hover:border-blue-300"
                 }`}
               >
                 <span className="text-base">✏️</span>
