@@ -14,6 +14,7 @@ module.exports = {
         // Secondary colour values (The Saffron/Gold Colors section in index.css)
         secondary: "var(--secondary)",
         "secondary-dark": "var(--secondary-dark)",
+        "secondary-light": "var(--secondary-light)",
         accent: "var(--accent)",
         success: "var(--success)",
         warning: "var(--warning)",
