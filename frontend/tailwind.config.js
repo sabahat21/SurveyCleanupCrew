@@ -39,7 +39,8 @@ module.exports = {
 
         // Header colors
         "header-bg": "var(--header-bg)",
-        "header-text": "var(--header-text)",
+        "header-primary": "var(--header-primary)",
+        "header-subtitle": "var(--header-subtitle)",
         "header-accent": "var(--header-accent)",
       },
     },

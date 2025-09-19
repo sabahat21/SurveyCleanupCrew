@@ -57,14 +57,14 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center justify-between w-full">
             {/* Left: Logo + Title */}
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl flex items-center justify-center shadow-md">
+              <div className="w-10 h-10 bg-header-primary rounded-xl flex items-center justify-center shadow-md">
                 <span className="text-white text-lg font-bold">SB</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
+                <h1 className="text-2xl font-bold text-header-primary tracking-tight">
                   Survey Builder
                 </h1>
-                <span className="text-sm text-slate-500 font-medium tracking-wide">
+                <span className="text-sm text-header-subtitle font-medium tracking-wide">
                   Administrative Dashboard
                 </span>
               </div>

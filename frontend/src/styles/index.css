@@ -28,7 +28,8 @@
 
   /* Header specific colors */
   --header-bg: rgba(242, 210, 182, 1);
-  --header-text: #ffffff;
+  --header-primary: #ff4500;
+  --header-subtitle: #ffffff;
   --header-accent: #f5c800;
 
   /* Game page specific colors */
