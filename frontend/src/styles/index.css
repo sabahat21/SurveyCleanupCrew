@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import url('https://db.onlinewebfonts.com/c/7e96eba370659b4e4563309dc4ebb33f?family=Samarkan+Normal+V2');
 
 /* Light Mode Variables Only */
 :root {
@@ -60,4 +62,11 @@
   --glass-shadow: rgba(242, 210, 182, 0.15);
   --card-shadow: 0 1px 4px rgba(242, 210, 182, 0.12);
   --card-shadow-hover: 0 2px 8px rgba(242, 210, 182, 0.18);
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+.devanagari-text {
+  font-family: "Noto Sans Devanagari", "Inter", sans-serif;
 }

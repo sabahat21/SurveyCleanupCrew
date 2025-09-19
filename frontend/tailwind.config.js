@@ -43,6 +43,17 @@ module.exports = {
         "header-subtitle": "var(--header-subtitle)",
         "header-accent": "var(--header-accent)",
       },
+
+      fontFamily: {
+        samarkan: ['"Samarkan Normal V2"', "cursive"],
+        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        devanagari: [
+          "Noto Sans Devanagari",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
+      },
     },
   },
   plugins: [],
