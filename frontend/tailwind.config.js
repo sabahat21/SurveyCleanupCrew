@@ -26,6 +26,21 @@ module.exports = {
         "bg-card-hover": "var(--bg-card-hover)",
         "bg-input": "var(--bg-input)",
         "bg-input-focus": "var(--bg-input-focus)",
+
+        // Text colors
+        "text-primary": "var(--text-primary)",
+        "text-secondary": "var(--text-secondary)",
+        "text-muted": "var(--text-muted)",
+        "text-light": "var(--text-light)",
+        "text-accent": "var(--text-accent)",
+        "text-on-red": "var(--text-on-red)",
+        "text-input": "var(--text-input)",
+        "text-placeholder": "var(--text-placeholder)",
+
+        // Header colors
+        "header-bg": "var(--header-bg)",
+        "header-text": "var(--header-text)",
+        "header-accent": "var(--header-accent)",
       },
     },
   },

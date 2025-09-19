@@ -27,8 +27,6 @@
   --bg-input-focus: #ffffff;
 
   /* Header specific colors */
-  --header-bg-game: rgba(242, 210, 182, 1);
-  --header-text-game: #ffffff;
   --header-bg: rgba(242, 210, 182, 1);
   --header-text: #ffffff;
   --header-accent: #f5c800;
@@ -61,20 +59,4 @@
   --glass-shadow: rgba(242, 210, 182, 0.15);
   --card-shadow: 0 1px 4px rgba(242, 210, 182, 0.12);
   --card-shadow-hover: 0 2px 8px rgba(242, 210, 182, 0.18);
-
-  /* Team Colors */
-  --team-red: rgba(242, 210, 182, 1);
-  --team-blue: #3b82f6;
-  --team-red-bg: rgba(242, 210, 182, 0.08);
-  --team-blue-bg: rgba(59, 130, 246, 0.08);
-
-  /* Special Effects */
-  --buzzer-glow: #f14c11;
-  --correct-answer: #f5c800;
-  --wrong-answer: #d82813;
-  --timer-bg: #f39800;
-
-  /* Logo and subtitle */
-  --logo-text: var(--primary);
-  --subtitle-text: var(--primary);
 }
