@@ -26,10 +26,9 @@ module.exports = {
         "bg-input": "var(--bg-input)",
         "bg-input-focus": "var(--bg-input-focus)",
       },
-    },
-    extend: {
+
       fontFamily: {
-        samarkan: ['"Samarkan Normal V2"', 'cursive'],
+        samarkan: ['"Samarkan Normal V2"', "cursive"],
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
         devanagari: [
           "Noto Sans Devanagari",
