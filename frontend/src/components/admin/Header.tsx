@@ -80,7 +80,21 @@ export const Header: React.FC<HeaderProps> = ({
                     : "bg-secondary-light text-blue-600 border-emerald-200 hover:bg-emerald-50 hover:border-emerald-300"
                 }`}
               >
-                <span className="text-base ">➕</span>
+                <span className="text-base ">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
+                  </svg>
+                </span>
                 <span>Add</span>
               </button>
               <button
