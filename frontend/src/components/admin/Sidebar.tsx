@@ -126,7 +126,7 @@ export function Sidebar({
                 key={q.id || idx}
                 className={`group flex items-start gap-2 p-2.5 rounded-lg cursor-pointer transition-all duration-200 mb-1 ${
                   idx === currentIndex
-                    ? "bg-purple-100 border-l-4 border-purple-600 shadow-sm"
+                    ? "bg-levelquestion-active-bg border-l-4 border-levelquestion-active-border shadow-sm"
                     : "hover:bg-gray-50 hover:shadow-sm border-l-4 border-transparent"
                 }`}
                 onClick={() => onSelect(currentLevel, idx)}

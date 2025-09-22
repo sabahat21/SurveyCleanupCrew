@@ -35,6 +35,8 @@
   --progress-number: #2563eb;
   --progress-bar-from: #042aff;
   --progress-bar-to: #5a89f0;
+  --levelquestion-active-bg: #aee3f8;
+  --levelquestion-active-border: #ff4500;
 }
 
 body {

@@ -34,6 +34,8 @@ module.exports = {
         "progress-number": "var(--progress-number)",
         "progress-bar-from": "var(--progress-bar-from)",
         "progress-bar-to": "var(--progress-bar-to)",
+        "levelquestion-active-bg": "var(--levelquestion-active-bg)",
+        "levelquestion-active-border": "var(--levelquestion-active-border)",
       },
 
       fontFamily: {
