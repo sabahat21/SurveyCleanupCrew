@@ -19,24 +19,6 @@ module.exports = {
         success: "var(--success)",
         warning: "var(--warning)",
 
-        // Background colors
-        "bg-primary": "var(--bg-primary)",
-        "bg-secondary": "var(--bg-secondary)",
-        "bg-card": "var(--bg-card)",
-        "bg-card-hover": "var(--bg-card-hover)",
-        "bg-input": "var(--bg-input)",
-        "bg-input-focus": "var(--bg-input-focus)",
-
-        // Text colors
-        "text-primary": "var(--text-primary)",
-        "text-secondary": "var(--text-secondary)",
-        "text-muted": "var(--text-muted)",
-        "text-light": "var(--text-light)",
-        "text-accent": "var(--text-accent)",
-        "text-on-red": "var(--text-on-red)",
-        "text-input": "var(--text-input)",
-        "text-placeholder": "var(--text-placeholder)",
-
         // Header colors
         "header-bg": "var(--header-bg)",
         "header-primary": "var(--header-primary)",
