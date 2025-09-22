@@ -28,6 +28,10 @@ module.exports = {
         // Header button colours
         "btn-active-text": "var(--btn-active-text)",
         "btn-inactive-text": "var(--btn-inactive-text)",
+
+        // Sidebar colours
+        "progress-bar-from": "var(--progress-bar-from)",
+        "progress-bar-to": "var(--progress-bar-to)",
       },
 
       fontFamily: {

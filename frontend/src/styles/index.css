@@ -29,6 +29,10 @@
   /* Header button colours */
   --btn-active-text: #ffffff;
   --btn-inactive-text: #2563eb;
+
+  /* Sidebar specific colors */
+  --progress-bar-from: #00189e;
+  --progress-bar-to: #0051ff;
 }
 
 body {
