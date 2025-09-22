@@ -20,8 +20,11 @@
   --success: rgba(242, 210, 182, 1);
   --warning: #f14c11;
 
+  /* Survey Layout colours */
+  --survey-bg: #f5c800;
+
   /* Header specific colors */
-  --header-bg: rgba(242, 210, 182, 1);
+  --header-bg: #f2d2b6;
   --header-primary: #ff4500;
   --header-subtitle: #ffffff;
   --header-accent: #f5c800;

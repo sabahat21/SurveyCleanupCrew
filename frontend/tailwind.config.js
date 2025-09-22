@@ -19,6 +19,9 @@ module.exports = {
         success: "var(--success)",
         warning: "var(--warning)",
 
+        // Survey Layout colours
+        "survey-bg": "var(--survey-bg)",
+
         // Header colors
         "header-bg": "var(--header-bg)",
         "header-primary": "var(--header-primary)",
