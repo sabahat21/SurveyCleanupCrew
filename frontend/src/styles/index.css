@@ -25,7 +25,10 @@
   --header-primary: #ff4500;
   --header-subtitle: #ffffff;
   --header-accent: #f5c800;
-  --btn-add-text: #2563eb;
+
+  /* Header button colours */
+  --btn-active-text: #ffffff;
+  --btn-inactive-text: #2563eb;
 }
 
 body {

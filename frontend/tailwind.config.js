@@ -24,6 +24,10 @@ module.exports = {
         "header-primary": "var(--header-primary)",
         "header-subtitle": "var(--header-subtitle)",
         "header-accent": "var(--header-accent)",
+
+        // Header button colours
+        "btn-active-text": "var(--btn-active-text)",
+        "btn-inactive-text": "var(--btn-inactive-text)",
       },
 
       fontFamily: {
