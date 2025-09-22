@@ -31,8 +31,10 @@
   --btn-inactive-text: #2563eb;
 
   /* Sidebar specific colors */
-  --progress-bar-from: #00189e;
-  --progress-bar-to: #0051ff;
+  --progress-text: #000000;
+  --progress-number: #2563eb;
+  --progress-bar-from: #042aff;
+  --progress-bar-to: #5a89f0;
 }
 
 body {

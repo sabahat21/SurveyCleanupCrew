@@ -30,6 +30,8 @@ module.exports = {
         "btn-inactive-text": "var(--btn-inactive-text)",
 
         // Sidebar colours
+        "progress-text": "var(--progress-text)",
+        "progress-number": "var(--progress-number)",
         "progress-bar-from": "var(--progress-bar-from)",
         "progress-bar-to": "var(--progress-bar-to)",
       },

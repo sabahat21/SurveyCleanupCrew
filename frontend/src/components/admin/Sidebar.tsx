@@ -61,8 +61,10 @@ export function Sidebar({
         </div>
         <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-3">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">Progress</span>
-            <span className="text-sm font-bold text-purple-700">
+            <span className="text-sm font-medium text-progress-text">
+              Progress
+            </span>
+            <span className="text-sm font-bold text-progress-number">
               {completedCount}/{totalQuestions}
             </span>
           </div>
