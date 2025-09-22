@@ -31,6 +31,8 @@ module.exports = {
         // Header button colours
         "btn-active-text": "var(--btn-active-text)",
         "btn-inactive-text": "var(--btn-inactive-text)",
+        "btn-logout-bg": "var(--btn-logout-bg)",
+        "btn-logout-text": "var(--btn-logout-text)",
 
         // Sidebar colours
         "progress-text": "var(--progress-text)",

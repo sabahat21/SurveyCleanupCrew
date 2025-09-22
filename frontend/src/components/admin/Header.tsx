@@ -161,7 +161,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Logout Button - Right Corner */}
               <button
                 onClick={handleLogoutClick}
-                className="flex items-center gap-2 px-4 py-2.5 text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 hover:border-red-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 bg-btn-logout-bg text-btn-logout-text border border-red-200 rounded-lg hover:bg-red-700 hover:border-red-300 transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">🚪</span>
                 <span>Logout</span>

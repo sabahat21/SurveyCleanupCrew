@@ -32,6 +32,8 @@
   /* Header button colours */
   --btn-active-text: #ffffff;
   --btn-inactive-text: #2563eb;
+  --btn-logout-bg: #ff0000;
+  --btn-logout-text: #ffffff;
 
   /* Sidebar specific colors */
   --progress-text: #000000;
