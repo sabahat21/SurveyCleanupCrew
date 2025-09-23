@@ -48,12 +48,12 @@ const LoginPage: React.FC<LoginPageProps> = ({
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-secondary-light">
-      <div className="bg-bg-card p-8 rounded-lg shadow-md w-full max-w-md">
+      <div className="bg-header-subtitle p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex mb-6">
           <button
             className={`flex-1 py-2 rounded-l-lg font-semibold text-lg ${
               tab === "participant"
-                ? "bg-header-primary text-text-on-red"
+                ? "bg-header-primary text-btn-active-text"
                 : "bg-gray-100 text-gray-500"
             }`}
             onClick={() => {
@@ -67,7 +67,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           <button
             className={`flex-1 py-2 rounded-r-lg font-semibold text-lg ${
               tab === "admin"
-                ? "bg-header-primary text-text-on-red"
+                ? "bg-header-primary text-btn-active-text"
                 : "bg-gray-100 text-gray-500"
             }`}
             onClick={() => {
@@ -129,7 +129,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           )}
           <button
             type="submit"
-            className="w-full bg-header-primary text-text-on-red px-4 py-2 rounded hover:bg-header-primary transition"
+            className="w-full bg-header-primary text-btn-active-text px-4 py-2 rounded hover:bg-header-primary transition"
           >
             {tab === "participant" ? "Login as Participant" : "Login as Admin"}
           </button>
