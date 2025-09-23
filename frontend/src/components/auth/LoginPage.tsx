@@ -47,13 +47,13 @@ const LoginPage: React.FC<LoginPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-secondary-light">
+      <div className="bg-bg-card p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex mb-6">
           <button
             className={`flex-1 py-2 rounded-l-lg font-semibold text-lg ${
               tab === "participant"
-                ? "bg-purple-100 text-purple-700"
+                ? "bg-header-primary text-text-on-red"
                 : "bg-gray-100 text-gray-500"
             }`}
             onClick={() => {
@@ -67,7 +67,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           <button
             className={`flex-1 py-2 rounded-r-lg font-semibold text-lg ${
               tab === "admin"
-                ? "bg-purple-100 text-purple-700"
+                ? "bg-header-primary text-text-on-red"
                 : "bg-gray-100 text-gray-500"
             }`}
             onClick={() => {
@@ -96,7 +96,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
               onChange={(e) => setName(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder={tab === "participant" ? "Your Name" : "Admin Name"}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-header-primary focus:border-transparent"
               autoComplete="name"
               disabled={tab === "participant" && anonymous}
             />
@@ -109,7 +109,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Password"
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-header-primary focus:border-transparent"
                 autoComplete="current-password"
               />
             </div>
@@ -121,7 +121,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
                   type="checkbox"
                   checked={anonymous}
                   onChange={(e) => setAnonymous(e.target.checked)}
-                  className="mr-2 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                  className="mr-2 w-4 h-4 accent-header-primary text-text-input border-gray-300 rounded focus:ring-header-primary"
                 />
                 <span className="text-sm text-gray-700">Anonymous</span>
               </label>
@@ -129,7 +129,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           )}
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
+            className="w-full bg-header-primary text-text-on-red px-4 py-2 rounded hover:bg-header-primary transition"
           >
             {tab === "participant" ? "Login as Participant" : "Login as Admin"}
           </button>
