@@ -123,7 +123,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               <button
                 onClick={() => window.open(rankingPageUrl, "_blank")}
-                className="flex items-center gap-2 px-4 py-2.5 text-orange-700 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 hover:border-orange-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 text-btn-ranking-text bg-btn-ranking-bg border border-orange-200 rounded-lg hover:bg-orange-100 hover:border-orange-300 transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">🏆</span>
                 <span>Ranking Page</span>

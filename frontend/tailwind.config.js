@@ -35,6 +35,8 @@ module.exports = {
         "btn-logout-text": "var(--btn-logout-text)",
         "btn-analytics-bg": "var(--btn-analytics-bg)",
         "btn-analytics-text": "var(--btn-analytics-text)",
+        "btn-ranking-bg": "var(--btn-ranking-bg)",
+        "btn-ranking-text": "var(--btn-ranking-text)",
 
         // Sidebar colours
         "progress-text": "var(--progress-text)",
