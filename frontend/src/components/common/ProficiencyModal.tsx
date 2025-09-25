@@ -15,22 +15,22 @@ const ProficiencyModal: React.FC<ProficiencyModalProps> = ({
 }) => {
   if (!show) return null;
   return (
-    <div className="fixed inset-0 bg-secondary-light flex items-center justify-center z-50">
-      <div className="bg-header-subtitle rounded-lg shadow-lg p-8 w-full max-w-sm text-center">
-        <h2 className="text-xl font-bold mb-4 text-header-primary">
+    <div className="fixed inset-0 bg-proficiency-bg flex items-center justify-center z-50">
+      <div className="bg-proficiency-card-bg rounded-lg shadow-lg p-8 w-full max-w-sm text-center">
+        <h2 className="text-xl font-bold mb-4 text-proficiency-primary">
           What's your Sanskrit proficiency level?
         </h2>
-        <div className="flex flex-col gap-3 mb-6">
+        <div className="flex flex-col gap-3 mb-6 ">
           {["Beginner", "Intermediate", "Advanced"].map((level) => (
             <button
               key={level}
-              className={`px-6 py-2 rounded text-lg font-medium border
+              className={`px-6 py-2 rounded text-lg font-medium border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-proficiency-primary focus:border-transparent
                 ${
                   proficiency === level
-                    ? "bg-header-primary text-btn-active-text border-accent"
-                    : "bg-header-subtitle text-header-primary border-accent"
+                    ? "bg-proficiency-primary text-proficiency-active-text border-accent "
+                    : "bg-proficiency-card-bg text-proficiency-level-text border-accent "
                 }
-                hover:bg-header-accent hover:text-btn-active-text transition`}
+                hover:bg-proficiency-hover hover:text-proficiency-active-text transition`}
               onClick={() => setProficiency(level)}
             >
               {level}
@@ -38,7 +38,7 @@ const ProficiencyModal: React.FC<ProficiencyModalProps> = ({
           ))}
         </div>
         <button
-          className="mt-2 px-6 py-2 bg-header-primary text-btn-active-text rounded hover:bg-header-accent transition"
+          className="mt-2 px-6 py-2 bg-proficiency-confirm-bg text-proficiency-confirm-text rounded hover:bg-proficiency-hover transition"
           onClick={onConfirm}
           disabled={!proficiency}
         >

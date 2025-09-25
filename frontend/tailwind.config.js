@@ -41,6 +41,64 @@ module.exports = {
         "progress-bar-to": "var(--progress-bar-to)",
         "levelquestion-active-bg": "var(--levelquestion-active-bg)",
         "levelquestion-active-border": "var(--levelquestion-active-border)",
+
+        // Login colours
+        "login-bg": "var(--login-bg)",
+        "login-card-bg": "var(--login-card-bg)",
+        "login-active-text": "var(--login-active-text)",
+        "login-nonactive-text": "var(--login-nonactive-text)",
+        "login-nonactive-bg": "var(--login-nonactive-bg)",
+        "login-primary": "var(--login-primary)",
+        "login-input-border": "var(--login-input-border)",
+        "login-checkbox-border": "var(--login-checkbox-border)",
+        "login-focus-border": "var(--login-focus-border)",
+        "login-checkbox-text": "var(--login-checkbox-text)",
+        "login-button-bg": "var(--login-button-bg)",
+        "login-button-text": "var(--login-button-text)",
+        "login-button-hover": "var(--login-button-hover)",
+        "login-error-text": "var(--login-error-text)",
+        "login-error-bg": "var(--login-error-bg)",
+        "login-error-border": "var(--login-error-border)",
+        "login-welcome-text": "var(--login-welcome-text)",
+
+        // Proficiency modal colours
+        "proficiency-bg": "var(--proficiency-bg)",
+        "proficiency-card-bg": "var(--proficiency-card-bg)",
+        "proficiency-primary": "var(--proficiency-primary)",
+        "proficiency-active-text": "var(--proficiency-active-text)",
+        "proficiency-level-text": "var(--proficiency-level-text)",
+        "proficiency-hover": "var(--proficiency-hover)",
+        "proficiency-confirm-bg": "var(--proficiency-confirm-bg)",
+        "proficiency-confirm-text": "var(--proficiency-confirm-text)",
+
+        // Not Found page colours
+        "notfound-bg": "var(--notfound-bg)",
+        "notfound-primary": "var(--notfound-primary)",
+        "notfound-hover": "var(--notfound-hover)",
+        "notfound-text": "var(--notfound-text)",
+        "notfound-button-text": "var(--notfound-button-text)",
+
+        // Logout Prompt colours
+        "logout-bg": '#1a202c84',
+        "logout-card-bg": "var(--logout-card-bg)",
+        "logout-primary": "var(--logout-primary)",
+        "logout-hover": "var(--logout-hover)",
+        "logout-text": "var(--logout-text)",
+        "logout-button-text": "var(--logout-button-text)",
+        "logout-cancel-text": "var(--logout-cancel-text)",
+        "logout-cancel-bg": "var(--logout-cancel-bg)",
+        "logout-cancel-hover": "var(--logout-cancel-hover)",
+
+        //Update Survey colors
+        "update-bg": '#1a202c83',
+        "update-card-bg": "var(--update-card-bg)",
+        "update-primary": "var(--update-primary)",
+        "update-text": "var(--update-text)",
+        "update-button-bg": "var(--update-button-bg)",
+        "update-button-hover": "var(--update-button-hover)",
+        "update-button-text": "var(--update-button-text)",
+        "update-cancel-bg": "var(--update-cancel-bg)",
+        "update-cancel-hover": "var(--update-cancel-hover)",
       },
 
       fontFamily: {
