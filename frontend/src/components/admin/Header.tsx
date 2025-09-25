@@ -131,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               <button
                 onClick={onPreview}
-                className="flex items-center gap-2 px-4 py-2.5 text-purple-700 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 hover:border-purple-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 text-btn-preview-text bg-btn-preview-bg border border-purple-200 rounded-lg hover:bg-purple-100 hover:border-purple-300 transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">👁️</span>
                 <span>Preview</span>
