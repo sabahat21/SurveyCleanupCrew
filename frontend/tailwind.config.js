@@ -79,7 +79,7 @@ module.exports = {
         "notfound-button-text": "var(--notfound-button-text)",
 
         // Logout Prompt colours
-        "logout-bg": '#1a202c84',
+        "logout-bg": "#1a202c84",
         "logout-card-bg": "var(--logout-card-bg)",
         "logout-primary": "var(--logout-primary)",
         "logout-hover": "var(--logout-hover)",
@@ -90,7 +90,7 @@ module.exports = {
         "logout-cancel-hover": "var(--logout-cancel-hover)",
 
         //Update Survey colors
-        "update-bg": '#1a202c83',
+        "update-bg": "#1a202c83",
         "update-card-bg": "var(--update-card-bg)",
         "update-primary": "var(--update-primary)",
         "update-text": "var(--update-text)",
@@ -99,6 +99,13 @@ module.exports = {
         "update-button-text": "var(--update-button-text)",
         "update-cancel-bg": "var(--update-cancel-bg)",
         "update-cancel-hover": "var(--update-cancel-hover)",
+
+        // Admin database connection lost
+        "adminlost-bg": "var(--adminlost-bg)",
+        "adminlost-connection-issue": "var(--adminlost-connection-issue)",
+        "adminlost-card-bg": "var(--adminlost-card-bg)",
+        "adminlost-icon": "var(--adminlost-icon)",
+        "adminlost-icon-bg": "var(--adminlost-icon-bg)",
       },
 
       fontFamily: {

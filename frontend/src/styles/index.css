@@ -44,7 +44,7 @@
   --levelquestion-active-border: #ff4500;
 
   /* Login page, Proficiency modal specific colors */
-  --login-bg: #ffec97; 
+  --login-bg: #ffec97;
   --login-card-bg: #ffffff;
   --login-active-text: #ffffff;
   --login-nonactive-text: #656565;
@@ -71,7 +71,6 @@
   --proficiency-hover: #f5c800;
   --proficiency-confirm-bg: #ff4500;
   --proficiency-confirm-text: #ffffff;
-
 
   /*Not found page*/
   --notfound-bg: #ffec97;
@@ -101,6 +100,12 @@
   --update-cancel-hover: #adadad;
   --update-cancel-text: #000000;
 
+  /* Admin database connection lost */
+  --adminlost-bg: #f5c800;
+  --adminlost-connection-issue: #ff0000;
+  --adminlost-card-bg: #ffffff;
+  --adminlost-icon: #ff4500;
+  --adminlost-icon-bg: #f5e1e1;
 }
 
 body {

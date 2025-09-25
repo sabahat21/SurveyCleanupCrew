@@ -24,12 +24,12 @@ const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-primary flex items-center justify-center p-6">
-      <div className="bg-yellow-100 rounded-2xl shadow-lg border border-gray-100 p-12 text-center max-w-2xl mx-auto">
+    <div className="min-h-screen bg-adminlost-bg flex items-center justify-center p-6">
+      <div className="bg-adminlost-card-bg rounded-2xl shadow-lg border border-gray-100 p-12 text-center max-w-2xl mx-auto">
         {/* Icon */}
-        <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <div className="w-20 h-20 bg-adminlost-icon-bg rounded-full flex items-center justify-center mx-auto mb-6">
           <svg
-            className="w-10 h-10 text-purple-600"
+            className="w-10 h-10 text-adminlost-icon"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -50,7 +50,7 @@ const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({
 
         {error ? (
           <div className="mb-8">
-            <p className="text-red-600 text-lg font-medium mb-4">
+            <p className="text-adminlost-connection-issue text-lg font-medium mb-4">
               Database Connection Issue
             </p>
             <p className="text-gray-600 text-sm mb-6">{error}</p>
