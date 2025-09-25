@@ -155,7 +155,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
         <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
           <span className="text-white font-bold text-sm">📊</span>
         </div>
-        <h2 className="text-2xl font-bold">Survey Analytics Dashboard</h2>
+        <h2 className="text-2xl font-bold text-[var(--header-primary)]">Survey Analytics Dashboard</h2>
       </div>
       <div className="flex gap-2">
         <button
@@ -182,7 +182,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="min-h-screen bg-[var(--survey-bg)] p-6 space-y-6">
         {renderHeader()}
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
@@ -198,7 +198,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
 
   if (isEmpty) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="min-h-screen bg-[var(--survey-bg)] p-6 space-y-6">
         {renderHeader()}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-8 text-center">
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -242,7 +242,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
 
   if (err && !isEmpty) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="min-h-screen bg-[var(--survey-bg)] p-6 space-y-6">
         {renderHeader()}
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
           <div className="text-red-600 mb-4">
@@ -303,7 +303,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
     .slice(0, 3);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="min-h-screen bg-[var(--survey-bg)] p-6 space-y-6">
       {renderHeader()}
 
       <StatsOverview
