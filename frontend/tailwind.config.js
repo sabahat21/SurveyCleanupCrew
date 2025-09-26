@@ -41,6 +41,12 @@ module.exports = {
         "btn-preview-text": "var(--btn-preview-text)",
 
         // Sidebar colours
+        "sidebar-bg": "var(--sidebar-bg)",
+        "sidebar-text": "var(--sidebar-text)",
+        "active-level-tab-bg": "var(--active-level-tab-bg)",
+        "active-level-tab-text": "var(--active-level-tab-text)",
+        "inactive-level-tab-bg": "var(--inactive-level-tab-bg)",
+        "inactive-level-tab-text": "var(--inactive-level-tab-text)",
         "progress-text": "var(--progress-text)",
         "progress-number": "var(--progress-number)",
         "progress-bar-from": "var(--progress-bar-from)",

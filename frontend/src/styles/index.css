@@ -42,6 +42,12 @@
   --btn-preview-text: #7e22ce;
 
   /* Sidebar specific colors */
+  --sidebar-bg: #ffffff;
+  --sidebar-text: #000000;
+  --active-level-tab-bg: #ffffff;
+  --active-level-tab-text: #000000;
+  --inactive-level-tab-bg: #f3f4f6;
+  --inactive-level-tab-text: #6b7280;
   --progress-text: #000000;
   --progress-number: #2563eb;
   --progress-bar-from: #042aff;
