@@ -66,6 +66,9 @@
   /* Question Card specific colors */
   --question-card-bg: #ffffff;
   --question-card-text: #000000;
+  --btn-next-bg: #2563eb;
+  --btn-next-text: #ffffff;
+  --btn-next-hover-bg: #1e40af;
 
   /* Sidebar specific colors */
   --sidebar-bg: #ffffff;

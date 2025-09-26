@@ -67,6 +67,9 @@ module.exports = {
         // Question card colours
         "question-card-bg": "var(--question-card-bg)",
         "question-text": "var(--question-text)",
+        "btn-next-bg": "var(--btn-next-bg)",
+        "btn-next-text": "var(--btn-next-text)",
+        "btn-next-hover-bg": "var(--btn-next-hover-bg)",
 
         // Sidebar colours
         "sidebar-bg": "var(--sidebar-bg)",
