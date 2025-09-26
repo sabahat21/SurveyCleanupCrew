@@ -89,6 +89,10 @@ module.exports = {
         "progress-bar-to": "var(--progress-bar-to)",
         "levelquestion-active-bg": "var(--levelquestion-active-bg)",
         "levelquestion-active-border": "var(--levelquestion-active-border)",
+        "btn-delete-all-questions-bg": "var(--btn-delete-all-questions-bg)",
+        "btn-delete-all-questions-text": "var(--btn-delete-all-questions-text)",
+        "btn-delete-all-questions-hover-bg":
+          "var(--btn-delete-all-questions-hover-bg)",
 
         // Login colours
         "login-bg": "var(--login-bg)",

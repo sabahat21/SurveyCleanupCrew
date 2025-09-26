@@ -87,6 +87,9 @@
   --progress-bar-to: #5a89f0;
   --levelquestion-active-bg: #aee3f8;
   --levelquestion-active-border: #ff4500;
+  --btn-delete-all-questions-bg: #fee2e2;
+  --btn-delete-all-questions-text: #dc2626;
+  --btn-delete-all-questions-hover-bg: #fecaca;
 
   /* Login page, Proficiency modal specific colors */
   --login-bg: #ffec97;

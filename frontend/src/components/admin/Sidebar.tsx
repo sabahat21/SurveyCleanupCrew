@@ -100,7 +100,7 @@ export function Sidebar({
               onDeleteAll(currentLevel);
             }
           }}
-          className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition-colors text-sm"
+          className="flex items-center gap-1 px-3 py-1 bg-btn-delete-all-questions-bg text-btn-delete-all-questions-text rounded-md hover:bg-btn-delete-all-questions-hover-bg transition-colors text-sm"
           title={`Delete all ${currentLevel} questions`}
           type="button"
         >
