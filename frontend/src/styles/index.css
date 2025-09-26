@@ -50,6 +50,14 @@
   --btn-preview-hover-bg: #f3e8ff;
   --btn-preview-hover-border: #d8b4fe;
 
+  --btn-save-questions-bg: #059669;
+  --btn-save-questions-text: #ffffff;
+  --btn-save-questions-hover-bg: #047857;
+
+  --btn-save-changes-bg: #2563eb;
+  --btn-save-changes-text: #ffffff;
+  --btn-save-changes-hover-bg: #1e40af;
+
   --btn-logout-bg: #ff0000;
   --btn-logout-text: #ffffff;
   --btn-logout-hover-bg: #b91c1c;

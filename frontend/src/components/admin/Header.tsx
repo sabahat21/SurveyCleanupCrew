@@ -142,16 +142,18 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   onClick={onCreateNew}
                   disabled={isSubmitting || completedCount === 0}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-btn-save-questions-bg text-btn-save-questions-text rounded-lg hover:bg-btn-save-questions-hover-bg disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
                 >
                   <span className="text-base">💾</span>
-                  <span>{isSubmitting ? "Creating..." : "Save Questions"}</span>
+                  <span>
+                    {isSubmitting ? "Creating..." : "Save Questio--ns"}
+                  </span>
                 </button>
               ) : (
                 <button
                   onClick={handleUpdateClick}
                   disabled={isSubmitting || completedCount === 0}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-btn-save-changes-bg text-btn-save-changes-text rounded-lg hover:bg-btn-save-changes-hover-bg disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
                 >
                   <span className="text-base">🔄</span>
                   <span>{isSubmitting ? "Updating..." : "Save Changes"}</span>

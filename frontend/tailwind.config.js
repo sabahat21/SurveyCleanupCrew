@@ -49,6 +49,16 @@ module.exports = {
         "btn-preview-hover-bg": "var(--btn-preview-hover-bg)",
         "btn-preview-hover-border": "var(--btn-preview-hover-border)",
 
+        "btn-save-questions-bg": "var(--btn-save-questions-bg)",
+        "btn-save-questions-text": "var(--btn-save-questions-text)",
+        "btn-save-questions-hover-bg": "var(--btn-save-questions-hover-bg)",
+        "btn-save-questions-hover-border":
+          "var(--btn-save-questions-hover-border)",
+
+        "btn-save-changes-bg": "var(--btn-save-changes-bg)",
+        "btn-save-changes-text": "var(--btn-save-changes-text)",
+        "btn-save-changes-hover-bg": "var(--btn-save-changes-hover-bg)",
+
         "btn-logout-bg": "var(--btn-logout-bg)",
         "btn-logout-text": "var(--btn-logout-text)",
         "btn-logout-hover-bg": "var(--btn-logout-hover-bg)",
