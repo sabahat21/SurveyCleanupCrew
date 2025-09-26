@@ -69,6 +69,10 @@
   --btn-next-bg: #2563eb;
   --btn-next-text: #ffffff;
   --btn-next-hover-bg: #1e40af;
+  --btn-delete-question-bg: #ff0000;
+  --btn-delete-question-text: #ffffff;
+  --btn-delete-question-hover-bg: #b91c1c;
+  --btn-delete-question-hover-text: #ffffff;
 
   /* Sidebar specific colors */
   --sidebar-bg: #ffffff;

@@ -70,6 +70,11 @@ module.exports = {
         "btn-next-bg": "var(--btn-next-bg)",
         "btn-next-text": "var(--btn-next-text)",
         "btn-next-hover-bg": "var(--btn-next-hover-bg)",
+        "btn-delete-question-bg": "var(--btn-delete-question-bg)",
+        "btn-delete-question-text": "var(--btn-delete-question-text)",
+        "btn-delete-question-hover-bg": "var(--btn-delete-question-hover-bg)",
+        "btn-delete-question-hover-text":
+          "var(--btn-delete-question-hover-text)",
 
         // Sidebar colours
         "sidebar-bg": "var(--sidebar-bg)",

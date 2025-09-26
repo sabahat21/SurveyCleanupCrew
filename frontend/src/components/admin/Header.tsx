@@ -145,9 +145,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className="flex items-center gap-2 px-5 py-2.5 bg-btn-save-questions-bg text-btn-save-questions-text rounded-lg hover:bg-btn-save-questions-hover-bg disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
                 >
                   <span className="text-base">💾</span>
-                  <span>
-                    {isSubmitting ? "Creating..." : "Save Questio--ns"}
-                  </span>
+                  <span>{isSubmitting ? "Creating..." : "Save Questions"}</span>
                 </button>
               ) : (
                 <button

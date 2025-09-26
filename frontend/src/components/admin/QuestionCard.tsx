@@ -139,10 +139,10 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             )}
             <button
               onClick={handleDeleteClick}
-              className="p-2 rounded-lg transition-colors text-red-500 hover:bg-red-100 hover:text-red-600"
+              className="p-2 rounded-lg transition-colors bg-btn-delete-question-bg text-btn-delete-question-text hover:bg-btn-delete-question-hover-bg hover:text-btn-delete-question-hover-text"
               title="Delete this question"
             >
-              <X size={20} />
+              Delete this question
             </button>
           </div>
         </div>
