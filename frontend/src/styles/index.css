@@ -32,14 +32,20 @@
   /* Header button colours */
   --btn-active-text: #ffffff;
   --btn-inactive-text: #2563eb;
-  --btn-logout-bg: #ff0000;
-  --btn-logout-text: #ffffff;
+  --btn-inactive-hover-bg: #e4fdf2;
+  --btn-inactive-hover-border: #6ee7b7;
+
   --btn-analytics-bg: #eef2ff;
   --btn-analytics-text: #2a1fa3;
+
   --btn-ranking-bg: #fff7ed;
   --btn-ranking-text: #c2410c;
+
   --btn-preview-bg: #faf5ff;
   --btn-preview-text: #7e22ce;
+
+  --btn-logout-bg: #ff0000;
+  --btn-logout-text: #ffffff;
 
   /* Question Card specific colors */
   --question-card-bg: #ffffff;

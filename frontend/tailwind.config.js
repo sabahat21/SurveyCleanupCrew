@@ -31,14 +31,20 @@ module.exports = {
         // Header button colours
         "btn-active-text": "var(--btn-active-text)",
         "btn-inactive-text": "var(--btn-inactive-text)",
-        "btn-logout-bg": "var(--btn-logout-bg)",
-        "btn-logout-text": "var(--btn-logout-text)",
+        "btn-inactive-hover-bg": "var(--btn-inactive-hover-bg)",
+        "btn-inactive-hover-border": "var(--btn-inactive-hover-border)",
+
         "btn-analytics-bg": "var(--btn-analytics-bg)",
         "btn-analytics-text": "var(--btn-analytics-text)",
+
         "btn-ranking-bg": "var(--btn-ranking-bg)",
         "btn-ranking-text": "var(--btn-ranking-text)",
+
         "btn-preview-bg": "var(--btn-preview-bg)",
         "btn-preview-text": "var(--btn-preview-text)",
+
+        "btn-logout-bg": "var(--btn-logout-bg)",
+        "btn-logout-text": "var(--btn-logout-text)",
 
         // Question card colours
         "question-card-bg": "var(--question-card-bg)",

@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className={`px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-sm border transition-all duration-200 ${
                   mode === "create"
                     ? "bg-secondary text-btn-active-text border-accent shadow-md"
-                    : "bg-secondary-light text-btn-inactive-text border-accent hover:bg-emerald-50 hover:border-emerald-300"
+                    : "bg-secondary-light text-btn-inactive-text border-accent hover:bg-btn-inactive-hover-bg hover:border-btn-inactive-hover-border"
                 }`}
               >
                 <span className="text-base ">
