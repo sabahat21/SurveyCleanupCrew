@@ -37,15 +37,23 @@
 
   --btn-analytics-bg: #eef2ff;
   --btn-analytics-text: #2a1fa3;
+  --btn-analytics-hover-bg: #c7d2fe;
+  --btn-analytics-hover-border: #a5b4fc;
 
   --btn-ranking-bg: #fff7ed;
   --btn-ranking-text: #c2410c;
+  --btn-ranking-hover-bg: #ffedd5;
+  --btn-ranking-hover-border: #fdba74;
 
   --btn-preview-bg: #faf5ff;
   --btn-preview-text: #7e22ce;
+  --btn-preview-hover-bg: #f3e8ff;
+  --btn-preview-hover-border: #d8b4fe;
 
   --btn-logout-bg: #ff0000;
   --btn-logout-text: #ffffff;
+  --btn-logout-hover-bg: #b91c1c;
+  --btn-logout-hover-border: #fca5a5;
 
   /* Question Card specific colors */
   --question-card-bg: #ffffff;

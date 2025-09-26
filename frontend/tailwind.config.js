@@ -36,15 +36,23 @@ module.exports = {
 
         "btn-analytics-bg": "var(--btn-analytics-bg)",
         "btn-analytics-text": "var(--btn-analytics-text)",
+        "btn-analytics-hover-bg": "var(--btn-analytics-hover-bg)",
+        "btn-analytics-hover-border": "var(--btn-analytics-hover-border)",
 
         "btn-ranking-bg": "var(--btn-ranking-bg)",
         "btn-ranking-text": "var(--btn-ranking-text)",
+        "btn-ranking-hover-bg": "var(--btn-ranking-hover-bg)",
+        "btn-ranking-hover-border": "var(--btn-ranking-hover-border)",
 
         "btn-preview-bg": "var(--btn-preview-bg)",
         "btn-preview-text": "var(--btn-preview-text)",
+        "btn-preview-hover-bg": "var(--btn-preview-hover-bg)",
+        "btn-preview-hover-border": "var(--btn-preview-hover-border)",
 
         "btn-logout-bg": "var(--btn-logout-bg)",
         "btn-logout-text": "var(--btn-logout-text)",
+        "btn-logout-hover-bg": "var(--btn-logout-hover-bg)",
+        "btn-logout-hover-border": "var(--btn-logout-hover-border)",
 
         // Question card colours
         "question-card-bg": "var(--question-card-bg)",

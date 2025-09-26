@@ -115,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Navigation Buttons */}
               <button
                 onClick={() => navigate("/analytics")}
-                className="flex items-center gap-2 px-4 py-2.5 text-btn-analytics-text bg-btn-analytics-bg border border-indigo-200 rounded-lg hover:bg-indigo-100 hover:border-indigo-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 text-btn-analytics-text bg-btn-analytics-bg border border-indigo-200 rounded-lg hover:bg-btn-analytics-hover-bg hover:border-btn-analytics-hover-border transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">📊</span>
                 <span>Analytics</span>
@@ -123,7 +123,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               <button
                 onClick={() => window.open(rankingPageUrl, "_blank")}
-                className="flex items-center gap-2 px-4 py-2.5 text-btn-ranking-text bg-btn-ranking-bg border border-orange-200 rounded-lg hover:bg-orange-100 hover:border-orange-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 text-btn-ranking-text bg-btn-ranking-bg border border-orange-200 rounded-lg hover:bg-btn-ranking-hover-bg hover:border-btn-ranking-hover-border transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">🏆</span>
                 <span>Ranking Page</span>
@@ -131,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               <button
                 onClick={onPreview}
-                className="flex items-center gap-2 px-4 py-2.5 text-btn-preview-text bg-btn-preview-bg border border-purple-200 rounded-lg hover:bg-purple-100 hover:border-purple-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 text-btn-preview-text bg-btn-preview-bg border border-purple-200 rounded-lg hover:bg-btn-preview-hover-bg hover:border-btn-preview-hover-border transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">👁️</span>
                 <span>Preview</span>
@@ -161,7 +161,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Logout Button - Right Corner */}
               <button
                 onClick={handleLogoutClick}
-                className="flex items-center gap-2 px-4 py-2.5 bg-btn-logout-bg text-btn-logout-text border border-red-200 rounded-lg hover:bg-red-700 hover:border-red-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 bg-btn-logout-bg text-btn-logout-text border border-red-200 rounded-lg hover:bg-btn-logout-hover-bg hover:border-btn-logout-hover-border transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">🚪</span>
                 <span>Logout</span>
