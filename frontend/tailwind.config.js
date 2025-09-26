@@ -40,6 +40,10 @@ module.exports = {
         "btn-preview-bg": "var(--btn-preview-bg)",
         "btn-preview-text": "var(--btn-preview-text)",
 
+        // Question card colours
+        "question-card-bg": "var(--question-card-bg)",
+        "question-text": "var(--question-text)",
+
         // Sidebar colours
         "sidebar-bg": "var(--sidebar-bg)",
         "sidebar-text": "var(--sidebar-text)",

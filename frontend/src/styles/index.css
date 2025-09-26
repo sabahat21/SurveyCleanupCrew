@@ -41,6 +41,10 @@
   --btn-preview-bg: #faf5ff;
   --btn-preview-text: #7e22ce;
 
+  /* Question Card specific colors */
+  --question-card-bg: #ffffff;
+  --question-card-text: #000000;
+
   /* Sidebar specific colors */
   --sidebar-bg: #ffffff;
   --sidebar-text: #000000;
