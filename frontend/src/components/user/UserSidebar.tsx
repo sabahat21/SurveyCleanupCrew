@@ -22,15 +22,18 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
         <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--progress-text)' }}>
           Survey Progress
         </h2>
-        <div className="w-full bg-purple-100 rounded-full h-3 shadow-inner">
+        <div className="w-full rounded-full h-3 shadow-inner" style={{ backgroundColor: 'var(--primary-lighter)' }} >
           <div
-            className="h-3 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full shadow-sm transition-all duration-500 ease-out"
+            className="h-3 rounded-full shadow-sm transition-all duration-500 ease-out"
             style={{
+              background: `linear-gradient(to right, var(--header-primary), var(--secondary))`,
               width: `${(answeredCount / questions.length) * 100}%`,
             }}
           />
         </div>
-        <p className="text-sm text-gray-600 mt-2 text-center font-medium" data-testid="progress-count">
+        <p className="text-sm mt-2 text-center font-medium" 
+           style={{ color: 'var(--progress-text)' }} 
+           data-testid="progress-count">
           {answeredCount} of {questions.length} completed
         </p>
       </div>
