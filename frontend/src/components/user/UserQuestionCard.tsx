@@ -206,7 +206,10 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               <button
                 onClick={onPublish}
                 disabled={submitting}
-                className="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-xl font-semibold hover:from-green-600 hover:to-blue-600 transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-2 text-white rounded-xl font-semibold transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg"
+                style={{
+                 background: 'radial-gradient(ellipse at center, var(--header-primary), var(--accent))',
+                }}
               >
                 {submitting && (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
