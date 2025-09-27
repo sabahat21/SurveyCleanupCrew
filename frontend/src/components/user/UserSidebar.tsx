@@ -51,9 +51,26 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
             onClick={() => onSelectQuestion(i)}
             className={`group relative flex items-center justify-between px-4 py-3 rounded-xl text-sm cursor-pointer transition-all duration-200 ${
               index === i
-                ? "bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg transform scale-105"
-                : "hover:bg-purple-50 hover:shadow-md hover:transform hover:scale-102"
+                ? "text-white shadow-lg transform scale-105"
+                : "hover:shadow-md hover:transform hover:scale-102"
             }`}
+            style={index === i ? {
+              background: 'linear-gradient(to right, var(--header-primary), var(--accent))',
+              border: `2px solid var(--header-primary)`,
+              color: 'var(--btn-active-text)'
+            } : {
+              backgroundColor: 'transparent'
+            }}
+            onMouseEnter={(e) => {
+              if (index !== i) {
+                e.currentTarget.style.backgroundColor = 'var(--primary-lighter)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (index !== i) {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }
+            }}
           >
             <div className="flex items-center gap-3">
               <div
