@@ -149,7 +149,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                     />
                   </svg>
                 </div>
-                <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-blue-600">
+                <h3 className="text-lg font-bold" style={{ color: 'var(--header-primary)' }}>
                   Survey Complete!
                 </h3>
               </div>
