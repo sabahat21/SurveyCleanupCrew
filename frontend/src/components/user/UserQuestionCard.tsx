@@ -41,13 +41,18 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
         {/* Level Badge & Logout */}
         <div className="relative flex justify-between items-start mb-8">
-          <span className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full text-sm font-bold uppercase tracking-wide shadow-lg">
+          <span className="px-4 py-2 text-white rounded-full text-sm font-bold uppercase tracking-wide shadow-lg" style={{
+            background: 'var(--header-primary)'
+          }}>
             {!showPreviewDialog ? questions[index]?.questionLevel : "SURVEY"} Level
           </span>
           <button
             onClick={onLogout}
             disabled={submitting}
-            className="text-sm text-red-500 hover:text-red-600 hover:underline font-medium transition-colors duration-200 disabled:opacity-50"
+            className="text-sm font-medium transition-colors duration-200 disabled:opacity-50"
+            style={{
+              color: 'var(--btn-logout-bg)'
+            }}
           >
             Logout
           </button>
