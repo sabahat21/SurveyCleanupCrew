@@ -33,9 +33,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 }) => {
   return (
     <main className="flex-grow flex items-center justify-center px-8">
-      <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 w-full max-w-2xl relative border border-purple-100">
+      <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 w-full max-w-2xl relative border border-orange-100">
         {/* Decorative gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 rounded-3xl"></div>
+        <div className="absolute inset-0 rounded-3xl" style={{
+          background: 'linear-gradient(to bottom right, rgba(242, 210, 182, 0.05), rgba(245, 200, 0, 0.05))'
+        }}></div>
 
         {/* Level Badge & Logout */}
         <div className="relative flex justify-between items-start mb-8">
