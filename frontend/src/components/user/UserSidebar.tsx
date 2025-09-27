@@ -16,9 +16,10 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
   onSelectQuestion,
 }) => {
   return (
-    <aside className="w-80 bg-white/80 backdrop-blur-sm shadow-xl border-r border-purple-100 p-6 overflow-y-auto flex flex-col">
+    <aside className="w-80 bg-white/80 backdrop-blur-sm shadow-xl p-6 overflow-y-auto flex flex-col" 
+           style={{ borderRight: `1px solid var(--primary)` }}>
       <div className="mb-6">
-        <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 mb-2">
+        <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--progress-text)' }}>
           Survey Progress
         </h2>
         <div className="w-full bg-purple-100 rounded-full h-3 shadow-inner">
