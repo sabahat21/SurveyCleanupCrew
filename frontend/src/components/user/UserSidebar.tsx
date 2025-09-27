@@ -39,7 +39,7 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
       </div>
 
       <div className="mb-4">
-        <p className="text-sm font-semibold text-gray-700 mb-3">
+        <p className="text-base font-semibold mb-3" style={{ color: 'var(--sidebar-text)' }}>
           Questions
         </p>
       </div>
@@ -76,10 +76,13 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
 
             <div className="flex items-center gap-2">
               {answers[i] && answers[i] !== "skip" && (
-                <div className="w-3 h-3 bg-green-500 rounded-full shadow-sm animate-pulse" />
+                <div className="w-3 h-3 rounded-full shadow-sm " 
+                     style={{ backgroundColor: 'var(--header-primary)' }} />
               )}
               {answers[i] === "skip" && (
-                <div className="w-3 h-3 bg-amber-400 rounded-full shadow-sm" />
+                <div 
+                className="w-3 h-3 rounded-full shadow-lg animate-pulse" 
+                     style={{ backgroundColor: 'var(--secondary)'  }} />
               )}
             </div>
           </li>
