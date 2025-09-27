@@ -54,6 +54,8 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
                 ? "text-white shadow-lg transform scale-105"
                 : "hover:shadow-md hover:transform hover:scale-102"
             }`}
+
+            //added some additional code below: color and hovering effects to the question numbers-> 
             style={index === i ? {
               background: 'linear-gradient(to right, var(--header-primary), var(--accent))',
               border: `2px solid var(--header-primary)`,
@@ -71,17 +73,24 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
                 e.currentTarget.style.backgroundColor = 'transparent';
               }
             }}
+            //extra added code above till here. -in refractoring phase.
           >
+
+
             <div className="flex items-center gap-3">
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                  index === i
-                    ? "bg-white/20 text-white"
-                    : "bg-purple-100 text-purple-700"
-                }`}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                style={index === i ? {
+                  backgroundColor: 'var(--header-primary)',
+                  color: 'var(--btn-active-text)'
+                } : {
+                  backgroundColor: 'var(--primary)',
+                  color: 'var(--sidebar-text)'
+                }}
               >
                 {i + 1}
               </div>
+              
               <span
                 className={`font-medium ${
                   index === i ? "text-white" : "text-gray-700"
@@ -90,7 +99,8 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
                 Question {i + 1}
               </span>
             </div>
-
+            
+            
             <div className="flex items-center gap-2">
               {answers[i] && answers[i] !== "skip" && (
                 <div className="w-3 h-3 rounded-full shadow-sm " 
