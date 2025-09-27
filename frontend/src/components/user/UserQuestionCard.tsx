@@ -129,10 +129,12 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
         {/* Preview Dialog - always inside main container */}
         {showPreviewDialog && (
-          <div className="bg-white/95 backdrop-blur-sm border-2 border-green-200 rounded-2xl shadow-xl p-6 animate-in slide-in-from-top-2 duration-300">
+          <div className="bg-white/95 backdrop-blur-sm border-2 border-green-200 rounded-2xl shadow-xl p-6 animate-in slide-in-from-top-2 duration-300"
+          style={{ borderColor: 'var(--success)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
+                 <div className="w-6 h-6 rounded-full flex items-center justify-center"
+                     style={{ background: 'var(--header-primary)' }}>
                   <svg
                     className="w-4 h-4 text-white"
                     fill="none"
