@@ -81,7 +81,7 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
               )}
               {answers[i] === "skip" && (
                 <div 
-                className="w-3 h-3 rounded-full shadow-lg animate-pulse" 
+                className="w-3 h-3 rounded-full shadow-lg animate-ping" 
                      style={{ backgroundColor: 'var(--secondary)'  }} />
               )}
             </div>
