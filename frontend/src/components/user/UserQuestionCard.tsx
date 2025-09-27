@@ -63,7 +63,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
           <>
             {/* Question Header */}
             <div className="relative mb-8 text-center">
-              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 mb-4">
+              <h2 className="text-2xl font-bold mb-4" style={{
+                color: 'var(--header-primary)'
+              }}>
                 {questions[index].question}
               </h2>
             </div>
