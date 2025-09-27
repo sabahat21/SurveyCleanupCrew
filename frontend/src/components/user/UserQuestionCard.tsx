@@ -183,7 +183,8 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               {questions.map((q, i) => (
                 <div
                   key={q.questionID || q._id || `question-${i}`} // FIX: Added proper key
-                  className="bg-gray-50 rounded-xl p-3 text-sm"
+                  className="rounded-xl p-3 text-sm"
+                  style={{ backgroundColor: 'var(--primary-lighter)' }}
                 >
                   <p className="font-medium text-gray-800 mb-1">
                     Q{i + 1}: {q.question.substring(0, 60)}
