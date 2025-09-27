@@ -73,7 +73,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
             {/* Answer Input */}
             <div className="mb-6">
               <textarea
-                className="w-full border-2 border-purple-200 rounded-2xl p-4 text-lg focus:border-purple-400 focus:ring-4 focus:ring-purple-100 transition-all duration-200 resize-none bg-white/50 backdrop-blur-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+                className="w-full border-2 rounded-2xl p-4 text-lg focus:ring-4 transition-all duration-200 resize-none bg-white/50 backdrop-blur-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+                style={{
+                  borderColor: 'var(--primary)',
+                  '--tw-ring-color': 'rgba(242, 210, 182, 0.3)'
+                } as React.CSSProperties}
                 placeholder={
                   answers[index] === "skip"
                     ? "This question has been skipped"
