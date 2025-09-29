@@ -293,11 +293,20 @@ const UserSurvey: React.FC = () => {
               {isSuccessPopup ? "Success!" : "Submission Failed"}
             </h2>
             <p className="mb-6 text-gray-700">{popupMessage}</p>
-            <button
+
+          
+            <button // OK button adjusted with new color scheme: Refactoring phase..
               onClick={handleClosePopup}
-              className={`px-6 py-2 rounded-lg text-white ${
-                isSuccessPopup ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"
-              } transition-colors`}
+              className="px-6 py-2 rounded-lg text-white transition-colors"
+              style={{ 
+                backgroundColor: isSuccessPopup ? 'var(--header-primary)' : '#dc2626'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = isSuccessPopup ? 'var(--accent)' : '#b91c1c';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = isSuccessPopup ? 'var(--header-primary)' : '#dc2626';
+              }}
             >
               OK
             </button>
