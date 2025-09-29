@@ -158,6 +158,9 @@ module.exports = {
         "adminlost-card-bg": "var(--adminlost-card-bg)",
         "adminlost-icon": "var(--adminlost-icon)",
         "adminlost-icon-bg": "var(--adminlost-icon-bg)",
+        "adminlost-beginner-bg": "var(--adminlost-beginner-bg)",
+        "adminlost-intermediate-bg": "var(--adminlost-intermediate-bg)",
+        "adminlost-advanced-bg": "var(--adminlost-advanced-bg)",
 
         // Error Alert colors
         "error-bg": "var(--error-bg)",
