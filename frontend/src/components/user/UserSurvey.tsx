@@ -172,7 +172,14 @@ const UserSurvey: React.FC = () => {
           <p className="text-gray-500 text-sm mt-2">Please check back later</p>
           <button
             onClick={() => navigate("/login")}
-            className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="mt-4 px-6 py-2 text-white rounded-lg transition-colors"
+
+            style={{ //added extra functionality to button for hover effect: during Refactoring Phase..
+              backgroundColor: 'var(--header-primary)',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent)'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--header-primary)'}
+            // End of extra functionality code..
           >
             Back to Login
           </button>
@@ -191,7 +198,7 @@ const UserSurvey: React.FC = () => {
 
       {/* Mobile menu toggle button - changes between hamburger and X */}
       <button 
-        className="md:hidden fixed top-4 left-4 z-30 bg-purple-600 text-white p-2 rounded-lg shadow-lg transition-all duration-300"
+        className="md:hidden fixed top-4 left-4 z-30 text-white p-2 rounded-lg shadow-lg transition-all duration-300"
         onClick={toggleSidebar}
         aria-label={showSidebar ? "Close menu" : "Open menu"}
       >
@@ -209,7 +216,7 @@ const UserSurvey: React.FC = () => {
       </button>
 
       {/* Main container - modified to center content on desktop */}
-      <div className="h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 overflow-hidden">
+      <div className="h-screen overflow-hidden" style={{ background: 'var(--secondary-light)' }}>
         <div className="h-full flex flex-col md:flex-row md:items-center md:justify-center md:gap-6 md:px-6">
           {/* Sidebar - hidden by default on mobile, shown when toggled */}
           {/* On desktop: positioned next to the question box instead of at the edge */}
@@ -267,8 +274,9 @@ const UserSurvey: React.FC = () => {
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center">
             <div className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center">
               {isSuccessPopup ? (
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" 
+                style={{ backgroundColor: 'var(--primary-lighter)' }}>
+                  <svg className="w-6 h-6" style={{ color: 'var(--header-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
@@ -280,7 +288,8 @@ const UserSurvey: React.FC = () => {
                 </div>
               )}
             </div>
-            <h2 className={`text-xl font-bold mb-2 ${isSuccessPopup ? "text-green-600" : "text-red-600"}`}>
+            <h2 className={`text-xl font-bold mb-2`}
+                style={{ color: isSuccessPopup ? 'var(--header-primary)' : '#dc2626' }}>
               {isSuccessPopup ? "Success!" : "Submission Failed"}
             </h2>
             <p className="mb-6 text-gray-700">{popupMessage}</p>
