@@ -148,14 +148,15 @@ const UserSurvey: React.FC = () => {
 
   if (!questions.length) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-50 to-slate-100 px-4">
+      <div className="flex items-center justify-center h-screen px-4" style={{ background: 'var(--secondary-light)' }}>
         <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center max-w-md w-full">
-          <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-            <svg
+          <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'var(--primary-lighter)' }}>
+            <svg 
               className="w-8 h-8 text-gray-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              style={{ color: 'var(--header-primary)' }}
             >
               <path
                 strokeLinecap="round"
