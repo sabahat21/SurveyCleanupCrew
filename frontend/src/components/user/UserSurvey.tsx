@@ -199,10 +199,11 @@ const UserSurvey: React.FC = () => {
       {/* Mobile menu toggle button - changes between hamburger and X */}
       <button 
         className="md:hidden fixed top-4 left-4 z-30 text-white p-2 rounded-lg shadow-lg transition-all duration-300"
+        style={{ backgroundColor: 'var(--header-primary)' }}
         onClick={toggleSidebar}
         aria-label={showSidebar ? "Close menu" : "Open menu"}
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--secondary-light)' }}>
           <path 
             strokeLinecap="round" 
             strokeLinejoin="round" 
