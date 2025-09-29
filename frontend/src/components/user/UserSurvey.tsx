@@ -130,10 +130,15 @@ const UserSurvey: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
+      <div className="flex items-center justify-center h-screen"style={{ background: 'var(--secondary-light)' }}>
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-purple-700 text-lg font-medium">
+          <div className="w-16 h-16 border-4 animate-spin mx-auto mb-4"
+          style ={{
+            borderColor: 'var(--prmary)',
+            borderTopColor: 'var(--header-primary)'
+          }}
+          ></div>
+          <p className="text-lg font-medium" style={{ color: 'var(--sidebar-text)' }}>
             Loading your survey...
           </p>
         </div>
