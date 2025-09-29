@@ -148,12 +148,21 @@
   --update-cancel-hover: #adadad;
   --update-cancel-text: #000000;
 
+  
   /* Admin database connection lost */
   --adminlost-bg: #f5c800;
   --adminlost-connection-issue: #ff0000;
   --adminlost-card-bg: #ffffff;
   --adminlost-icon: #ff4500;
   --adminlost-icon-bg: #f5e1e1;
+
+  /*Error Alert*/
+  --error-bg: #fee6e6;
+  --error-border: #ff0000;
+  --error-text: #ff0000;
+  --error-dismiss-text: #fe3434;
+  --error-dismiss-hover: #ef9b1e;
+
 }
 
 body {

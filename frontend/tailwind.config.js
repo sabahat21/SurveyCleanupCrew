@@ -158,6 +158,14 @@ module.exports = {
         "adminlost-card-bg": "var(--adminlost-card-bg)",
         "adminlost-icon": "var(--adminlost-icon)",
         "adminlost-icon-bg": "var(--adminlost-icon-bg)",
+
+        // Error Alert colors
+        "error-bg": "var(--error-bg)",
+        "error-text": "var(--error-text)",
+        "error-border": "var(--error-border)",
+        "error-dismiss-text": "var(--error-dismiss-text)",
+        "error-dismiss-hover": "var(--error-dismiss-hover)",
+
       },
 
       fontFamily: {
