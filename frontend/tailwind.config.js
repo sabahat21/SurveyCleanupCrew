@@ -102,7 +102,7 @@ module.exports = {
 
         //analytics page
         "analytics-bg" : "var(--analytics-bg)",
-        "button-refresh-responses-back":"var(--button-refresh-responses-back)",
+        "button-refresh-responses-back":"var(--button-refresh-responses-back)"
       },
 
       fontFamily: {

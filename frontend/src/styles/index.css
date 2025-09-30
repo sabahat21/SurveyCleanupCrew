@@ -32,19 +32,67 @@
   /* Header button colours */
   --btn-active-text: #ffffff;
   --btn-inactive-text: #2563eb;
+  --btn-inactive-hover-bg: #e4fdf2;
+  --btn-inactive-hover-border: #6ee7b7;
+
+  --btn-analytics-bg: #eef2ff;
+  --btn-analytics-text: #2a1fa3;
+  --btn-analytics-hover-bg: #c7d2fe;
+  --btn-analytics-hover-border: #a5b4fc;
+
+  --btn-ranking-bg: #fff7ed;
+  --btn-ranking-text: #c2410c;
+  --btn-ranking-hover-bg: #ffedd5;
+  --btn-ranking-hover-border: #fdba74;
+
+  --btn-preview-bg: #faf5ff;
+  --btn-preview-text: #7e22ce;
+  --btn-preview-hover-bg: #f3e8ff;
+  --btn-preview-hover-border: #d8b4fe;
+
+  --btn-save-questions-bg: #059669;
+  --btn-save-questions-text: #ffffff;
+  --btn-save-questions-hover-bg: #047857;
+
+  --btn-save-changes-bg: #2563eb;
+  --btn-save-changes-text: #ffffff;
+  --btn-save-changes-hover-bg: #1e40af;
+
   --btn-logout-bg: #ff0000;
   --btn-logout-text: #ffffff;
+  --btn-logout-hover-bg: #b91c1c;
+  --btn-logout-hover-border: #fca5a5;
+
+  /* Question Card specific colors */
+  --question-card-bg: #ffffff;
+  --question-card-text: #000000;
+  --btn-next-bg: #2563eb;
+  --btn-next-text: #ffffff;
+  --btn-next-hover-bg: #1e40af;
+  --btn-delete-question-bg: #ff0000;
+  --btn-delete-question-text: #ffffff;
+  --btn-delete-question-hover-bg: #b91c1c;
+  --btn-delete-question-hover-text: #ffffff;
 
   /* Sidebar specific colors */
+  --sidebar-bg: #ffffff;
+  --sidebar-text: #000000;
+  --active-level-tab-bg: #ffffff;
+  --active-level-tab-text: #000000;
+  --inactive-level-tab-bg: #f3f4f6;
+  --inactive-level-tab-text: #6b7280;
   --progress-text: #000000;
   --progress-number: #2563eb;
   --progress-bar-from: #042aff;
   --progress-bar-to: #5a89f0;
   --levelquestion-active-bg: #aee3f8;
   --levelquestion-active-border: #ff4500;
+  --btn-delete-all-questions-bg: #fee2e2;
+  --btn-delete-all-questions-text: #dc2626;
+  --btn-delete-all-questions-hover-bg: #fecaca;
 
   /* Login page, Proficiency modal specific colors */
-  --login-bg: #ffec97; 
+  --login-bg: #ffec97;
   --login-card-bg: #ffffff;
   --login-active-text: #ffffff;
   --login-nonactive-text: #656565;
@@ -71,7 +119,6 @@
   --proficiency-hover: #f5c800;
   --proficiency-confirm-bg: #ff4500;
   --proficiency-confirm-text: #ffffff;
-
 
   /*Not found page*/
   --notfound-bg: #ffec97;
@@ -104,6 +151,24 @@
   /* Analytics Page */
   --analytics-bg: #f5c800;
   --button-refresh-responses-back:#ff4500;
+
+
+  /* Admin database connection lost */
+  --adminlost-bg: #f5c800;
+  --adminlost-connection-issue: #ff0000;
+  --adminlost-card-bg: #ffffff;
+  --adminlost-icon: #ff4500;
+  --adminlost-icon-bg: #f5e1e1;
+  --adminlost-beginner-bg: #fcd93c;
+  --adminlost-intermediate-bg: #f39800;
+  --adminlost-advanced-bg: #ff0000;
+
+  /*Error Alert*/
+  --error-bg: #fee6e6;
+  --error-border: #ff0000;
+  --error-text: #ff0000;
+  --error-dismiss-text: #fe3434;
+  --error-dismiss-hover: #ef9b1e;
 
 }
 

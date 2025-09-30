@@ -7,11 +7,11 @@ interface ErrorAlertProps {
 
 const ErrorAlert: React.FC<ErrorAlertProps> = ({ message, onDismiss }) => (
   <div className="max-w-4xl mx-auto px-6 pt-4">
-    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-      <p className="text-red-700 text-sm">{message}</p>
+    <div className="bg-error-bg border border-error-border rounded-lg p-4 text-center">
+      <p className="text-error-text text-lg">{message}</p>
       <button
         onClick={onDismiss}
-        className="text-red-600 hover:text-red-800 text-xs underline mt-1"
+        className="text-error-dismiss-text hover:text-error-dismiss-hover text-sm underline mt-1"
       >
         Dismiss
       </button>

@@ -45,7 +45,7 @@ export function Sidebar({
 
   return (
     <aside
-      className="w-full max-w-6xl bg-white rounded-2xl shadow-lg border border-gray-100 p-4 text-gray-800 flex flex-col"
+      className="w-full max-w-6xl bg-sidebar-bg rounded-2xl shadow-lg border border-gray-100 p-4 text-sidebar-text flex flex-col"
       role="navigation"
       aria-label="Question Navigation Sidebar"
     >
@@ -86,8 +86,8 @@ export function Sidebar({
               onClick={() => onSelectLevel(lvl)}
               className={`px-4 py-2 rounded-t-lg transition-colors focus:outline-none ${
                 currentLevel === lvl
-                  ? "bg-white text-gray-900 border-t border-l border-r border-gray-200"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-active-level-tab-bg text-active-level-tab-text border-t border-l border-r border-gray-200"
+                  : "bg-inactive-level-tab-bg text-inactive-level-tab-text hover:bg-gray-200"
               }`}
             >
               {lvl}
@@ -100,7 +100,7 @@ export function Sidebar({
               onDeleteAll(currentLevel);
             }
           }}
-          className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition-colors text-sm"
+          className="flex items-center gap-1 px-3 py-1 bg-btn-delete-all-questions-bg text-btn-delete-all-questions-text rounded-md hover:bg-btn-delete-all-questions-hover-bg transition-colors text-sm"
           title={`Delete all ${currentLevel} questions`}
           type="button"
         >
