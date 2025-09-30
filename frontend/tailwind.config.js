@@ -5,13 +5,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Primary colour values from index.css
+        /* Primary colours */
         primary: "var(--primary)",
         "primary-dark": "var(--primary-dark)",
         "primary-light": "var(--primary-light)",
         "primary-lighter": "var(--primary-lighter)",
 
-        // Secondary colour values (The Saffron/Gold Colors section in index.css)
+        /* Secondary colours */
         secondary: "var(--secondary)",
         "secondary-dark": "var(--secondary-dark)",
         "secondary-light": "var(--secondary-light)",
@@ -19,30 +19,78 @@ module.exports = {
         success: "var(--success)",
         warning: "var(--warning)",
 
-        // Survey Layout colours
+        /* Survey Layout */
         "survey-bg": "var(--survey-bg)",
 
-        // Header colors
+        /* Header */
         "header-bg": "var(--header-bg)",
         "header-primary": "var(--header-primary)",
         "header-subtitle": "var(--header-subtitle)",
         "header-accent": "var(--header-accent)",
 
-        // Header button colours
+        /* Header buttons */
         "btn-active-text": "var(--btn-active-text)",
         "btn-inactive-text": "var(--btn-inactive-text)",
+        "btn-inactive-hover-bg": "var(--btn-inactive-hover-bg)",
+        "btn-inactive-hover-border": "var(--btn-inactive-hover-border)",
+
+        "btn-analytics-bg": "var(--btn-analytics-bg)",
+        "btn-analytics-text": "var(--btn-analytics-text)",
+        "btn-analytics-hover-bg": "var(--btn-analytics-hover-bg)",
+        "btn-analytics-hover-border": "var(--btn-analytics-hover-border)",
+
+        "btn-ranking-bg": "var(--btn-ranking-bg)",
+        "btn-ranking-text": "var(--btn-ranking-text)",
+        "btn-ranking-hover-bg": "var(--btn-ranking-hover-bg)",
+        "btn-ranking-hover-border": "var(--btn-ranking-hover-border)",
+
+        "btn-preview-bg": "var(--btn-preview-bg)",
+        "btn-preview-text": "var(--btn-preview-text)",
+        "btn-preview-hover-bg": "var(--btn-preview-hover-bg)",
+        "btn-preview-hover-border": "var(--btn-preview-hover-border)",
+
+        "btn-save-questions-bg": "var(--btn-save-questions-bg)",
+        "btn-save-questions-text": "var(--btn-save-questions-text)",
+        "btn-save-questions-hover-bg": "var(--btn-save-questions-hover-bg)",
+
+        "btn-save-changes-bg": "var(--btn-save-changes-bg)",
+        "btn-save-changes-text": "var(--btn-save-changes-text)",
+        "btn-save-changes-hover-bg": "var(--btn-save-changes-hover-bg)",
+
         "btn-logout-bg": "var(--btn-logout-bg)",
         "btn-logout-text": "var(--btn-logout-text)",
+        "btn-logout-hover-bg": "var(--btn-logout-hover-bg)",
+        "btn-logout-hover-border": "var(--btn-logout-hover-border)",
 
-        // Sidebar colours
+        /* Question Card */
+        "question-card-bg": "var(--question-card-bg)",
+        "question-card-text": "var(--question-card-text)",
+        "btn-next-bg": "var(--btn-next-bg)",
+        "btn-next-text": "var(--btn-next-text)",
+        "btn-next-hover-bg": "var(--btn-next-hover-bg)",
+        "btn-delete-question-bg": "var(--btn-delete-question-bg)",
+        "btn-delete-question-text": "var(--btn-delete-question-text)",
+        "btn-delete-question-hover-bg": "var(--btn-delete-question-hover-bg)",
+        "btn-delete-question-hover-text": "var(--btn-delete-question-hover-text)",
+
+        /* Sidebar */
+        "sidebar-bg": "var(--sidebar-bg)",
+        "sidebar-text": "var(--sidebar-text)",
+        "active-level-tab-bg": "var(--active-level-tab-bg)",
+        "active-level-tab-text": "var(--active-level-tab-text)",
+        "inactive-level-tab-bg": "var(--inactive-level-tab-bg)",
+        "inactive-level-tab-text": "var(--inactive-level-tab-text)",
         "progress-text": "var(--progress-text)",
         "progress-number": "var(--progress-number)",
         "progress-bar-from": "var(--progress-bar-from)",
         "progress-bar-to": "var(--progress-bar-to)",
         "levelquestion-active-bg": "var(--levelquestion-active-bg)",
         "levelquestion-active-border": "var(--levelquestion-active-border)",
+        "btn-delete-all-questions-bg": "var(--btn-delete-all-questions-bg)",
+        "btn-delete-all-questions-text": "var(--btn-delete-all-questions-text)",
+        "btn-delete-all-questions-hover-bg": "var(--btn-delete-all-questions-hover-bg)",
 
-        // Login colours
+        /* Login */
         "login-bg": "var(--login-bg)",
         "login-card-bg": "var(--login-card-bg)",
         "login-active-text": "var(--login-active-text)",
@@ -54,14 +102,14 @@ module.exports = {
         "login-focus-border": "var(--login-focus-border)",
         "login-checkbox-text": "var(--login-checkbox-text)",
         "login-button-bg": "var(--login-button-bg)",
-        "login-button-text": "var(--login-button-text)",
         "login-button-hover": "var(--login-button-hover)",
+        "login-button-text": "var(--login-button-text)",
         "login-error-text": "var(--login-error-text)",
         "login-error-bg": "var(--login-error-bg)",
         "login-error-border": "var(--login-error-border)",
         "login-welcome-text": "var(--login-welcome-text)",
 
-        // Proficiency modal colours
+        /* Proficiency modal */
         "proficiency-bg": "var(--proficiency-bg)",
         "proficiency-card-bg": "var(--proficiency-card-bg)",
         "proficiency-primary": "var(--proficiency-primary)",
@@ -71,15 +119,15 @@ module.exports = {
         "proficiency-confirm-bg": "var(--proficiency-confirm-bg)",
         "proficiency-confirm-text": "var(--proficiency-confirm-text)",
 
-        // Not Found page colours
+        /* Not Found */
         "notfound-bg": "var(--notfound-bg)",
         "notfound-primary": "var(--notfound-primary)",
         "notfound-hover": "var(--notfound-hover)",
         "notfound-text": "var(--notfound-text)",
         "notfound-button-text": "var(--notfound-button-text)",
 
-        // Logout Prompt colours
-        "logout-bg": '#1a202c84',
+        /* Logout Prompt */
+        "logout-bg": "#1a202c84",
         "logout-card-bg": "var(--logout-card-bg)",
         "logout-primary": "var(--logout-primary)",
         "logout-hover": "var(--logout-hover)",
@@ -89,8 +137,8 @@ module.exports = {
         "logout-cancel-bg": "var(--logout-cancel-bg)",
         "logout-cancel-hover": "var(--logout-cancel-hover)",
 
-        //Update Survey colors
-        "update-bg": '#1a202c83',
+        /* Update Survey */
+        "update-bg": "#1a202c83",
         "update-card-bg": "var(--update-card-bg)",
         "update-primary": "var(--update-primary)",
         "update-text": "var(--update-text)",
@@ -99,10 +147,28 @@ module.exports = {
         "update-button-text": "var(--update-button-text)",
         "update-cancel-bg": "var(--update-cancel-bg)",
         "update-cancel-hover": "var(--update-cancel-hover)",
+        "update-cancel-text": "var(--update-cancel-text)",
 
-        //analytics page
-        "analytics-bg" : "var(--analytics-bg)",
-        "button-refresh-responses-back":"var(--button-refresh-responses-back)"
+        /* Analytics */
+        "analytics-bg": "var(--analytics-bg)",
+        "button-refresh-responses-back": "var(--button-refresh-responses-back)",
+
+        /* Admin lost connection */
+        "adminlost-bg": "var(--adminlost-bg)",
+        "adminlost-connection-issue": "var(--adminlost-connection-issue)",
+        "adminlost-card-bg": "var(--adminlost-card-bg)",
+        "adminlost-icon": "var(--adminlost-icon)",
+        "adminlost-icon-bg": "var(--adminlost-icon-bg)",
+        "adminlost-beginner-bg": "var(--adminlost-beginner-bg)",
+        "adminlost-intermediate-bg": "var(--adminlost-intermediate-bg)",
+        "adminlost-advanced-bg": "var(--adminlost-advanced-bg)",
+
+        /* Error Alert */
+        "error-bg": "var(--error-bg)",
+        "error-border": "var(--error-border)",
+        "error-text": "var(--error-text)",
+        "error-dismiss-text": "var(--error-dismiss-text)",
+        "error-dismiss-hover": "var(--error-dismiss-hover)",
       },
 
       fontFamily: {
