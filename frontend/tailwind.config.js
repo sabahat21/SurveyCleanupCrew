@@ -99,6 +99,10 @@ module.exports = {
         "update-button-text": "var(--update-button-text)",
         "update-cancel-bg": "var(--update-cancel-bg)",
         "update-cancel-hover": "var(--update-cancel-hover)",
+
+        //analytics page
+        "analytics-bg" : "var(--analytics-bg)",
+        "button-refresh-responses-back":"var(--button-refresh-responses-back)",
       },
 
       fontFamily: {

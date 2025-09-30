@@ -100,8 +100,13 @@
   --update-cancel-bg: #d8d8d8f7;
   --update-cancel-hover: #adadad;
   --update-cancel-text: #000000;
+  
+  /* Analytics Page */
+  --analytics-bg: #f5c800;
+  --button-refresh-responses-back:#ff4500;
 
 }
+
 
 body {
   font-family: "Inter", sans-serif;
