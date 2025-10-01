@@ -49,13 +49,26 @@ export function Sidebar({
       role="navigation"
       aria-label="Question Navigation Sidebar"
     >
-      {/* Progress Header */}
-      <div className="mb-4">
+      {/* Question Bank Header */}
+      <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-bold text-question-bank-text">
           Question Bank
         </h3>
-        {mode === "create" && <span>CREATE MODE</span>}
+        {mode === "create" && (
+          <span className="px-3 py-1 bg-green-100 text-black rounded-full">
+            CREATE MODE
+          </span>
+        )}
       </div>
+      {/* Progress Bar only shows during Edit mode*/}
+      {mode === "edit" && (
+        <div className="mb-2 flex items-center justify-between">
+          <span>Progress</span>
+          <span>
+            {completedCount}/{totalQuestions}
+          </span>
+        </div>
+      )}
 
       {/* <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
