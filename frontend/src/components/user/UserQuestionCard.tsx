@@ -267,7 +267,6 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               {!showPreviewDialog ? questions[index]?.questionLevel : "SURVEY"} Level
             </span>
 
-            {/* FIX: properly closed button */}
             <button
               onClick={onLogout}
               disabled={submitting || recording}
@@ -397,7 +396,6 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
               {/* Action Buttons */}
               <div className="flex justify-center gap-4">
-                {/* FIX: removed duplicate disabled/className; kept one */}
                 <button
                   onClick={onSaveNext}
                   disabled={submitting || recording}
@@ -494,7 +492,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
             </div>
           )}
         </div>
-      </div> {/* FIX: this closes the outer orange-border div */}
+      </div> 
     </main>
   );
 };
