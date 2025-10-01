@@ -50,11 +50,12 @@ export function Sidebar({
       aria-label="Question Navigation Sidebar"
     >
       {/* Progress Header */}
-      {mode === "edit" && (
-        <div className="mb-4">
-          <h3>Question Bank</h3>
-        </div>
-      )}
+      <div className="mb-4">
+        <h3 className="text-lg font-bold text-question-bank-text">
+          Question Bank
+        </h3>
+        {mode === "create" && <span>CREATE MODE</span>}
+      </div>
 
       {/* <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
