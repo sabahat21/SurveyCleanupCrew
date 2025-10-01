@@ -4,12 +4,8 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 // Enable CORS with credentials (cookies, auth headers)
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
-  })
-);
+app.use(cors());
+
 
 // Parse incoming JSON requests (up to 20kb)
 app.use(express.json({ limit: "20kb" }));
@@ -54,7 +50,14 @@ app.use((req, res, next) => {
 
 import surveyRouter from "./routes/survey.route.js";
 import adminRouter from "./routes/admin.route.js";
+import transcribeRouter from "./routes/transcribe.route.js"; 
+import ttsRouter from "./routes/tts.route.js";
+
+
 // routes handlers
 app.use("/api/v1/survey", surveyRouter);
 app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/audio", transcribeRouter); 
+app.use("/api/v1/tts", ttsRouter); 
+
 export default app;

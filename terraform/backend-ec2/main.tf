@@ -15,6 +15,14 @@ resource "aws_security_group" "backend_sg" {
   }
 
   ingress {
+    description = "Allow Gradio UI access"
+    from_port   = 7860
+    to_port     = 7860
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     description = "Allow backend API access (port 8000)"
     from_port   = 8000
     to_port     = 8000
@@ -55,14 +63,39 @@ resource "aws_instance" "backend_server" {
   instance_type = "t2.micro"
   key_name      = "backend-keypair"
   vpc_security_group_ids = [aws_security_group.backend_sg.id]
+  iam_instance_profile = aws_iam_instance_profile.ec2_asr_profile.name
+
 
   user_data = <<-EOF
               #!/bin/bash
-              yum update -y
-              amazon-linux-extras install docker -y
-              service docker start
+              yum update -y || dnf -y update
+              amazon-linux-extras install docker -y || yum install -y docker || dnf install -y docker
+              systemctl enable docker || true
+              service docker start || systemctl start docker
               usermod -a -G docker ec2-user
+              # ensure aws cli exists for aws s3 cp during deploy
+              yum install -y awscli || dnf install -y awscli
+              # ───────────────
+              # Create 2 GB swap file if it doesn't exist
+              # ───────────────
+              if [ ! -f /swapfile ]; then
+                echo "Creating 2 GB swapfile..."
+                fallocate -l 2G /swapfile || dd if=/dev/zero of=/swapfile bs=1M count=2048
+                chmod 600 /swapfile
+                mkswap /swapfile
+                swapon /swapfile
+                echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
+              fi
+            
+              # Verify swap is active (optional log)
+              free -h
               EOF
+
+  root_block_device {
+    volume_size = 30          # Size in GB
+    volume_type = "gp2"       # General purpose SSD 
+    delete_on_termination = true
+  }
 
   tags = {
     Name = "NodeBackendEC2"
