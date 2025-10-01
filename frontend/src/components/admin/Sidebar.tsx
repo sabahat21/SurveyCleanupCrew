@@ -45,7 +45,7 @@ export function Sidebar({
 
   return (
     <aside
-      className="w-full max-w-6xl bg-white rounded-2xl shadow-lg border border-gray-100 p-4 text-gray-800 flex flex-col"
+      className="w-full max-w-6xl bg-sidebar-bg rounded-2xl shadow-lg border border-gray-100 p-4 text-sidebar-text flex flex-col"
       role="navigation"
       aria-label="Question Navigation Sidebar"
     >
@@ -61,14 +61,16 @@ export function Sidebar({
         </div>
         <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-3">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">Progress</span>
-            <span className="text-sm font-bold text-purple-700">
+            <span className="text-sm font-medium text-progress-text">
+              Progress
+            </span>
+            <span className="text-sm font-bold text-progress-number">
               {completedCount}/{totalQuestions}
             </span>
           </div>
           <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-500 ease-out rounded-full"
+              className="absolute top-0 left-0 h-full bg-gradient-to-r from-progress-bar-from to-progress-bar-to transition-all duration-500 ease-out rounded-full"
               style={{ width: `${progressPct}%` }}
             />
           </div>
@@ -84,8 +86,8 @@ export function Sidebar({
               onClick={() => onSelectLevel(lvl)}
               className={`px-4 py-2 rounded-t-lg transition-colors focus:outline-none ${
                 currentLevel === lvl
-                  ? "bg-white text-gray-900 border-t border-l border-r border-gray-200"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-active-level-tab-bg text-active-level-tab-text border-t border-l border-r border-gray-200"
+                  : "bg-inactive-level-tab-bg text-inactive-level-tab-text hover:bg-gray-200"
               }`}
             >
               {lvl}
@@ -98,7 +100,7 @@ export function Sidebar({
               onDeleteAll(currentLevel);
             }
           }}
-          className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition-colors text-sm"
+          className="flex items-center gap-1 px-3 py-1 bg-btn-delete-all-questions-bg text-btn-delete-all-questions-text rounded-md hover:bg-btn-delete-all-questions-hover-bg transition-colors text-sm"
           title={`Delete all ${currentLevel} questions`}
           type="button"
         >
@@ -114,10 +116,9 @@ export function Sidebar({
         >
           {levelQuestions.length === 0 ? (
             <div className="text-center py-6 text-gray-500 text-sm">
-              {mode === "create" 
+              {mode === "create"
                 ? "No questions in this level yet. Click 'Add Question' below to start."
-                : "No questions in this level."
-              }
+                : "No questions in this level."}
             </div>
           ) : (
             levelQuestions.map((q, idx) => (
@@ -125,7 +126,7 @@ export function Sidebar({
                 key={q.id || idx}
                 className={`group flex items-start gap-2 p-2.5 rounded-lg cursor-pointer transition-all duration-200 mb-1 ${
                   idx === currentIndex
-                    ? "bg-purple-100 border-l-4 border-purple-600 shadow-sm"
+                    ? "bg-levelquestion-active-bg border-l-4 border-levelquestion-active-border shadow-sm"
                     : "hover:bg-gray-50 hover:shadow-sm border-l-4 border-transparent"
                 }`}
                 onClick={() => onSelect(currentLevel, idx)}
@@ -160,13 +161,13 @@ export function Sidebar({
           <div className="mt-4 pt-3 border-t border-gray-100">
             <button
               onClick={() => onAddQuestion(currentLevel)}
-              disabled={levelQuestions.some(q => !q.question?.trim())}
+              disabled={levelQuestions.some((q) => !q.question?.trim())}
               className="w-full px-3 py-2 rounded-lg font-medium text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:text-gray-700 hover:border-gray-300 transition-all duration-150 flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-50 disabled:hover:text-gray-600 disabled:hover:border-gray-200"
             >
               <Plus size={16} />
               <span>Add Question</span>
             </button>
-            {levelQuestions.some(q => !q.question?.trim()) && (
+            {levelQuestions.some((q) => !q.question?.trim()) && (
               <p className="text-xs text-gray-400 mt-1 text-center">
                 Complete the current question first
               </p>

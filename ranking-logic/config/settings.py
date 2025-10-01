@@ -53,6 +53,9 @@ class Config:
     FLASK_PORT = int(os.getenv('FLASK_PORT', str(Defaults.FLASK_PORT)))
     FLASK_DEBUG = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
     
+    # Bulk update configuration
+    BULK_UPDATE_CHUNK_SIZE = int(os.getenv("BULK_UPDATE_CHUNK_SIZE", "10"))
+    
     # Import field constants for backward compatibility
     from constants import QuestionFields, AnswerFields
     

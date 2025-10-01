@@ -139,9 +139,9 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
         label: "Answers Submitted",
         data: levelAnswerCounts,
         backgroundColor: [
-          "#a78bfa", // light purple (Beginner)
-          "#8b5cf6", // medium purple (Intermediate)
-          "#6d28d9", // deep purple (Advanced)
+          "#e47215ff", // light purple (Beginner)
+          "#f0560eff", // medium purple (Intermediate)
+          "#fc3808ff", // deep purple (Advanced)
         ],
         borderRadius: 12,
       },
@@ -155,23 +155,23 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
         <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
           <span className="text-white font-bold text-sm">📊</span>
         </div>
-        <h2 className="text-2xl font-bold">Survey Analytics Dashboard</h2>
+        <h2 className="text-2xl font-bold text-[var(--header-primary)]">Survey Analytics Dashboard</h2>
       </div>
       <div className="flex gap-2">
         <button
-          className="bg-gray-200 px-3 py-2 rounded text-sm hover:bg-gray-300"
+          className="bg-button-refresh-responses-back px-3 py-2 rounded text-sm hover:bg-button-refresh-responses-back"
           onClick={handleRefresh}
         >
           🔄 Refresh
         </button>
         <button
           onClick={() => navigate("/responses")}
-          className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+          className="bg-button-refresh-responses-back text-white px-4 py-2 rounded hover:bg-button-refresh-responses-back"
         >
           📋 Responses
         </button>
         <button
-          className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+          className="bg-button-refresh-responses-back text-white px-4 py-2 rounded hover:bg-button-refresh-responses-back"
           onClick={() => navigate("/dashboard")}
         >
           ← Back
@@ -182,7 +182,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="min-h-screen bg-analytics-bg p-6 space-y-6">
         {renderHeader()}
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
@@ -198,7 +198,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
 
   if (isEmpty) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="min-h-screen bg-[var(--survey-bg)] p-6 space-y-6">
         {renderHeader()}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-8 text-center">
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -242,7 +242,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
 
   if (err && !isEmpty) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="min-h-screen bg-[var(--survey-bg)] p-6 space-y-6">
         {renderHeader()}
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
           <div className="text-red-600 mb-4">
@@ -303,7 +303,7 @@ const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
     .slice(0, 3);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="min-h-screen bg-[var(--survey-bg)] p-6 space-y-6">
       {renderHeader()}
 
       <StatsOverview

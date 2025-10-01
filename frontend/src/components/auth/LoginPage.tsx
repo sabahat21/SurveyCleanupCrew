@@ -47,14 +47,14 @@ const LoginPage: React.FC<LoginPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-login-bg">
+      <div className="bg-login-card-bg p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex mb-6">
           <button
             className={`flex-1 py-2 rounded-l-lg font-semibold text-lg ${
               tab === "participant"
-                ? "bg-purple-100 text-purple-700"
-                : "bg-gray-100 text-gray-500"
+                ? "bg-login-primary text-login-active-text"
+                : "bg-login-nonactive-bg text-login-nonactive-text"
             }`}
             onClick={() => {
               setTab("participant");
@@ -67,8 +67,8 @@ const LoginPage: React.FC<LoginPageProps> = ({
           <button
             className={`flex-1 py-2 rounded-r-lg font-semibold text-lg ${
               tab === "admin"
-                ? "bg-purple-100 text-purple-700"
-                : "bg-gray-100 text-gray-500"
+                ? "bg-login-primary text-login-active-text"
+                : "bg-login-nonactive-bg text-login-nonactive-text"
             }`}
             onClick={() => {
               setTab("admin");
@@ -96,7 +96,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
               onChange={(e) => setName(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder={tab === "participant" ? "Your Name" : "Admin Name"}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full border border-login-input-border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-login-focus-border focus:border-transparent"
               autoComplete="name"
               disabled={tab === "participant" && anonymous}
             />
@@ -109,7 +109,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Password"
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full border border-login-input-border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-login-focus-border focus:border-transparent"
                 autoComplete="current-password"
               />
             </div>
@@ -121,25 +121,25 @@ const LoginPage: React.FC<LoginPageProps> = ({
                   type="checkbox"
                   checked={anonymous}
                   onChange={(e) => setAnonymous(e.target.checked)}
-                  className="mr-2 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                  className="mr-2 w-4 h-4 accent-login-primary text-text-input border-login-checkbox-border rounded focus:ring-login-focus-border"
                 />
-                <span className="text-sm text-gray-700">Anonymous</span>
+                <span className="text-sm text-login-checkbox-text">Anonymous</span>
               </label>
             </div>
           )}
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
+            className="w-full bg-login-button-bg text-login-button-text px-4 py-2 rounded hover:bg-login-button-hover transition"
           >
             {tab === "participant" ? "Login as Participant" : "Login as Admin"}
           </button>
           {(error || (tab === "admin" && adminError)) && (
-            <div className="text-red-600 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded">
+            <div className="text-login-error-text text-sm mt-2 p-2 bg-login-error-bg border border-login-error-border rounded">
               {error || adminError}
             </div>
           )}
         </form>
-        <p className="text-center text-gray-500 text-xs mt-4">
+        <p className="text-center text-login-welcome-text text-xs mt-4">
           Welcome to Sanskrit Learning Survey!
         </p>
       </div>

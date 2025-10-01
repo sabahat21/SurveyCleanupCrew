@@ -7,7 +7,8 @@ import logging
 from typing import List, Dict, Tuple
 from config.settings import Config
 from utils.api_handler import APIHandler
-from utils.data_formatters import QuestionFormatter, ResponseProcessor
+from utils.data_formatters import QuestionFormatter
+from utils.response_processor import ResponseProcessor
 from constants import QuestionFields, AnswerFields, APIKeys
 
 logger = logging.getLogger('survey_analytics')

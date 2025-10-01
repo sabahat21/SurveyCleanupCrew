@@ -7,6 +7,9 @@ import AdminEmptyState from "./AdminEmptyState";
 import LoadingPopup from "../common/LoadingPopup";
 import { Question } from "../../types/types";
 
+
+
+
 const LEVELS = ["Beginner", "Intermediate", "Advanced"] as const;
 type Level = (typeof LEVELS)[number];
 type QMap = Record<Level, Question[]>;
@@ -593,6 +596,8 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
         showPreview={showPreview}
         isSubmitting={loadingState.show || isLoading}
         error={error}
+        //error={error || "Example error from API (temp)"} // For testing error popup
+
         mode={mode}
         onErrorDismiss={() => setError("")}
         onSelectLevel={(lvl) => {

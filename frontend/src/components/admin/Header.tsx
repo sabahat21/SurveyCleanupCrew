@@ -50,22 +50,21 @@ export const Header: React.FC<HeaderProps> = ({
 
   const rankingPageUrl = process.env.REACT_APP_RANKING_UI_URL;
 
-
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-white bg-opacity-95 backdrop-blur-sm border-b-2 border-indigo-100 shadow-lg">
+      <header className="sticky top-0 z-50 w-full bg-primary bg-opacity-95 backdrop-blur-sm border-b-2 border-indigo-100 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between w-full">
             {/* Left: Logo + Title */}
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl flex items-center justify-center shadow-md">
+              <div className="w-10 h-10 bg-header-primary rounded-xl flex items-center justify-center shadow-md">
                 <span className="text-white text-lg font-bold">SB</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
+                <h1 className="text-2xl font-bold text-header-primary tracking-tight">
                   Survey Builder
                 </h1>
-                <span className="text-sm text-slate-500 font-medium tracking-wide">
+                <span className="text-sm text-header-subtitle font-medium tracking-wide">
                   Administrative Dashboard
                 </span>
               </div>
@@ -77,19 +76,33 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={onSwitchToCreate}
                 className={`px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-sm border transition-all duration-200 ${
                   mode === "create"
-                    ? "bg-emerald-600 text-white border-emerald-600 shadow-md"
-                    : "bg-white text-emerald-700 border-emerald-200 hover:bg-emerald-50 hover:border-emerald-300"
+                    ? "bg-secondary text-btn-active-text border-accent shadow-md"
+                    : "bg-secondary-light text-btn-inactive-text border-accent hover:bg-btn-inactive-hover-bg hover:border-btn-inactive-hover-border"
                 }`}
               >
-                <span className="text-base ">➕</span>
+                <span className="text-base ">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
+                  </svg>
+                </span>
                 <span>Add</span>
               </button>
               <button
                 onClick={onSwitchToEdit}
                 className={`px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-sm border transition-all duration-200 ${
                   mode === "edit"
-                    ? "bg-blue-600 text-white border-blue-600 shadow-md"
-                    : "bg-white text-blue-700 border-blue-200 hover:bg-blue-50 hover:border-blue-300"
+                    ? "bg-secondary text-btn-active-text border-accent shadow-md"
+                    : "bg-secondary-light text-btn-inactive-text border-accent hover:bg-blue-50 hover:border-blue-300"
                 }`}
               >
                 <span className="text-base">✏️</span>
@@ -102,16 +115,15 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Navigation Buttons */}
               <button
                 onClick={() => navigate("/analytics")}
-                className="flex items-center gap-2 px-4 py-2.5 text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 hover:border-indigo-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 text-btn-analytics-text bg-btn-analytics-bg border border-indigo-200 rounded-lg hover:bg-btn-analytics-hover-bg hover:border-btn-analytics-hover-border transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">📊</span>
                 <span>Analytics</span>
               </button>
 
-
               <button
                 onClick={() => window.open(rankingPageUrl, "_blank")}
-                className="flex items-center gap-2 px-4 py-2.5 text-orange-700 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 hover:border-orange-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 text-btn-ranking-text bg-btn-ranking-bg border border-orange-200 rounded-lg hover:bg-btn-ranking-hover-bg hover:border-btn-ranking-hover-border transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">🏆</span>
                 <span>Ranking Page</span>
@@ -119,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               <button
                 onClick={onPreview}
-                className="flex items-center gap-2 px-4 py-2.5 text-purple-700 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 hover:border-purple-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 text-btn-preview-text bg-btn-preview-bg border border-purple-200 rounded-lg hover:bg-btn-preview-hover-bg hover:border-btn-preview-hover-border transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">👁️</span>
                 <span>Preview</span>
@@ -130,7 +142,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   onClick={onCreateNew}
                   disabled={isSubmitting || completedCount === 0}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-btn-save-questions-bg text-btn-save-questions-text rounded-lg hover:bg-btn-save-questions-hover-bg disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
                 >
                   <span className="text-base">💾</span>
                   <span>{isSubmitting ? "Creating..." : "Save Questions"}</span>
@@ -139,7 +151,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   onClick={handleUpdateClick}
                   disabled={isSubmitting || completedCount === 0}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-btn-save-changes-bg text-btn-save-changes-text rounded-lg hover:bg-btn-save-changes-hover-bg disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
                 >
                   <span className="text-base">🔄</span>
                   <span>{isSubmitting ? "Updating..." : "Save Changes"}</span>
@@ -149,7 +161,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Logout Button - Right Corner */}
               <button
                 onClick={handleLogoutClick}
-                className="flex items-center gap-2 px-4 py-2.5 text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 hover:border-red-300 transition-all duration-200 font-medium text-sm"
+                className="flex items-center gap-2 px-4 py-2.5 bg-btn-logout-bg text-btn-logout-text border border-red-200 rounded-lg hover:bg-btn-logout-hover-bg hover:border-btn-logout-hover-border transition-all duration-200 font-medium text-sm"
               >
                 <span className="text-base">🚪</span>
                 <span>Logout</span>
