@@ -62,40 +62,22 @@ export function Sidebar({
       </div>
       {/* Progress Bar only shows during Edit mode*/}
       {mode === "edit" && (
-        <div className="mb-2 flex items-center justify-between">
-          <span>Progress</span>
-          <span>
-            {completedCount}/{totalQuestions}
-          </span>
-        </div>
-      )}
-
-      {/* <div className="mb-4">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-bold text-gray-900">Question Bank</h3>
-          {mode === "create" && (
-            <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-              CREATE MODE
-            </span>
-          )}
-        </div>
-        <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-3">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-progress-text">
-              Progress
-            </span>
-            <span className="text-sm font-bold text-progress-number">
+        <div className="mb-2 bg-gray-100 py-2 px-2 rounded-lg overflow-hidden">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-progress-text">Progress</span>
+            <span className="font-bold text-progress-number">
               {completedCount}/{totalQuestions}
             </span>
           </div>
-          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+
+          <div className="relative h-2 mt-1">
             <div
-              className="absolute top-0 left-0 h-full bg-gradient-to-r from-progress-bar-from to-progress-bar-to transition-all duration-500 ease-out rounded-full"
+              className="absolute h-full bg-gradient-to-r from-progress-bar-from to-progress-bar-to transition-all duration-500 ease-out rounded-full"
               style={{ width: `${progressPct}%` }}
             />
           </div>
         </div>
-      </div> */}
+      )}
 
       {/* Level Tabs + Delete All */}
       <div className="flex items-center justify-between mb-4">
