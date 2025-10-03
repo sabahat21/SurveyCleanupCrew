@@ -59,6 +59,92 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
     return grouped;
   }, [completedQuestions]);
 
+  const renderQuestions = (
+    questionsToRender: Question[],
+    showLevelHeaders = false
+  ) => {
+    if (questionsToRender.length === 0) {
+      return <div>No questions available for this difficulty level.</div>;
+    }
+
+    if (showLevelHeaders) {
+      // Group by level and show with headers (for "All Questions" tab)
+      const groupedQuestions = questionsToRender.reduce(
+        (groups: Record<string, Question[]>, q) => {
+          if (!groups[q.questionLevel]) groups[q.questionLevel] = [];
+          groups[q.questionLevel].push(q);
+          return groups;
+        },
+        {}
+      );
+
+      return (
+        <div>
+          {Object.entries(groupedQuestions).map(([level, levelQuestions]) => (
+            <div key={level}>
+              <h3>
+                {level} Level ({levelQuestions.length} questions)
+              </h3>
+              <div>
+                {levelQuestions.map((q, idx) =>
+                  renderSingleQuestion(q, idx, level)
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    } else {
+      // Simple list (for individual difficulty tabs)
+      return (
+        <div>
+          {questionsToRender.map((q, idx) => renderSingleQuestion(q, idx))}
+        </div>
+      );
+    }
+  };
+
+  const renderSingleQuestion = (
+    q: Question,
+    idx: number,
+    levelPrefix?: string
+  ) => {
+    return (
+      <div key={q.questionID || `${levelPrefix || "question"}-${idx}`}>
+        <div>
+          <span>Question {idx + 1}</span>
+          <span>{q.questionCategory}</span>
+          <span>
+            {q.questionType === "Mcq" ? "Multiple Choice" : "Text Input"}
+          </span>
+          <span>{q.questionID ? "Update" : "New"}</span>
+        </div>
+
+        <h4>{q.question}</h4>
+
+        {/* MCQ Options */}
+        {q.questionType === "Mcq" && q.answers && q.answers.length > 0 && (
+          <div>
+            <p>Answer Options:</p>
+            <div>
+              {q.answers.map((option, optIdx) => (
+                <div
+                  key={`${q.questionID || levelPrefix}-${idx}-option-${optIdx}`}
+                >
+                  <span>{option.isCorrect ? "O" : "X"}</span>
+                  <span>
+                    {option.answer}
+                    {option.isCorrect && " (Correct)"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const getLevelColor = (level: string) => {
     switch (level) {
       case "Beginner":
@@ -173,6 +259,16 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
             <Tab>Intermediate</Tab>
             <Tab>Advanced</Tab>
           </TabList>
+          <TabPanel>{renderQuestions(completedQuestions, true)}</TabPanel>
+          <TabPanel>
+            {renderQuestions(questionsByLevel["Beginner"] || [])}
+          </TabPanel>
+          <TabPanel>
+            {renderQuestions(questionsByLevel["Intermediate"] || [])}
+          </TabPanel>
+          <TabPanel>
+            {renderQuestions(questionsByLevel["Advanced"] || [])}
+          </TabPanel>
         </Tabs>
 
         {/* Questions Content */}
