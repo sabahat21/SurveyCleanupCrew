@@ -254,10 +254,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
           {/* Header row */}
           <div className="relative flex justify-between items-start mb-8">
-            <span
-              className="px-4 py-2 text-white rounded-full text-sm font-bold uppercase tracking-wide shadow-lg"
-              style={{ background: "var(--header-primary)" }}
-            >
+            <span className="px-4 py-2 bg-gradient-to-r from-header-primary to-accent text-white rounded-full text-sm font-bold uppercase tracking-wide shadow-lg">
               {!showPreviewDialog ? questions[index]?.questionLevel : "SURVEY"} Level
             </span>
 
