@@ -190,12 +190,12 @@ const UserSurvey: React.FC = () => {
 
       {/* Mobile menu toggle button - changes between hamburger and X */}
       <button 
-        className="md:hidden fixed top-4 left-4 z-30 text-white p-2 rounded-lg shadow-lg transition-all duration-300"
-        style={{ backgroundColor: 'var(--header-primary)' }}
+        className="md:hidden fixed top-4 left-4 z-30 bg-user-survey-menu-toggle-bg text-user-survey-menu-toggle-icon p-2 rounded-lg shadow-lg transition-all duration-300"
+        
         onClick={toggleSidebar}
         aria-label={showSidebar ? "Close menu" : "Open menu"}
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--secondary-light)' }}>
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" >
           <path 
             strokeLinecap="round" 
             strokeLinejoin="round" 
@@ -209,7 +209,7 @@ const UserSurvey: React.FC = () => {
       </button>
 
       {/* Main container - modified to center content on desktop */}
-      <div className="h-screen overflow-hidden" style={{ background: 'var(--secondary-light)' }}>
+      <div className="h-screen overflow-hidden bg-user-survey-bg" >
         <div className="h-full flex flex-col md:flex-row md:items-center md:justify-center md:gap-6 md:px-6">
           {/* Sidebar - hidden by default on mobile, shown when toggled */}
           {/* On desktop: positioned next to the question box instead of at the edge */}
