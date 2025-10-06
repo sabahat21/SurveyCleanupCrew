@@ -169,6 +169,52 @@ module.exports = {
         "error-text": "var(--error-text)",
         "error-dismiss-text": "var(--error-dismiss-text)",
         "error-dismiss-hover": "var(--error-dismiss-hover)",
+
+        /* User QuestionCard colors */
+        'user-card-bg': 'var(--user-card-bg)',
+        'user-card-border': 'var(--user-card-border)',
+        
+        'user-logout-color': 'var(--user-logout-color)',
+        'user-logout-hover': 'var(--user-logout-hover)',
+        
+        'user-textarea-border': 'var(--user-textarea-border)',
+        'user-textarea-focus': 'var(--user-textarea-focus)',
+        'user-textarea-bg': 'var(--user-textarea-bg)',
+        'user-textarea-recording-bg': 'var(--user-textarea-recording-bg)',
+        'user-textarea-recording-border': 'var(--user-textarea-recording-border)',
+        
+        'user-btn-speak-from': 'var(--user-btn-speak-from)',
+        'user-btn-speak-to': 'var(--user-btn-speak-to)',
+        'user-btn-speak-hover-from': 'var(--user-btn-speak-hover-from)',
+        'user-btn-speak-hover-to': 'var(--user-btn-speak-hover-to)',
+        
+        'user-btn-save-from': 'var(--user-btn-save-from)',
+        'user-btn-save-to': 'var(--user-btn-save-to)',
+        'user-btn-save-hover-from': 'var(--user-btn-save-hover-from)',
+        'user-btn-save-hover-to': 'var(--user-btn-save-hover-to)',
+        
+        'user-btn-skip-bg': 'var(--user-btn-skip-bg)',
+        'user-btn-skip-text': 'var(--user-btn-skip-text)',
+        'user-btn-skip-hover': 'var(--user-btn-skip-hover)',
+        'user-btn-skip-active-bg': 'var(--user-btn-skip-active-bg)',
+        'user-btn-skip-active-text': 'var(--user-btn-skip-active-text)',
+        'user-btn-skip-active-hover': 'var(--user-btn-skip-active-hover)',
+        
+        'user-tts-play-bg': 'var(--user-tts-play-bg)',
+        'user-tts-play-hover': 'var(--user-tts-play-hover)',
+        'user-tts-stop-bg': 'var(--user-tts-stop-bg)',
+        'user-tts-stop-hover': 'var(--user-tts-stop-hover)',
+        'user-tts-loading-bg': 'var(--user-tts-loading-bg)',
+        
+        'user-preview-border': 'var(--user-preview-border)',
+        'user-preview-title': 'var(--user-preview-title)',
+        'user-preview-submit-from': 'var(--user-preview-submit-from)',
+        'user-preview-submit-to': 'var(--user-preview-submit-to)',
+        
+        'user-recording-indicator': 'var(--user-recording-indicator)',
+        'user-transcribing-bg': 'var(--user-transcribing-bg)',
+        'user-transcribing-text': 'var(--user-transcribing-text)',
+        'user-transcribing-border': 'var(--user-transcribing-border)',
       },
 
       fontFamily: {
