@@ -407,17 +407,17 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
           {/* Preview Dialog */}
           {showPreviewDialog && (
             <div
-              className="bg-white/95 backdrop-blur-sm border-2 border-green-200 rounded-2xl shadow-xl p-6 animate-in slide-in-from-top-2 duration-300"
-              style={{ borderColor: "var(--success)" }}
+              className="bg-user-card-bg/95 backdrop-blur-sm border-2 border-user-preview-border rounded-2xl shadow-xl p-6 animate-in slide-in-from-top-2 duration-300"
+              
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "var(--header-primary)" }}>
+                  <div className="w-6 h-6 bg-gradient-to-r from-header-primary to-accent rounded-full flex items-center justify-center">
                     <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold" style={{ color: "var(--header-primary)" }}>
+                  <h3 className="text-lg font-bold text-user-preview-title">
                     Survey Complete!
                   </h3>
                 </div>
@@ -459,8 +459,8 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 <button
                   onClick={onPublish}
                   disabled={submitting}
-                  className="flex-1 px-4 py-2 text-white rounded-xl font-semibold transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg"
-                  style={{ background: "radial-gradient(ellipse at center, var(--header-primary), var(--accent))" }}
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-user-preview-submit-from to-user-preview-submit-to text-white rounded-xl font-semibold transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg hover:from-user-btn-save-hover-from hover:to-user-btn-save-hover-to"
+                 
                 >
                   {submitting && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                   {submitting ? "Submitting..." : "Submit Survey"}
