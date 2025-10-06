@@ -286,10 +286,10 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                   onClick={isPlayingTTS ? handleTTSStop : handleTTSPlay}
                   className={`inline-flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 hover:scale-110 ${
                     isLoadingTTS
-                      ? "bg-yellow-500 cursor-not-allowed"
+                      ? "bg-user-tts-loading-bg cursor-not-allowed"
                       : isPlayingTTS
-                      ? "bg-red-500 hover:bg-red-600 text-white"
-                      : "bg-blue-500 hover:bg-blue-600 text-white"
+                      ? "bg-user-tts-stop-bg hover:bg-user-tts-stop-hover text-white"
+                      : "bg-user-tts-play-bg hover:bg-user-tts-play-hover text-white"
                   }`}
                   disabled={recording || isLoadingTTS}
                 >
@@ -299,9 +299,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 {isPlayingTTS && (
                   <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" />
-                      <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce delay-100" />
-                      <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce delay-200" />
+                      <div className="w-2 h-2 rounded-full bg-user-tts-play-bg animate-bounce" />
+                      <div className="w-2 h-2 rounded-full bg-user-tts-play-bg animate-bounce [animation-delay:0.1s]" />
+                      <div className="w-2 h-2 rounded-full bg-user-tts-play-bg animate-bounce [animation-delay:0.2s]" />
                     </div>
                   </div>
                 )}
