@@ -253,15 +253,15 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
           )}
 
           {/* Header row */}
-          <div className="relative flex justify-between items-start mb-8">
-            <span className="px-4 py-2 bg-gradient-to-r from-header-primary to-accent text-white rounded-full text-sm font-bold uppercase tracking-wide shadow-lg">
+          <div className="relative flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3">
+            <span className="px-4 py-2 bg-gradient-to-r from-header-primary to-accent text-white rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide shadow-lg">
               {!showPreviewDialog ? questions[index]?.questionLevel : "SURVEY"} Level
             </span>
 
             <button
               onClick={onLogout}
               disabled={submitting || recording}
-              className={`text-sm font-medium text-user-logout-color transition-colors duration-200 hover:text-user-logout-hover hover:underline ${
+              className={`text-xs sm:text-sm font-medium text-user-logout-color transition-colors duration-200 hover:text-user-logout-hover hover:underline ${
                 submitting || recording ? "opacity-30 cursor-not-allowed" : "opacity-100"
               }`}
             >
