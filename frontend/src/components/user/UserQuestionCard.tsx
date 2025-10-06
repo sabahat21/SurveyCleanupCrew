@@ -379,11 +379,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
                 <button
                   onClick={onSaveNext}
                   disabled={submitting || recording}
-                  className={`px-8 py-3 bg-gradient-to-r from-user-btn-save-from to-user-btn-save-to text-white rounded-2xl font-semibold hover:from-user-btn-save-hover-from hover:to-user-btn-save-hover-to transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                  className={`w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-user-btn-save-from to-user-btn-save-to text-white rounded-xl sm:rounded-2xl font-semibold hover:from-user-btn-save-hover-from hover:to-user-btn-save-hover-to transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 ${
                     recording ? "opacity-50 cursor-not-allowed" : ""
                   }`}
 
@@ -394,7 +394,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 <button
                   onClick={onSkip}
                   disabled={submitting || recording}
-                  className={`px-8 py-3 rounded-2xl font-semibold transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                  className={`w-full sm:w-auto px-6 sm:px-8 py-3 rounded-xl sm:rounded-2xl font-semibold transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 ${
                     recording ? "opacity-50 cursor-not-allowed" : ""
                   } ${isSkipped ? "bg-user-btn-skip-active-bg text-user-btn-skip-active-text hover:bg-user-btn-skip-active-hover" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
                 >
