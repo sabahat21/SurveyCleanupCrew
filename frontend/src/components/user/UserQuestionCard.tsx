@@ -276,7 +276,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 {/* FIX: single H2 (the earlier code had two H2s, one unclosed) */}
                 <h2
                   className={`text-2xl font-bold text-transparent bg-clip-text mb-4 transition-all duration-300 ${
-                    recording ? "bg-gradient-to-r from-red-600 to-pink-600" : "bg-gradient-to-r from-purple-600 to-indigo-600"
+                    recording ? "bg-gradient-to-r from-red-600 to-pink-600" : "bg-gradient-to-r from-header-primary to-header-primary"
                   }`}
                 >
                   {questions[index].question}
