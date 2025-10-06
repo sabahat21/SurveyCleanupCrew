@@ -396,7 +396,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                   disabled={submitting || recording}
                   className={`px-8 py-3 rounded-2xl font-semibold transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
                     recording ? "opacity-50 cursor-not-allowed" : ""
-                  } ${isSkipped ? "bg-amber-200 text-amber-800 hover:bg-amber-300" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+                  } ${isSkipped ? "bg-user-btn-skip-active-bg text-user-btn-skip-active-text hover:bg-user-btn-skip-active-hover" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
                 >
                   {isSkipped ? "Unskip Question" : "Skip Question"}
                 </button>
