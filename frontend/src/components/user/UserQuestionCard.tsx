@@ -311,16 +311,10 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               <div className="mb-6">
                 {/* FIX: merged duplicate className props */}
                 <textarea
-                  style={
-                    {
-                      borderColor: "var(--primary)",
-                      "--tw-ring-color": "rgba(242, 210, 182, 0.3)",
-                    } as React.CSSProperties
-                  }
-                  className={`w-full border-2 rounded-2xl p-4 text-lg focus:ring-4 transition-all duration-300 resize-none backdrop-blur-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed ${
+                  className={`w-full border-2 rounded-2xl p-4 text-lg focus:ring-4 focus:ring-primary/30 transition-all duration-300 resize-none backdrop-blur-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed ${
                     recording
-                      ? "border-red-300 focus:border-red-400 focus:ring-red-100 bg-red-50/30"
-                      : "border-purple-200 focus:border-purple-400 focus:ring-purple-100 bg-white/50"
+                      ? "border-user-textarea-recording-border focus:border-red-400 bg-user-textarea-recording-bg"
+                      : "border-user-textarea-border focus:border-user-textarea-focus bg-user-textarea-bg"
                   } ${isSkipped ? "opacity-50" : ""}`}
                   placeholder={
                     recording
@@ -343,7 +337,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                     className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
                       recording
                         ? "bg-gradient-to-r from-red-500 to-pink-500 text-white animate-pulse shadow-red-200"
-                        : "bg-gradient-to-r from-purple-500 to-indigo-500 text-white hover:from-purple-600 hover:to-indigo-600 shadow-purple-200"
+                        : "bg-gradient-to-r from-user-btn-speak-from to-user-btn-speak-to text-white hover:from-user-btn-speak-hover-from hover:to-user-btn-speak-hover-to shadow-orange-200"
                     }`}
                   >
                     <span className="text-lg">{recording ? "🔴" : "🎤"}</span>
