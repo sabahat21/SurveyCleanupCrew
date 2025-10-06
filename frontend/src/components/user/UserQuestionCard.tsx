@@ -383,10 +383,10 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 <button
                   onClick={onSaveNext}
                   disabled={submitting || recording}
-                  className={`px-8 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-2xl font-semibold hover:from-purple-600 hover:to-indigo-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                  className={`px-8 py-3 bg-gradient-to-r from-user-btn-save-from to-user-btn-save-to text-white rounded-2xl font-semibold hover:from-user-btn-save-hover-from hover:to-user-btn-save-hover-to transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
                     recording ? "opacity-50 cursor-not-allowed" : ""
                   }`}
-                  style={{}}
+
                 >
                   {index === questions.length - 1 ? "Review Answers" : "Save & Continue"}
                 </button>
