@@ -238,14 +238,14 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
         >
           {/* Recording overlay */}
           <div
-            className={`absolute inset-0 bg-gradient-to-br rounded-3xl transition-all duration-500 ${
-              recording ? "from-red-500/20 to-pink-500/20 animate-pulse" : "from-purple-500/5 to-indigo-500/5"
+            className={`absolute inset-0 rounded-3xl transition-all duration-500 ${
+              recording ? "bg-gradient-to-br from-red-500/20 to-pink-500/20 animate-pulse" : "bg-gradient-to-br from-primary/5 to-accent/5"
             }`}
           />
 
           {recording && (
-            <div className="absolute inset-0 rounded-3xl border-2 border-red-400 animate-pulse pointer-events-none">
-              <div className="absolute top-4 right-4 flex items-center gap-2 bg-red-500/90 text-white px-3 py-1 rounded-full text-sm font-medium">
+            <div className="absolute inset-0 rounded-3xl border-2 border-user-recording-indicator animate-pulse pointer-events-none">
+              <div className="absolute top-4 right-4 flex items-center gap-2 bg-user-recording-indicator/90 text-white px-3 py-1 rounded-full text-sm font-medium">
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
                 LISTENING
               </div>
