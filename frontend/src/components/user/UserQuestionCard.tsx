@@ -353,7 +353,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
                   {recording && (
                     <div className="flex items-center gap-2 bg-red-50 px-3 py-2 rounded-full animate-pulse">
-                      <div className="w-3 h-3 bg-red-500 rounded-full animate-ping" />
+                      <div className="w-3 h-3 bg-user-recording-indicator rounded-full animate-ping" />
                       <span className="text-sm text-red-600 font-medium">Recording...</span>
                     </div>
                   )}
