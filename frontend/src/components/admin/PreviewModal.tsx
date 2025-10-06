@@ -17,29 +17,21 @@ interface PreviewModalProps {
 }
 
 const getLevelColor = (level: string) => {
-  switch (level) {
-    case "Beginner":
-      return "border-green-200 bg-green-50";
-    case "Intermediate":
-      return "border-amber-200 bg-amber-50";
-    case "Advanced":
-      return "border-red-200 bg-red-50";
-    default:
-      return "border-gray-200 bg-gray-50";
-  }
+  const colors = {
+    Beginner: "bg-green-50 border-green-200",
+    Intermediate: "bg-amber-50 border-amber-200",
+    Advanced: "bg-red-50 border-red-200",
+  };
+  return colors[level as keyof typeof colors] || "bg-gray-50 border-gray-200";
 };
 
 const getLevelTextColor = (level: string) => {
-  switch (level) {
-    case "Beginner":
-      return "text-green-800";
-    case "Intermediate":
-      return "text-amber-800";
-    case "Advanced":
-      return "text-red-800";
-    default:
-      return "text-gray-800";
-  }
+  const colors = {
+    Beginner: "text-green-800",
+    Intermediate: "text-amber-800",
+    Advanced: "text-red-800",
+  };
+  return colors[level as keyof typeof colors] || "text-gray-800";
 };
 
 export const PreviewModal: React.FC<PreviewModalProps> = ({
