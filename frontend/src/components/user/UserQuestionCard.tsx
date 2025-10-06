@@ -311,7 +311,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               <div className="mb-6">
                 {/* FIX: merged duplicate className props */}
                 <textarea
-                  className={`w-full border-2 rounded-2xl p-4 text-lg focus:ring-4 focus:ring-primary/30 transition-all duration-300 resize-none backdrop-blur-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed ${
+                  className={`w-full border-2 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-base sm:text-lg focus:ring-4 focus:ring-primary/30 transition-all duration-300 resize-none backdrop-blur-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed ${
                     recording
                       ? "border-user-textarea-recording-border focus:border-red-400 bg-user-textarea-recording-bg"
                       : "border-user-textarea-border focus:border-user-textarea-focus bg-user-textarea-bg"
