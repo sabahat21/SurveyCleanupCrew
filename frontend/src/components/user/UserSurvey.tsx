@@ -130,15 +130,12 @@ const UserSurvey: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen"style={{ background: 'var(--secondary-light)' }}>
+      <div className="flex items-center justify-center h-screen bg-user-survey-bg">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 animate-spin mx-auto mb-4"
-          style ={{
-            borderColor: 'var(--prmary)',
-            borderTopColor: 'var(--header-primary)'
-          }}
+          <div className="w-16 h-16 border-4 border-user-survey-loading-spinner-border border-t-user-survey-loading-spinner-top rounded-full animate-spin mx-auto mb-4"
+          
           ></div>
-          <p className="text-lg font-medium" style={{ color: 'var(--sidebar-text)' }}>
+          <p className="text-lg font-medium text-user-survey-loading-text">
             Loading your survey...
           </p>
         </div>
@@ -148,15 +145,15 @@ const UserSurvey: React.FC = () => {
 
   if (!questions.length) {
     return (
-      <div className="flex items-center justify-center h-screen px-4" style={{ background: 'var(--secondary-light)' }}>
-        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center max-w-md w-full">
-          <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'var(--primary-lighter)' }}>
+      <div className="flex items-center justify-center h-screen px-4 bg-user-survey-bg" >
+        <div className="bg-user-survey-no-questions-bg rounded-2xl shadow-xl p-6 sm:p-8 text-center max-w-md w-full">
+          <div className="w-16 h-16 bg-user-survey-no-questions-icon-bg rounded-full mx-auto mb-4 flex items-center justify-center">
             <svg 
-              className="w-8 h-8 text-gray-600"
+              className="w-8 h-8 text-user-survey-no-questions-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              style={{ color: 'var(--header-primary)' }}
+              
             >
               <path
                 strokeLinecap="round"
@@ -166,20 +163,15 @@ const UserSurvey: React.FC = () => {
               />
             </svg>
           </div>
-          <p className="text-gray-700 text-lg font-medium">
+          <p className="text-user-survey-no-questions-text text-lg font-medium">
             No surveys available for {proficiency} level
           </p>
-          <p className="text-gray-500 text-sm mt-2">Please check back later</p>
+          <p className="text-user-survey-no-questions-subtext text-sm mt-2">Please check back later</p>
           <button
             onClick={() => navigate("/login")}
-            className="mt-4 px-6 py-2 text-white rounded-lg transition-colors"
+            className="mt-4 px-6 py-2 bg-user-survey-btn-back-bg text-white rounded-lg hover:bg-user-survey-btn-back-hover transition-colors"
 
-            style={{ //added extra functionality to button for hover effect: during Refactoring Phase..
-              backgroundColor: 'var(--header-primary)',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent)'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--header-primary)'}
-            // End of extra functionality code..
+           
           >
             Back to Login
           </button>
