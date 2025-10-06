@@ -261,10 +261,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
             <button
               onClick={onLogout}
               disabled={submitting || recording}
-              className={`text-sm font-medium transition-colors duration-200 hover:underline ${
+              className={`text-sm font-medium text-user-logout-color transition-colors duration-200 hover:text-user-logout-hover hover:underline ${
                 submitting || recording ? "opacity-30 cursor-not-allowed" : "opacity-100"
               }`}
-              style={{ color: "var(--btn-logout-bg)" }}
             >
               Logout
             </button>
