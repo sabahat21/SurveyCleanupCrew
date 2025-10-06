@@ -272,7 +272,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
           {!showPreviewDialog && (
             <>
               {/* Question + TTS */}
-              <div className="relative mb-8 text-center">
+              <div className="relative mb-6 sm:mb-8 text-center">
                 {/* FIX: single H2 (the earlier code had two H2s, one unclosed) */}
                 <h2
                   className={`text-2xl font-bold text-transparent bg-clip-text mb-4 transition-all duration-300 ${
@@ -284,7 +284,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
                 <button
                   onClick={isPlayingTTS ? handleTTSStop : handleTTSPlay}
-                  className={`inline-flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 hover:scale-110 ${
+                  className={`inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-300 hover:scale-110 ${
                     isLoadingTTS
                       ? "bg-user-tts-loading-bg cursor-not-allowed"
                       : isPlayingTTS
@@ -293,7 +293,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                   }`}
                   disabled={recording || isLoadingTTS}
                 >
-                  {isLoadingTTS ? <Loader2 className="w-6 h-6 animate-spin" /> : isPlayingTTS ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+                  {isLoadingTTS ? <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" /> : isPlayingTTS ? <VolumeX className="w-5 h-5 sm:w-6 sm:h-6" /> : <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />}
                 </button>
 
                 {isPlayingTTS && (
