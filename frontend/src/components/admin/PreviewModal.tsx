@@ -357,10 +357,11 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
         {/* Difficulty Tabs  */}
         <Tabs className="flex flex-col flex-1 overflow-hidden">
           <TabList className="px-8 py-4 border-b border-gray-100 bg-white">
-            <Tab>All Questions</Tab>
-            <Tab>Beginner</Tab>
-            <Tab>Intermediate</Tab>
-            <Tab>Advanced</Tab>
+            {["All Questions", "Beginner", "Intermediate", "Advanced"].map(
+              (tab) => (
+                <Tab key={tab}>{tab}</Tab>
+              )
+            )}
           </TabList>
 
           <TabPanel className="flex-1 overflow-y-auto p-0">
@@ -369,35 +370,13 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
             </div>
           </TabPanel>
 
-          <TabPanel className="flex-1 overflow-y-auto p-0">
-            <div className="px-8 py-6">
-              {renderQuestions(
-                questionsByLevel["Beginner"] || [],
-                false,
-                "Beginner"
-              )}
-            </div>
-          </TabPanel>
-
-          <TabPanel className="flex-1 overflow-y-auto p-0">
-            <div className="px-8 py-6">
-              {renderQuestions(
-                questionsByLevel["Intermediate"] || [],
-                false,
-                "Intermediate"
-              )}
-            </div>
-          </TabPanel>
-
-          <TabPanel className="flex-1 overflow-y-auto p-0">
-            <div className="px-8 py-6">
-              {renderQuestions(
-                questionsByLevel["Advanced"] || [],
-                false,
-                "Advanced"
-              )}
-            </div>
-          </TabPanel>
+          {["Beginner", "Intermediate", "Advanced"].map((level) => (
+            <TabPanel key={level} className="flex-1 overflow-y-auto p-0">
+              <div className="px-8 py-6">
+                {renderQuestions(questionsByLevel[level] || [], false, level)}
+              </div>
+            </TabPanel>
+          ))}
         </Tabs>
 
         {/* Questions Content */}
