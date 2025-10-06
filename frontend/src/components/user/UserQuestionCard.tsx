@@ -225,10 +225,10 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
   const isSkipped = answers[index] === "skip";
 
   return (
-    <main className="flex-grow flex items-center justify-center px-4 sm:px-8">
-      <div className="bg-user-card-bg/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-10 w-full max-w-lg sm:max-w-2xl relative border border-user-card-border">
+    <main className="flex-grow flex justify-center px-4 sm:px-8 py-6 sm:py-10 overflow-y-auto sm:items-center">
+      
         {/* Decorative gradient overlay */}
-        <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary/5 to-secondary/5" />
+        {/* <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary/5 to-secondary/5" /> */}
 
         {/* Card */}
         <div
@@ -476,7 +476,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
             </div>
           )}
         </div>
-      </div> 
+      
     </main>
   );
 };
