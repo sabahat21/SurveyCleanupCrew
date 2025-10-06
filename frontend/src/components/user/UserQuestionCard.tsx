@@ -361,10 +361,10 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
                 {/* Errors */}
                 {recordingError && (
-                  <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-xl">
-                    <p className="text-red-600 text-sm font-medium text-center">{recordingError}</p>
+                  <div className="mt-3 p-3 bg-error-bg border border-error-border rounded-xl">
+                    <p className="text-error-text text-sm font-medium text-center">{recordingError}</p>
                     {permissionGranted === false && (
-                      <button onClick={checkMicrophonePermission} className="mt-2 text-sm text-red-600 hover:text-red-800 underline">
+                      <button onClick={checkMicrophonePermission} className="mt-2 text-sm text-error-text hover:text-error-dismiss-hover underline">
                         Try Again
                       </button>
                     )}
@@ -372,8 +372,8 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 )}
 
                 {error && (
-                  <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-xl">
-                    <p className="text-red-600 text-sm font-medium text-center">{error}</p>
+                  <div className="mt-3 p-3 bg-error-bg border border-error-border rounded-xl">
+                    <p className="text-error-text text-sm font-medium text-center">{error}</p>
                   </div>
                 )}
               </div>
