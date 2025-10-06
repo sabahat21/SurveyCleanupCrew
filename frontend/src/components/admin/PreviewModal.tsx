@@ -16,6 +16,32 @@ interface PreviewModalProps {
   completedCount: number;
 }
 
+const getLevelColor = (level: string) => {
+  switch (level) {
+    case "Beginner":
+      return "border-green-200 bg-green-50";
+    case "Intermediate":
+      return "border-amber-200 bg-amber-50";
+    case "Advanced":
+      return "border-red-200 bg-red-50";
+    default:
+      return "border-gray-200 bg-gray-50";
+  }
+};
+
+const getLevelTextColor = (level: string) => {
+  switch (level) {
+    case "Beginner":
+      return "text-green-800";
+    case "Intermediate":
+      return "text-amber-800";
+    case "Advanced":
+      return "text-red-800";
+    default:
+      return "text-gray-800";
+  }
+};
+
 export const PreviewModal: React.FC<PreviewModalProps> = ({
   title,
   description,
@@ -254,31 +280,6 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({
         )}
       </div>
     );
-  };
-  const getLevelColor = (level: string) => {
-    switch (level) {
-      case "Beginner":
-        return "border-green-200 bg-green-50";
-      case "Intermediate":
-        return "border-amber-200 bg-amber-50";
-      case "Advanced":
-        return "border-red-200 bg-red-50";
-      default:
-        return "border-gray-200 bg-gray-50";
-    }
-  };
-
-  const getLevelTextColor = (level: string) => {
-    switch (level) {
-      case "Beginner":
-        return "text-green-800";
-      case "Intermediate":
-        return "text-amber-800";
-      case "Advanced":
-        return "text-red-800";
-      default:
-        return "text-gray-800";
-    }
   };
 
   return (
