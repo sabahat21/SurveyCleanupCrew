@@ -226,15 +226,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
   return (
     <main className="flex-grow flex items-center justify-center px-8">
-      <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 w-full max-w-2xl relative border border-orange-100">
+      <div className="bg-user-card-bg/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 w-full max-w-2xl relative border border-user-card-border">
         {/* Decorative gradient overlay */}
-        <div
-          className="absolute inset-0 rounded-3xl"
-          style={{
-            background:
-              "linear-gradient(to bottom right, rgba(242, 210, 182, 0.05), rgba(245, 200, 0, 0.05))",
-          }}
-        />
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-secondary/5" />
 
         {/* Card */}
         <div
