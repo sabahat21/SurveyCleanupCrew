@@ -222,6 +222,32 @@
   --user-transcribing-text: #f39800;
   --user-transcribing-border: #f5c800;
 
+  /* User Survey Page specific colors */
+  --user-survey-bg: #ffec97;
+  --user-survey-loading-spinner-border: #f2d2b6;
+  --user-survey-loading-spinner-top: #ff4500;
+  --user-survey-loading-text: #000000;
+  --user-survey-no-questions-bg: #ffffff;
+  --user-survey-no-questions-icon-bg: #f5d7be;
+  --user-survey-no-questions-icon: #ff4500;
+  --user-survey-no-questions-text: #374151;
+  --user-survey-no-questions-subtext: #6b7280;
+  --user-survey-btn-back-bg: #ff4500;
+  --user-survey-btn-back-hover: #f39800;
+  --user-survey-menu-toggle-bg: #ff4500;
+  --user-survey-menu-toggle-icon: #ffec97;
+  --user-survey-popup-success-bg: #f5d7be;
+  --user-survey-popup-success-icon: #ff4500;
+  --user-survey-popup-error-bg: #fee2e2;
+  --user-survey-popup-error-icon: #dc2626;
+  --user-survey-popup-title-success: #ff4500;
+  --user-survey-popup-title-error: #dc2626;
+  --user-survey-popup-text: #374151;
+  --user-survey-btn-ok-success: #ff4500;
+  --user-survey-btn-ok-success-hover: #f39800;
+  --user-survey-btn-ok-error: #dc2626;
+  --user-survey-btn-ok-error-hover: #b91c1c;
+
 }
 
 
