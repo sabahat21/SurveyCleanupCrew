@@ -170,6 +170,58 @@
   --error-dismiss-text: #fe3434;
   --error-dismiss-hover: #ef9b1e;
 
+  /*User Card Overlay*/
+  --usercard-bg: #ffffff;
+  --user-card-border: #f2d2b6;
+  --user-logout-color: #ff0000;
+  --user-logout-hover: #ff4500;
+
+  /* User Text Area*/
+  --user-textarea-border: #f2d2b6;
+  --user-textarea-focus: #ff4500;
+  --user-textarea-bg: rgba(255, 255, 255, 0.5);
+  --user-textarea-recording-bg: rgba(254, 226, 226, 0.3);
+  --user-textarea-recording-border: #fca5a5;
+
+  /* User-Speak-btn*/
+  --user-btn-speak-from: #ff4500;
+  --user-btn-speak-to: #f39800;
+  --user-btn-speak-hover-from: #f5c800;
+  --user-btn-speak-hover-to: #f39800;
+
+  /* User-Save-btn*/
+  --user-btn-save-from: #ff4500;
+  --user-btn-save-to: #f39800;
+  --user-btn-save-hover-from: #f5c800;
+  --user-btn-save-hover-to: #dfa800;
+
+  /* User-Skip-btn*/
+  --user-btn-skip-bg: #f3f4f6;
+  --user-btn-skip-text: #6b7280;
+  --user-btn-skip-hover: #e5e7eb;
+  --user-btn-skip-active-bg: #fef3c7;
+  --user-btn-skip-active-text: #92400e;
+  --user-btn-skip-active-hover: #fde68a;
+
+  /* TTS play-stop-loading */
+  --user-tts-play-bg: #ff4500;
+  --user-tts-play-hover: #f39800;
+  --user-tts-stop-bg: #ef4444;
+  --user-tts-stop-hover: #dc2626;
+  --user-tts-loading-bg: #f5c800;
+
+  /* User Preview colors */
+  --user-preview-border: #f5c800;
+  --user-preview-title: #ff4500;
+  --user-preview-submit-from: #ff4500;
+  --user-preview-submit-to: #f39800;
+
+  /* recording/transcribing */
+  --user-recording-indicator: #ef4444;
+  --user-transcribing-bg: #fef3c7;
+  --user-transcribing-text: #f39800;
+  --user-transcribing-border: #f5c800;
+
 }
 
 
