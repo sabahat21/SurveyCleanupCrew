@@ -267,39 +267,35 @@ const UserSurvey: React.FC = () => {
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center">
             <div className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center">
               {isSuccessPopup ? (
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" 
-                style={{ backgroundColor: 'var(--primary-lighter)' }}>
-                  <svg className="w-6 h-6" style={{ color: 'var(--header-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-user-survey-popup-success-bg rounded-full flex items-center justify-center"
+                >
+                  <svg className="w-6 h-6 text-user-survey-popup-success-icon"  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
               ) : (
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-user-survey-popup-error-bg rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-user-survey-popup-error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </div>
               )}
             </div>
-            <h2 className={`text-xl font-bold mb-2`}
-                style={{ color: isSuccessPopup ? 'var(--header-primary)' : '#dc2626' }}>
+            <h2 className={`text-xl font-bold mb-2 ${
+              isSuccessPopup ? 'text-user-survey-popup-title-success' : 'text-user-survey-popup-title-error'
+            }`}>
               {isSuccessPopup ? "Success!" : "Submission Failed"}
             </h2>
             <p className="mb-6 text-gray-700">{popupMessage}</p>
 
           
-            <button // OK button adjusted with new color scheme: Refactoring phase..
+            <button
               onClick={handleClosePopup}
-              className="px-6 py-2 rounded-lg text-white transition-colors"
-              style={{ 
-                backgroundColor: isSuccessPopup ? 'var(--header-primary)' : '#dc2626'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = isSuccessPopup ? 'var(--accent)' : '#b91c1c';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = isSuccessPopup ? 'var(--header-primary)' : '#dc2626';
-              }}
+              className={`px-6 py-2 rounded-lg text-white transition-colors ${
+                isSuccessPopup 
+                  ? 'bg-user-survey-btn-ok-success hover:bg-user-survey-btn-ok-success-hover' 
+                  : 'bg-user-survey-btn-ok-error hover:bg-user-survey-btn-ok-error-hover'
+              }`}
             >
               OK
             </button>
@@ -310,7 +306,7 @@ const UserSurvey: React.FC = () => {
       {/* Overlay to close sidebar when clicking outside on mobile */}
       {showSidebar && (
         <div 
-          className="md:hidden fixed inset-0 z-10" 
+          className="md:hidden fixed inset-0 bg-black bg-opacity-30 z-10" 
           onClick={() => setShowSidebar(false)}
         ></div>
       )}
