@@ -345,9 +345,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                   </button>
 
                   {loading && (
-                    <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-full">
-                      <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                      <span className="text-sm text-blue-600 font-medium">Transcribing...</span>
+                    <div className="flex items-center gap-2 bg-user-transcribing-bg border border-user-transcribing-border px-3 py-2 rounded-full">
+                      <div className="w-4 h-4 border-2 border-user-transcribing-text border-t-transparent rounded-full animate-spin" />
+                      <span className="text-sm text-user-transcribing-text font-medium">Transcribing...</span>
                     </div>
                   )}
 
