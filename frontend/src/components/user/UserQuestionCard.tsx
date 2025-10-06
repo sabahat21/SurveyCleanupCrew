@@ -407,17 +407,17 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
           {/* Preview Dialog */}
           {showPreviewDialog && (
             <div
-              className="bg-user-card-bg/95 backdrop-blur-sm border-2 border-user-preview-border rounded-2xl shadow-xl p-6 animate-in slide-in-from-top-2 duration-300"
+              className="bg-user-card-bg/95 backdrop-blur-sm border-2 border-user-preview-border rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6"
               
             >
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-2">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 bg-gradient-to-r from-header-primary to-accent rounded-full flex items-center justify-center">
                     <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-user-preview-title">
+                  <h3 className="text-base sm:text-lg font-bold text-user-preview-title">
                     Survey Complete!
                   </h3>
                 </div>
@@ -432,11 +432,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 </button>
               </div>
 
-              <p className="text-gray-600 mb-4 text-sm">
+              <p className="text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm">
                 You've answered {answeredCount} out of {questions.length} questions. Review your responses before submitting.
               </p>
 
-              <div className="max-h-48 overflow-y-auto mb-4 space-y-3">
+              <div className="max-h-40 sm:max-h-48 overflow-y-auto mb-3 sm:mb-4 space-y-3">
                 {questions.map((q, i) => (
                   // FIX: no duplicate key/className
                   <div key={q.questionID || q._id || `question-${i}`} className="bg-gray-50 rounded-xl p-3 text-sm">
@@ -444,7 +444,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                       Q{i + 1}: {q.question.substring(0, 60)}
                       {q.question.length > 60 ? "..." : ""}
                     </p>
-                    <p className="text-gray-600 text-xs">
+                    <p className="text-gray-600 ">
                       {answers[i] && answers[i] !== "skip"
                         ? answers[i].substring(0, 80) + (answers[i].length > 80 ? "..." : "")
                         : answers[i] === "skip"
@@ -455,11 +455,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 ))}
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   onClick={onPublish}
                   disabled={submitting}
-                  className="flex-1 px-4 py-2 bg-gradient-to-r from-user-preview-submit-from to-user-preview-submit-to text-white rounded-xl font-semibold transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg hover:from-user-btn-save-hover-from hover:to-user-btn-save-hover-to"
+                  className="flex-1 px-3 sm:px-4 py-2 bg-gradient-to-r from-user-preview-submit-from to-user-preview-submit-to text-white rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:shadow-lg"
                  
                 >
                   {submitting && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
@@ -468,7 +468,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 <button
                   onClick={onClosePreview}
                   disabled={submitting}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-200 text-sm disabled:opacity-50"
+                  className="px-3 sm:px-4 py-2 bg-gray-200 text-gray-700 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:bg-gray-300"
                 >
                   Review More
                 </button>
