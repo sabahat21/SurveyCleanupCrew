@@ -7,9 +7,6 @@ import AdminEmptyState from "./AdminEmptyState";
 import LoadingPopup from "../common/LoadingPopup";
 import { Question } from "../../types/types";
 
-
-
-
 const LEVELS = ["Beginner", "Intermediate", "Advanced"] as const;
 type Level = (typeof LEVELS)[number];
 type QMap = Record<Level, Question[]>;
@@ -41,12 +38,13 @@ const SurveyPage: React.FC = () => {
     Intermediate: [],
     Advanced: [],
   });
-  
-  const [existingQuestionsByLevel, setExistingQuestionsByLevel] = useState<QMap>({
-    Beginner: [],
-    Intermediate: [],
-    Advanced: [],
-  });
+
+  const [existingQuestionsByLevel, setExistingQuestionsByLevel] =
+    useState<QMap>({
+      Beginner: [],
+      Intermediate: [],
+      Advanced: [],
+    });
 
   // Track original questions state for change detection
   const [originalQuestions, setOriginalQuestions] = useState<QMap>({
@@ -56,7 +54,9 @@ const SurveyPage: React.FC = () => {
   });
 
   // Track which questions have been modified
-  const [modifiedQuestions, setModifiedQuestions] = useState<Set<string>>(new Set());
+  const [modifiedQuestions, setModifiedQuestions] = useState<Set<string>>(
+    new Set()
+  );
 
   const hasFetchedOnce = useRef(false);
   const [currentTab, setCurrentTab] = useState<Level>("Beginner");
@@ -74,9 +74,12 @@ const SurveyPage: React.FC = () => {
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [onConfirmAction, setOnConfirmAction] = useState<() => void>(() => {});
 
-const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetch", message?: string) => {
-  setLoadingState({ show: true, variant, message: message || "" });
-}, []);
+  const showLoading = useCallback(
+    (variant: "create" | "update" | "delete" | "fetch", message?: string) => {
+      setLoadingState({ show: true, variant, message: message || "" });
+    },
+    []
+  );
 
   const hideLoading = useCallback(() => {
     setLoadingState({ show: false, message: "", variant: "fetch" });
@@ -99,27 +102,27 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
     if (q1.questionType !== q2.questionType) return false;
     if (q1.questionCategory !== q2.questionCategory) return false;
     if (q1.questionLevel !== q2.questionLevel) return false;
-    
+
     // Compare answers for MCQ questions
     if (q1.questionType === "Mcq" || q2.questionType === "Mcq") {
       const a1 = q1.answers || [];
       const a2 = q2.answers || [];
-      
+
       if (a1.length !== a2.length) return false;
-      
+
       for (let i = 0; i < a1.length; i++) {
         if (a1[i].answer !== a2[i].answer) return false;
         if (a1[i].isCorrect !== a2[i].isCorrect) return false;
       }
     }
-    
+
     return true;
   };
 
   // Mark question as modified
   const markQuestionAsModified = (questionID: string) => {
     if (questionID) {
-      setModifiedQuestions(prev => new Set(prev).add(questionID));
+      setModifiedQuestions((prev) => new Set(prev).add(questionID));
       console.log("📝 Question marked as modified:", questionID);
     }
   };
@@ -133,7 +136,7 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
   // Initialize edit mode with existing questions or empty placeholders
   const initializeEditMode = useCallback(() => {
     const map: QMap = { Beginner: [], Intermediate: [], Advanced: [] };
-    
+
     existingQuestions.forEach((q) => {
       if (q.questionLevel && LEVELS.includes(q.questionLevel as Level)) {
         map[q.questionLevel as Level].push(q);
@@ -154,9 +157,9 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
   // Update existing questions when new data is fetched
   const updateExistingQuestionsFromFetch = useCallback(() => {
     if (isEmpty && existingQuestions.length === 0) return;
-    
+
     const map: QMap = { Beginner: [], Intermediate: [], Advanced: [] };
-    
+
     existingQuestions.forEach((q) => {
       if (q.questionLevel && LEVELS.includes(q.questionLevel as Level)) {
         map[q.questionLevel as Level].push(q);
@@ -177,9 +180,9 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
   // Initialize add mode with clean slate
   const initializeAddMode = () => {
     const emptyMap: QMap = { Beginner: [], Intermediate: [], Advanced: [] };
-    
+
     LEVELS.forEach((lvl) => {
-      emptyMap[lvl] = [createEmptyQuestion(lvl)];
+      emptyMap[lvl] = [];
     });
 
     setNewQuestionsByLevel(emptyMap);
@@ -216,20 +219,32 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
       showLoading("fetch", "Loading Questions...");
       fetchQuestions().finally(() => hideLoading());
     }
-  }, [fetchQuestions, showUIImmediately, initializeEditMode, showLoading, hideLoading]);
+  }, [
+    fetchQuestions,
+    showUIImmediately,
+    initializeEditMode,
+    showLoading,
+    hideLoading,
+  ]);
 
   // Update existing questions when fetched - fixed dependencies
   useEffect(() => {
     if (!showUIImmediately) return;
-    
+
     if (mode === "edit") {
       updateExistingQuestionsFromFetch();
     }
-  }, [existingQuestions, showUIImmediately, mode, updateExistingQuestionsFromFetch]);
+  }, [
+    existingQuestions,
+    showUIImmediately,
+    mode,
+    updateExistingQuestionsFromFetch,
+  ]);
 
   // Get current questions based on mode
   const getCurrentQuestions = (): Question[] => {
-    const questionsByLevel = mode === "create" ? newQuestionsByLevel : existingQuestionsByLevel;
+    const questionsByLevel =
+      mode === "create" ? newQuestionsByLevel : existingQuestionsByLevel;
     return questionsByLevel[currentTab] || [];
   };
 
@@ -241,9 +256,9 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
   // Update questions based on current mode
   const updateCurrentQuestions = (level: Level, questions: Question[]) => {
     if (mode === "create") {
-      setNewQuestionsByLevel(prev => ({ ...prev, [level]: questions }));
+      setNewQuestionsByLevel((prev) => ({ ...prev, [level]: questions }));
     } else {
-      setExistingQuestionsByLevel(prev => ({ ...prev, [level]: questions }));
+      setExistingQuestionsByLevel((prev) => ({ ...prev, [level]: questions }));
     }
   };
 
@@ -253,7 +268,9 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
     initializeAddMode();
     setCurrentIndex(0);
     setError("");
-    console.log("🆕 Switched to CREATE mode - sidebar should show only new questions");
+    console.log(
+      "🆕 Switched to CREATE mode - sidebar should show only new questions"
+    );
   };
 
   const switchToEditMode = async () => {
@@ -266,7 +283,9 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
     } finally {
       hideLoading();
     }
-    console.log("✏️ Switched to EDIT mode - sidebar should show existing questions");
+    console.log(
+      "✏️ Switched to EDIT mode - sidebar should show existing questions"
+    );
   };
 
   // Question management functions
@@ -282,8 +301,8 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
     }
 
     const currentQuestions = newQuestionsByLevel[level];
-    const hasEmptyQuestion = currentQuestions.some(q => !q.question?.trim());
-    
+    const hasEmptyQuestion = currentQuestions.some((q) => !q.question?.trim());
+
     if (hasEmptyQuestion) {
       setError("Please complete the current question before adding a new one.");
       return;
@@ -291,16 +310,16 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
 
     const lastQuestion = currentQuestions[currentQuestions.length - 1];
     const lastCategory = lastQuestion?.questionCategory || "";
-    
+
     const newQuestion = createEmptyQuestion(level);
     newQuestion.questionCategory = lastCategory;
-    
+
     const updatedQuestions = [...currentQuestions, newQuestion];
-    setNewQuestionsByLevel(prev => ({ ...prev, [level]: updatedQuestions }));
-    
+    setNewQuestionsByLevel((prev) => ({ ...prev, [level]: updatedQuestions }));
+
     setCurrentTab(level);
     setCurrentIndex(updatedQuestions.length - 1);
-    
+
     if (isEmpty) setError("");
     console.log(`➕ Added new question to ${level} level in CREATE mode`);
   };
@@ -308,7 +327,7 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
   const onDeleteCurrent = async () => {
     const currentQuestions = getCurrentQuestions();
     const questionToDelete = currentQuestions[currentIndex];
-    
+
     if (mode === "edit" && questionToDelete.questionID) {
       showLoading("delete", "Deleting Question...");
       try {
@@ -323,17 +342,19 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
     }
 
     const newList = currentQuestions.filter((_, i) => i !== currentIndex);
-    
+
     if (newList.length === 0) {
       newList.push(createEmptyQuestion(currentTab));
     }
-    
+
     updateCurrentQuestions(currentTab, newList);
-    
+
     const newIndex = Math.min(currentIndex, newList.length - 1);
     setCurrentIndex(Math.max(newIndex, 0));
-    
-    console.log(`🗑️ Deleted question from ${currentTab} level. Remaining: ${newList.length}`);
+
+    console.log(
+      `🗑️ Deleted question from ${currentTab} level. Remaining: ${newList.length}`
+    );
   };
 
   const onDeleteAllQuestions = (level: Level) => {
@@ -343,9 +364,9 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
 
   const confirmDeleteAllQuestions = async () => {
     const currentQuestions = getCurrentQuestions();
-    
+
     if (mode === "edit") {
-      const questionsToDelete = currentQuestions.filter(q => q.questionID);
+      const questionsToDelete = currentQuestions.filter((q) => q.questionID);
       if (questionsToDelete.length) {
         showLoading("delete", `Deleting All ${levelToDelete} Questions...`);
         try {
@@ -370,20 +391,25 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
   const onUpdateQuestion = (field: keyof Question, value: any) => {
     const currentQuestions = getCurrentQuestions();
     const question = currentQuestions[currentIndex];
-    
+
     if (field === "questionLevel" && LEVELS.includes(value as Level)) {
       const newLevel = value as Level;
       const updatedQuestion = { ...question, questionLevel: newLevel };
-      
-      const remainingQuestions = currentQuestions.filter((_, idx) => idx !== currentIndex);
+
+      const remainingQuestions = currentQuestions.filter(
+        (_, idx) => idx !== currentIndex
+      );
       updateCurrentQuestions(currentTab, remainingQuestions);
-      
+
       const targetLevelQuestions = getCurrentQuestionsByLevel()[newLevel];
-      updateCurrentQuestions(newLevel, [...targetLevelQuestions, updatedQuestion]);
-      
+      updateCurrentQuestions(newLevel, [
+        ...targetLevelQuestions,
+        updatedQuestion,
+      ]);
+
       setCurrentTab(newLevel);
       setCurrentIndex(targetLevelQuestions.length);
-      
+
       // Mark as modified if in edit mode and has questionID
       if (mode === "edit" && updatedQuestion.questionID) {
         markQuestionAsModified(updatedQuestion.questionID);
@@ -397,27 +423,35 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
         newList[currentIndex] = { ...question, [field]: value };
       }
       updateCurrentQuestions(currentTab, newList);
-      
+
       // Track changes but don't auto-save
       if (mode === "edit" && question.questionID) {
         const updatedQuestion = newList[currentIndex];
-        
+
         // Check if question is actually different from original
         const originalQuestion = findOriginalQuestion(question.questionID);
-        if (originalQuestion && !questionsAreEqual(updatedQuestion, originalQuestion)) {
+        if (
+          originalQuestion &&
+          !questionsAreEqual(updatedQuestion, originalQuestion)
+        ) {
           markQuestionAsModified(question.questionID);
-          console.log("📝 Question marked as modified (will save on manual update):", question.questionID);
+          console.log(
+            "📝 Question marked as modified (will save on manual update):",
+            question.questionID
+          );
         }
       }
     }
-    
+
     setError("");
   };
 
   // Find original question by ID
   const findOriginalQuestion = (questionID: string): Question | null => {
     for (const level of LEVELS) {
-      const question = originalQuestions[level].find(q => q.questionID === questionID);
+      const question = originalQuestions[level].find(
+        (q) => q.questionID === questionID
+      );
       if (question) return question;
     }
     return null;
@@ -425,10 +459,12 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
 
   // Update original question state after successful save
   const updateOriginalQuestion = (updatedQuestion: Question) => {
-    setOriginalQuestions(prev => {
+    setOriginalQuestions((prev) => {
       const newOriginal = { ...prev };
       for (const level of LEVELS) {
-        const questionIndex = newOriginal[level].findIndex(q => q.questionID === updatedQuestion.questionID);
+        const questionIndex = newOriginal[level].findIndex(
+          (q) => q.questionID === updatedQuestion.questionID
+        );
         if (questionIndex !== -1) {
           newOriginal[level][questionIndex] = { ...updatedQuestion };
           break;
@@ -436,9 +472,9 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
       }
       return newOriginal;
     });
-    
+
     // Remove from modified set since it's now saved
-    setModifiedQuestions(prev => {
+    setModifiedQuestions((prev) => {
       const newSet = new Set(prev);
       newSet.delete(updatedQuestion.questionID);
       return newSet;
@@ -450,7 +486,7 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
     const questionsByLevel = getCurrentQuestionsByLevel();
     return Object.values(questionsByLevel)
       .flat()
-      .filter(q => q.question.trim() && q.questionCategory && q.questionLevel)
+      .filter((q) => q.question.trim() && q.questionCategory && q.questionLevel)
       .length;
   };
 
@@ -460,10 +496,16 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
       "Create Survey Questions",
       "This will create new survey questions. Do you want to continue?",
       async () => {
-        const allNewQuestions = LEVELS.flatMap(lvl => newQuestionsByLevel[lvl]).filter(
-          q => q.question.trim() && q.questionCategory && q.questionLevel && !q.questionID
+        const allNewQuestions = LEVELS.flatMap(
+          (lvl) => newQuestionsByLevel[lvl]
+        ).filter(
+          (q) =>
+            q.question.trim() &&
+            q.questionCategory &&
+            q.questionLevel &&
+            !q.questionID
         );
-        
+
         showLoading("create", "Creating Questions...");
         try {
           await createQuestions(allNewQuestions);
@@ -486,7 +528,7 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
     }
 
     const questionsToUpdate: Question[] = [];
-    
+
     // Collect all modified questions
     for (const level of LEVELS) {
       for (const question of existingQuestionsByLevel[level]) {
@@ -501,23 +543,30 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
       return;
     }
 
-    console.log(`🔍 Found ${questionsToUpdate.length} modified questions to update`);
+    console.log(
+      `🔍 Found ${questionsToUpdate.length} modified questions to update`
+    );
 
     // ⭐ SMART LOGIC: Choose update method based on count
     if (questionsToUpdate.length === 1) {
       // Use single question update for better performance and clearer logging
       const singleQuestion = questionsToUpdate[0];
-      console.log(`📝 Using SINGLE PUT for 1 question: ${singleQuestion.questionID}`);
-      
-      showLoading("update", `Updating question: "${singleQuestion.question.substring(0, 30)}..."`);
-      
+      console.log(
+        `📝 Using SINGLE PUT for 1 question: ${singleQuestion.questionID}`
+      );
+
+      showLoading(
+        "update",
+        `Updating question: "${singleQuestion.question.substring(0, 30)}..."`
+      );
+
       try {
         await updateSingleQuestion(singleQuestion);
         console.log("✅ Single question updated successfully");
-        
+
         // Update the original questions state to reflect the new saved state
         updateOriginalQuestion(singleQuestion);
-        
+
         await fetchQuestions(); // Refresh to ensure consistency
       } catch (error: any) {
         console.error("❌ Failed to update single question:", error);
@@ -527,19 +576,26 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
       }
     } else {
       // Use batch update for multiple questions
-      console.log(`📝 Using BULK PUT for ${questionsToUpdate.length} questions`);
-      
-      showLoading("update", `Updating ${questionsToUpdate.length} modified questions...`);
-      
+      console.log(
+        `📝 Using BULK PUT for ${questionsToUpdate.length} questions`
+      );
+
+      showLoading(
+        "update",
+        `Updating ${questionsToUpdate.length} modified questions...`
+      );
+
       try {
         await updateQuestionsBatch(questionsToUpdate);
-        console.log(`✅ Successfully updated ${questionsToUpdate.length} questions in bulk`);
-        
+        console.log(
+          `✅ Successfully updated ${questionsToUpdate.length} questions in bulk`
+        );
+
         // Update the original questions state for all updated questions
-        questionsToUpdate.forEach(question => {
+        questionsToUpdate.forEach((question) => {
           updateOriginalQuestion(question);
         });
-        
+
         await fetchQuestions(); // Refresh to ensure consistency
       } catch (error: any) {
         console.error("❌ Failed to update questions in bulk:", error);
@@ -609,8 +665,12 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
         onDeleteCurrent={onDeleteCurrent}
         onDeleteAllQuestions={onDeleteAllQuestions}
         onUpdateQuestion={onUpdateQuestion}
-        onPrev={() => setCurrentIndex(i => Math.max(i - 1, 0))}
-        onNext={() => setCurrentIndex(i => Math.min(i + 1, getCurrentQuestions().length - 1))}
+        onPrev={() => setCurrentIndex((i) => Math.max(i - 1, 0))}
+        onNext={() =>
+          setCurrentIndex((i) =>
+            Math.min(i + 1, getCurrentQuestions().length - 1)
+          )
+        }
         onCreateNew={handleCreateNew}
         onUpdate={handleUpdateModifiedQuestions} // ⭐ Smart update function
         onSwitchToCreate={switchToCreateMode}
@@ -619,7 +679,11 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
         onClosePreview={() => setShowPreview(false)}
         onLogout={() => navigate("/")}
         formTitle="Sanskrit Survey Builder"
-        formDescription={mode === "create" ? "Create new questions for each level." : "Edit existing questions. Click 'Update' to save changes."}
+        formDescription={
+          mode === "create"
+            ? "Create new questions for each level."
+            : "Edit existing questions. Click 'Update' to save changes."
+        }
       />
 
       {/* Loading Popup */}
@@ -637,7 +701,8 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
               Delete All Questions
             </h2>
             <p className="text-gray-700 mb-6">
-              Are you sure you want to delete all <strong>{levelToDelete}</strong> questions?
+              Are you sure you want to delete all{" "}
+              <strong>{levelToDelete}</strong> questions?
             </p>
             <div className="flex justify-center gap-4">
               <button
@@ -692,8 +757,10 @@ const showLoading = useCallback((variant: "create" | "update" | "delete" | "fetc
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
             <span className="text-sm">
-              {modifiedQuestions.size} question{modifiedQuestions.size > 1 ? 's' : ''} modified - 
-              {modifiedQuestions.size === 1 ? ' Single PUT' : ' Bulk PUT'} will be used
+              {modifiedQuestions.size} question
+              {modifiedQuestions.size > 1 ? "s" : ""} modified -
+              {modifiedQuestions.size === 1 ? " Single PUT" : " Bulk PUT"} will
+              be used
             </span>
           </div>
         </div>
