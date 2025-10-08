@@ -65,6 +65,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
             Participant
           </button>
           <button
+            data-cy="admin-tab"
             className={`flex-1 py-2 rounded-r-lg font-semibold text-lg ${
               tab === "admin"
                 ? "bg-login-primary text-login-active-text"
@@ -123,7 +124,9 @@ const LoginPage: React.FC<LoginPageProps> = ({
                   onChange={(e) => setAnonymous(e.target.checked)}
                   className="mr-2 w-4 h-4 accent-login-primary text-text-input border-login-checkbox-border rounded focus:ring-login-focus-border"
                 />
-                <span className="text-sm text-login-checkbox-text">Anonymous</span>
+                <span className="text-sm text-login-checkbox-text">
+                  Anonymous
+                </span>
               </label>
             </div>
           )}
