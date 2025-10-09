@@ -29,4 +29,20 @@ describe("Admin login page test with no 'get' on TailwindCSS", () => {
     cy.get('[data-cy="login-button"]').click();
     cy.contains("Please enter admin name.").should("be.visible");
   });
+
+  it("Test with incorrect password", () => {
+    cy.get('[data-cy="admin-tab"]').click();
+    cy.get('[data-cy="username-input"]').type("Jimmy");
+    cy.get('[data-cy="password-input"]').type("Dummy Password");
+    cy.get('[data-cy="login-button"]').click();
+    cy.contains("Incorrect admin password.").should("be.visible");
+  });
+
+  it("Test with correct password", () => {
+    cy.get('[data-cy="admin-tab"]').click();
+    cy.get('[data-cy="username-input"]').type("Jimmy");
+    cy.get('[data-cy="password-input"]').type("AdminForm123");
+    cy.get('[data-cy="login-button"]').click();
+    cy.url().should("eq", "http://localhost:3000/dashboard");
+  });
 });
