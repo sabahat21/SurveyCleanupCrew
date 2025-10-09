@@ -55,7 +55,10 @@ export function Sidebar({
           Question Bank
         </h3>
         {mode === "create" && (
-          <span className="px-3 py-1 bg-green-100 text-black rounded-full">
+          <span
+            data-cy="create-mode-badge"
+            className="px-3 py-1 bg-green-100 text-black rounded-full"
+          >
             CREATE MODE
           </span>
         )}
