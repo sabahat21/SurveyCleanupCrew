@@ -167,7 +167,7 @@ export function Sidebar({
         {mode === "create" && onAddQuestion && (
           <div className="mt-4 pt-3 border-t border-gray-100">
             <button
-              data-cy="add-questions-button"
+              data-cy="add-question-button"
               onClick={() => onAddQuestion(currentLevel)}
               disabled={levelQuestions.some((q) => !q.question?.trim())}
               className="w-full px-3 py-2 rounded-lg font-medium text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:text-gray-700 hover:border-gray-300 transition-all duration-150 flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-50 disabled:hover:text-gray-600 disabled:hover:border-gray-200"

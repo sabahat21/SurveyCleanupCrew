@@ -13,4 +13,9 @@ describe("Login as admin and create a question", () => {
       .should("exist")
       .and("have.text", "CREATE MODE");
   });
+
+  it("Click Add Question button in create mode", () => {
+    cy.get('[data-cy="add-header-button"]').click();
+    cy.get('[data-cy="add-question-button"]').click();
+  });
 });
