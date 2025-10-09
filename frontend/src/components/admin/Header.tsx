@@ -73,6 +73,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Center: Mode Toggle */}
             <div className="flex items-center gap-3">
               <button
+                data-cy="add-header-button"
                 onClick={onSwitchToCreate}
                 className={`px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-sm border transition-all duration-200 ${
                   mode === "create"
@@ -98,6 +99,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <span>Add</span>
               </button>
               <button
+                data-cy="edit-header-button"
                 onClick={onSwitchToEdit}
                 className={`px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-sm border transition-all duration-200 ${
                   mode === "edit"
