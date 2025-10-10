@@ -142,6 +142,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Action Button */}
               {mode === "create" ? (
                 <button
+                  data-cy="save-questions-button"
                   onClick={onCreateNew}
                   disabled={isSubmitting || completedCount === 0}
                   className="flex items-center gap-2 px-5 py-2.5 bg-btn-save-questions-bg text-btn-save-questions-text rounded-lg hover:bg-btn-save-questions-hover-bg disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
