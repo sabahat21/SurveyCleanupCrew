@@ -285,6 +285,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
                     placeholder={`Option ${i + 1}`}
                   />
                   <button
+                    data-cy={`mcq-correct-answer-${i}-button`}
                     onClick={() => handleSetCorrectOption(i)}
                     className={`w-6 h-6 flex items-center justify-center rounded-full transition-colors ${
                       opt.isCorrect
