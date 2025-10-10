@@ -96,4 +96,11 @@ describe("Login as admin and create a question", () => {
     cy.get('[data-cy="save-questions-button"]').click();
     cy.get('[data-cy="save-confirm-button"]').click();
   });
+
+  it("Delete all questions in Beginner tab", () => {
+    cy.get('[data-cy="edit-header-button"]').should("exist").click();
+    cy.get('[data-cy="level-tab-beginner"]').should("exist").click();
+    cy.get('[data-cy="delete-all-questions-button"]').should("exist").click();
+    cy.get('[data-cy="confirm-delete-all-button"]').should("exist").click();
+  });
 });
