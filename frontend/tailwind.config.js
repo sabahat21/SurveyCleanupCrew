@@ -71,7 +71,8 @@ module.exports = {
         "btn-delete-question-bg": "var(--btn-delete-question-bg)",
         "btn-delete-question-text": "var(--btn-delete-question-text)",
         "btn-delete-question-hover-bg": "var(--btn-delete-question-hover-bg)",
-        "btn-delete-question-hover-text": "var(--btn-delete-question-hover-text)",
+        "btn-delete-question-hover-text":
+          "var(--btn-delete-question-hover-text)",
 
         /* Sidebar */
         "sidebar-bg": "var(--sidebar-bg)",
@@ -88,7 +89,9 @@ module.exports = {
         "levelquestion-active-border": "var(--levelquestion-active-border)",
         "btn-delete-all-questions-bg": "var(--btn-delete-all-questions-bg)",
         "btn-delete-all-questions-text": "var(--btn-delete-all-questions-text)",
-        "btn-delete-all-questions-hover-bg": "var(--btn-delete-all-questions-hover-bg)",
+        "btn-delete-all-questions-hover-bg":
+          "var(--btn-delete-all-questions-hover-bg)",
+        "question-bank-text": "var(--question-bank-text)",
 
         /* Login */
         "login-bg": "var(--login-bg)",

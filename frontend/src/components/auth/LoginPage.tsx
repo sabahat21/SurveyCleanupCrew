@@ -52,6 +52,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
         <div className="flex mb-5 sm:mb-6">
           <button
             className={`flex-1 py-2 sm:py-3 text-lg sm:text-base font-semibold rounded-l-lg transition-colors ${
+              data-cy="participant-tab"
               tab === "participant"
                 ? "bg-login-primary text-login-active-text"
                 : "bg-login-nonactive-bg text-login-nonactive-text"
@@ -66,6 +67,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           </button>
           <button
             className={`flex-1 py-2 sm:py-3 text-lg sm:text-base font-semibold rounded-r-lg transition-colors ${
+              data-cy="admin-tab"
               tab === "admin"
                 ? "bg-login-primary text-login-active-text"
                 : "bg-login-nonactive-bg text-login-nonactive-text"
@@ -91,6 +93,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
         >
           <div>
             <input
+              data-cy="username-input"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -104,6 +107,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           {tab === "admin" && (
             <div>
               <input
+                data-cy="password-input"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -128,6 +132,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
             </div>
           )}
           <button
+            data-cy="login-button"
             type="submit"
             className="w-full bg-login-button-bg text-login-button-text text-sm sm:text-base px-4 py-2 sm:py-2.5 rounded-lg hover:bg-login-button-hover transition font-semibold"
           >

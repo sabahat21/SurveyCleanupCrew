@@ -49,39 +49,45 @@ export function Sidebar({
       role="navigation"
       aria-label="Question Navigation Sidebar"
     >
-      {/* Progress Header */}
-      <div className="mb-4">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-bold text-gray-900">Question Bank</h3>
-          {mode === "create" && (
-            <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-              CREATE MODE
-            </span>
-          )}
-        </div>
-        <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-3">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-progress-text">
-              Progress
-            </span>
-            <span className="text-sm font-bold text-progress-number">
+      {/* Question Bank Header */}
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="text-lg font-bold text-question-bank-text">
+          Question Bank
+        </h3>
+        {mode === "create" && (
+          <span
+            data-cy="create-mode-badge"
+            className="px-3 py-1 bg-green-100 text-black rounded-full"
+          >
+            CREATE MODE
+          </span>
+        )}
+      </div>
+      {/* Progress Bar only shows during Edit mode*/}
+      {mode === "edit" && (
+        <div className="mb-2 bg-gray-100 py-2 px-2 rounded-lg overflow-hidden">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-progress-text">Progress</span>
+            <span className="font-bold text-progress-number">
               {completedCount}/{totalQuestions}
             </span>
           </div>
-          <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+
+          <div className="relative h-2 mt-1">
             <div
-              className="absolute top-0 left-0 h-full bg-gradient-to-r from-progress-bar-from to-progress-bar-to transition-all duration-500 ease-out rounded-full"
+              className="absolute h-full bg-gradient-to-r from-progress-bar-from to-progress-bar-to transition-all duration-500 ease-out rounded-full"
               style={{ width: `${progressPct}%` }}
             />
           </div>
         </div>
-      </div>
+      )}
 
       {/* Level Tabs + Delete All */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex space-x-4">
           {LEVELS.map((lvl) => (
             <button
+              data-cy={`level-tab-${lvl.toLowerCase()}`}
               key={lvl}
               onClick={() => onSelectLevel(lvl)}
               className={`px-4 py-2 rounded-t-lg transition-colors focus:outline-none ${
@@ -95,6 +101,7 @@ export function Sidebar({
           ))}
         </div>
         <button
+          data-cy="delete-all-questions-button"
           onClick={() => {
             if (levelQuestions.length > 0) {
               onDeleteAll(currentLevel);
@@ -160,6 +167,7 @@ export function Sidebar({
         {mode === "create" && onAddQuestion && (
           <div className="mt-4 pt-3 border-t border-gray-100">
             <button
+              data-cy="add-question-button"
               onClick={() => onAddQuestion(currentLevel)}
               disabled={levelQuestions.some((q) => !q.question?.trim())}
               className="w-full px-3 py-2 rounded-lg font-medium text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:text-gray-700 hover:border-gray-300 transition-all duration-150 flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-50 disabled:hover:text-gray-600 disabled:hover:border-gray-200"

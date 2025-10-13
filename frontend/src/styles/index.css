@@ -90,6 +90,7 @@
   --btn-delete-all-questions-bg: #fee2e2;
   --btn-delete-all-questions-text: #dc2626;
   --btn-delete-all-questions-hover-bg: #fecaca;
+  --question-bank-text: #000000;
 
   /* Login page, Proficiency modal specific colors */
   --login-bg: #ffec97;
@@ -147,11 +148,10 @@
   --update-cancel-bg: #d8d8d8f7;
   --update-cancel-hover: #adadad;
   --update-cancel-text: #000000;
-  
+
   /* Analytics Page */
   --analytics-bg: #f5c800;
-  --button-refresh-responses-back:#ff4500;
-
+  --button-refresh-responses-back: #ff4500;
 
   /* Admin database connection lost */
   --adminlost-bg: #f5c800;
@@ -263,7 +263,6 @@
 --sb-indicator-border: #f5c800;
 
 }
-
 
 body {
   font-family: "Inter", sans-serif;
