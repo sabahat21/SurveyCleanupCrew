@@ -16,8 +16,8 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
   onSelectQuestion,
 }) => {
   return (
-    <aside className="w-80 bg-white/80 backdrop-blur-sm shadow-xl p-6 overflow-y-auto flex flex-col" 
-           style={{ borderRight: `1px solid var(--primary)` }}>
+    <aside className="w-80 bg-white/80 backdrop-blur-sm shadow-xl flex flex-col p-6 overflow-hidden" 
+           style={{ borderRight: `1px solid var(--primary)`, height: '100vh' }}>
       <div className="mb-6">
         <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--progress-text)' }}>
           Survey Progress
@@ -44,7 +44,8 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
         </p>
       </div>
 
-      <ul className="space-y-2 flex-1">
+      <div className="flex-1 overflow-y-auto px-1 pb-12">
+        <ul className="space-y-2">
         {questions.map((q, i) => (
           <li
             key={q.questionID || q._id || `sidebar-question-${i}`} // FIX: Added proper key
@@ -115,6 +116,8 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
           </li>
         ))}
       </ul>
+      <div className="h-6" />
+      </div>
     </aside>
   );
 };

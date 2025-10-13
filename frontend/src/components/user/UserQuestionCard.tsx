@@ -1,6 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Volume2, VolumeX, Loader2 } from "lucide-react";
 import { API_BASE, API_KEY } from "../api/config";
+import ProficiencyModal from "../common/ProficiencyModal";
+
+
+
+
 
 interface UserQuestionCardProps {
   questions: any[];
@@ -16,6 +21,7 @@ interface UserQuestionCardProps {
   onPublish: () => void;
   onClosePreview: () => void;
   onLogout: () => void;
+  proficiency:string;
 }
 
 const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
@@ -32,6 +38,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
   onPublish,
   onClosePreview,
   onLogout,
+  proficiency
+  // participantLevel,
+  
 }) => {
   const [recording, setRecording] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -225,6 +234,8 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
   const isSkipped = answers[index] === "skip";
 
   return (
+
+      
     <main className="flex-grow flex items-center justify-center px-8">
       <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 w-full max-w-2xl relative border border-orange-100">
         {/* Decorative gradient overlay */}
@@ -259,14 +270,17 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
           )}
 
           {/* Header row */}
+ 
+             
+         
+
           <div className="relative flex justify-between items-start mb-8">
             <span
               className="px-4 py-2 text-white rounded-full text-sm font-bold uppercase tracking-wide shadow-lg"
               style={{ background: "var(--header-primary)" }}
             >
-              {!showPreviewDialog ? questions[index]?.questionLevel : "SURVEY"} Level
+              {!showPreviewDialog ? questions[index]?.questionLevel : proficiency} Level
             </span>
-
             <button
               onClick={onLogout}
               disabled={submitting || recording}
@@ -275,9 +289,13 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               }`}
               style={{ color: "var(--btn-logout-bg)" }}
             >
-              Logout
+              Exit
             </button>
+
+                      
+            
           </div>
+          
 
           {!showPreviewDialog && (
             <>
@@ -486,7 +504,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                   disabled={submitting}
                   className="px-4 py-2 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-200 text-sm disabled:opacity-50"
                 >
-                  Review More
+                  Edit Answers
                 </button>
               </div>
             </div>
@@ -495,6 +513,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
       </div> 
     </main>
   );
+  
 };
+
+
+
+
 
 export default UserQuestionCard;

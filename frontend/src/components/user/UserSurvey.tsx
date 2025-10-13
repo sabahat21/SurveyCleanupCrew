@@ -264,6 +264,7 @@ const UserSurvey: React.FC = () => {
               onPublish={handlePublish}
               onClosePreview={handleClosePreview}
               onLogout={() => setShowLogoutPrompt(true)}
+              proficiency={proficiency}
             />
           </div>
         </div>
@@ -325,5 +326,8 @@ const UserSurvey: React.FC = () => {
     </>
   );
 };
+
+//
+
 
 export default UserSurvey;
