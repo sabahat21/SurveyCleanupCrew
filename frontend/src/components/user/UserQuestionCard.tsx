@@ -225,7 +225,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
   const isSkipped = answers[index] === "skip";
 
   return (
-    <main className="flex-grow flex justify-center px-4 sm:px-8 py-6 sm:py-10 overflow-y-auto sm:items-center">
+    <main className="flex-grow flex justify-center px-4 sm:px-8 py-16 sm:py-10 overflow-y-auto sm:items-center">
       
         {/* Decorative gradient overlay */}
         {/* <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary/5 to-secondary/5" /> */}
@@ -234,7 +234,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
       <button
         onClick={onLogout}
         disabled={submitting || recording}
-        className={`fixed top-3 right-3 sm:top-4 sm:right-6 z-50 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg hover:from-red-600 hover:to-red-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
+        className={`fixed top-5 right-5 sm:top-4 sm:right-6 z-50 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg hover:from-red-600 hover:to-red-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
           submitting || recording ? "opacity-50 cursor-not-allowed" : ""
         }`}
       >
