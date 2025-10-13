@@ -79,7 +79,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
             Admin
           </button>
         </div>
-        <h2 className="text-2xl font-bold text-center mb-6">
+        <h2 className="text-2xl sm:text-2xl font-bold text-center mb-6 sm:mb-6">
           {tab === "participant" ? "Participant Login" : "Admin Login"}
         </h2>
         <form
@@ -87,7 +87,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
             e.preventDefault();
             handleLogin();
           }}
-          className="space-y-5"
+          className="space-y-4 sm:space-y-5"
         >
           <div>
             <input
@@ -109,7 +109,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Password"
-                className="w-full border border-login-input-border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-login-focus-border focus:border-transparent"
+                className="w-full border border-login-input-border rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-login-focus-border focus:border-transparent transition"
                 autoComplete="current-password"
               />
             </div>
@@ -123,23 +123,23 @@ const LoginPage: React.FC<LoginPageProps> = ({
                   onChange={(e) => setAnonymous(e.target.checked)}
                   className="mr-2 w-4 h-4 accent-login-primary text-text-input border-login-checkbox-border rounded focus:ring-login-focus-border"
                 />
-                <span className="text-sm text-login-checkbox-text">Anonymous</span>
+                <span className="text-sm sm:text-base text-login-checkbox-text">Anonymous</span>
               </label>
             </div>
           )}
           <button
             type="submit"
-            className="w-full bg-login-button-bg text-login-button-text px-4 py-2 rounded hover:bg-login-button-hover transition"
+            className="w-full bg-login-button-bg text-login-button-text text-sm sm:text-base px-4 py-2 sm:py-2.5 rounded-lg hover:bg-login-button-hover transition font-semibold"
           >
             {tab === "participant" ? "Login as Participant" : "Login as Admin"}
           </button>
           {(error || (tab === "admin" && adminError)) && (
-            <div className="text-login-error-text text-sm mt-2 p-2 bg-login-error-bg border border-login-error-border rounded">
+            <div className="text-login-error-text text-sm sm:text-base mt-2 p-2 bg-login-error-bg border border-login-error-border rounded">
               {error || adminError}
             </div>
           )}
         </form>
-        <p className="text-center text-login-welcome-text text-xs mt-4">
+        <p className="text-center text-login-welcome-text text-sm sm:text-sm mt-4">
           Welcome to Sanskrit Learning Survey!
         </p>
       </div>
