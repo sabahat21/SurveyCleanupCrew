@@ -241,10 +241,10 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
         Logout
       </button>
 
-        {/* Card */}
+        {/* Question Card */}
         <div
-          className={`bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-10 w-full max-w-lg sm:max-w-2xl relative border border-purple-100 transition-all duration-500 ${
-            recording ? "opacity-70 scale-[0.98] shadow-3xl" : "opacity-100 scale-100"
+          className={`relative bg-white/90 backdrop-blur-sm border border-purple-100 rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-lg sm:max-w-xl md:max-w-2xl p-5 sm:p-8 transition-all duration-500 ${
+            recording ? "opacity-70 scale-[0.98]" : "opacity-100 scale-100"
           }`}
         >
           {/* Recording overlay */}
