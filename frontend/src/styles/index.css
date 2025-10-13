@@ -248,6 +248,20 @@
   --user-survey-btn-ok-error: #dc2626;
   --user-survey-btn-ok-error-hover: #b91c1c;
 
+  /* Sidebar specific colors */
+--sb-bg: #ffffff;
+--sb-border: #f2d2b6;
+--sb-text: #000000;
+--sb-active-bg: #aee3f8;
+--sb-active-border: #ff4500;
+--sb-hover-bg: #f5d7be;
+--sb-progress-bar-from: #042aff;
+--sb-progress-bar-to: #5a89f0;
+--sb-progress-text: #000000;
+--sb-indicator-active: #ef4444;
+--sb-indicator-skip: #f39800;
+--sb-indicator-border: #f5c800;
+
 }
 
 
