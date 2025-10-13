@@ -706,12 +706,14 @@ const SurveyPage: React.FC = () => {
             </p>
             <div className="flex justify-center gap-4">
               <button
+                data-cy="confirm-delete-all-button"
                 className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
                 onClick={confirmDeleteAllQuestions}
               >
                 Yes, Delete All
               </button>
               <button
+                data-cy="cancel-delete-all-button"
                 className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
                 onClick={() => setShowDeleteDialog(false)}
               >
@@ -732,6 +734,7 @@ const SurveyPage: React.FC = () => {
             <p className="text-gray-700 mb-6">{confirmationMessage}</p>
             <div className="flex justify-center gap-4">
               <button
+                data-cy="save-confirm-button"
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg"
                 onClick={() => {
                   setShowConfirmation(false);
@@ -741,6 +744,7 @@ const SurveyPage: React.FC = () => {
                 Yes, Confirm
               </button>
               <button
+                data-cy="save-cancel-button"
                 className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg"
                 onClick={() => setShowConfirmation(false)}
               >

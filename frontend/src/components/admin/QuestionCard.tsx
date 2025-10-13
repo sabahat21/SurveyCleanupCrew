@@ -138,6 +138,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               </button>
             )}
             <button
+              data-cy="delete-question-button"
               onClick={handleDeleteClick}
               className="p-2 rounded-lg transition-colors bg-btn-delete-question-bg text-btn-delete-question-text hover:bg-btn-delete-question-hover-bg hover:text-btn-delete-question-hover-text"
               title="Delete this question"
@@ -154,6 +155,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               Category *
             </label>
             <select
+              data-cy="question-category-select"
               value={question.questionCategory || ""}
               onChange={(e) => onUpdate("questionCategory", e.target.value)}
               className="w-full border-2 rounded-xl px-4 py-3 bg-white"
@@ -172,6 +174,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               Level *
             </label>
             <select
+              data-cy="question-level-select"
               value={question.questionLevel || currentTabLevel}
               onChange={(e) => onUpdate("questionLevel", e.target.value)}
               className="w-full border-2 rounded-xl px-4 py-3 bg-white"
@@ -190,6 +193,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               Question Type *
             </label>
             <select
+              data-cy="question-type-select"
               value={question.questionType || "Input"}
               onChange={(e) => onUpdate("questionType", e.target.value)}
               disabled={isQuestionTypeDisabled}
@@ -232,6 +236,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             </label>
             <div className="relative">
               <textarea
+                data-cy="question-textarea"
                 rows={question.questionType === "Mcq" ? 6 : 4}
                 value={question.question || ""}
                 onChange={(e) => onUpdate("question", e.target.value)}
@@ -272,6 +277,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
               {mcqOptions.map((opt, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <input
+                    data-cy={`mcq-option-${i}-input`}
                     type="text"
                     value={opt.answer}
                     onChange={(e) => handleMcqOptionChange(i, e.target.value)}
@@ -279,6 +285,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
                     placeholder={`Option ${i + 1}`}
                   />
                   <button
+                    data-cy={`mcq-correct-answer-${i}-button`}
                     onClick={() => handleSetCorrectOption(i)}
                     className={`w-6 h-6 flex items-center justify-center rounded-full transition-colors ${
                       opt.isCorrect

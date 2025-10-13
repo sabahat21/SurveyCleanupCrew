@@ -51,6 +51,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
       <div className="bg-login-card-bg p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex mb-6">
           <button
+            data-cy="participant-tab"
             className={`flex-1 py-2 rounded-l-lg font-semibold text-lg ${
               tab === "participant"
                 ? "bg-login-primary text-login-active-text"
@@ -65,6 +66,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
             Participant
           </button>
           <button
+            data-cy="admin-tab"
             className={`flex-1 py-2 rounded-r-lg font-semibold text-lg ${
               tab === "admin"
                 ? "bg-login-primary text-login-active-text"
@@ -91,6 +93,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
         >
           <div>
             <input
+              data-cy="username-input"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -104,6 +107,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           {tab === "admin" && (
             <div>
               <input
+                data-cy="password-input"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -123,11 +127,14 @@ const LoginPage: React.FC<LoginPageProps> = ({
                   onChange={(e) => setAnonymous(e.target.checked)}
                   className="mr-2 w-4 h-4 accent-login-primary text-text-input border-login-checkbox-border rounded focus:ring-login-focus-border"
                 />
-                <span className="text-sm text-login-checkbox-text">Anonymous</span>
+                <span className="text-sm text-login-checkbox-text">
+                  Anonymous
+                </span>
               </label>
             </div>
           )}
           <button
+            data-cy="login-button"
             type="submit"
             className="w-full bg-login-button-bg text-login-button-text px-4 py-2 rounded hover:bg-login-button-hover transition"
           >

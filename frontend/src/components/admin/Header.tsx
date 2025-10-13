@@ -52,7 +52,10 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-primary bg-opacity-95 backdrop-blur-sm border-b-2 border-indigo-100 shadow-lg">
+      <header
+        data-cy="admin-header"
+        className="sticky top-0 z-50 w-full bg-primary bg-opacity-95 backdrop-blur-sm border-b-2 border-indigo-100 shadow-lg"
+      >
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between w-full">
             {/* Left: Logo + Title */}
@@ -73,6 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Center: Mode Toggle */}
             <div className="flex items-center gap-3">
               <button
+                data-cy="add-header-button"
                 onClick={onSwitchToCreate}
                 className={`px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-sm border transition-all duration-200 ${
                   mode === "create"
@@ -98,6 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <span>Add</span>
               </button>
               <button
+                data-cy="edit-header-button"
                 onClick={onSwitchToEdit}
                 className={`px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-sm border transition-all duration-200 ${
                   mode === "edit"
@@ -140,6 +145,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Action Button */}
               {mode === "create" ? (
                 <button
+                  data-cy="save-questions-button"
                   onClick={onCreateNew}
                   disabled={isSubmitting || completedCount === 0}
                   className="flex items-center gap-2 px-5 py-2.5 bg-btn-save-questions-bg text-btn-save-questions-text rounded-lg hover:bg-btn-save-questions-hover-bg disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
