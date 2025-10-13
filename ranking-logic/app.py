@@ -194,7 +194,7 @@ class TemplateProvider:
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: "Inter", sans-serif;
             background: #f5f7fa;
             min-height: 100vh;
         }
@@ -491,6 +491,106 @@ class TemplateProvider:
                 display: none;
             }
         }
+
+        /* === GameShow theme override === */
+
+        :root{
+        --gs-bg:            #ffec97;   
+        --gs-surface:       #ffffff;   
+        --gs-border:        #ededed;
+        --gs-text:          #000000;
+        --gs-muted:         #656565;
+
+        --gs-primary:       #ff4500;   /* brand orange */
+        --gs-hover:         #f5c800;   /* warm yellow hover */
+
+       
+        --gs-info-bg:       #fff5e6;   /* soft orange wash */
+        --gs-info-text:     #7a2e00;
+        }
+
+        /* Background & text */
+        body{
+        background: var(--gs-bg);
+        color: var(--gs-text);
+        }
+
+        /* Panels */
+        .panel{
+        background: var(--gs-surface);
+        border-color: var(--gs-border);
+        }
+        .panel-header{
+        background: #fffaf0;          /* faint warm header */
+        border-bottom-color: var(--gs-border);
+        }
+        .panel-title{ color: var(--gs-text); }
+        .panel-subtitle{ color: var(--gs-muted); }
+
+        /* Logo pill → orange */
+        .logo-icon{
+        background: linear-gradient(135deg, var(--gs-primary), #ff5900);
+        }
+
+        /* Buttons */
+        .btn{
+        border-radius: 10px;           
+        }
+        .btn-warning,                  /* RANK */
+        .btn-final{                    /* POST */
+        background: var(--gs-primary);
+        }
+        .btn-warning:hover,
+        .btn-final:hover{
+        background: var(--gs-hover);
+        }
+        .btn:disabled{
+        opacity: .6;
+        }
+
+        /* Progress */
+        .progress-bar{
+        background: linear-gradient(90deg, var(--gs-primary), var(--gs-hover));
+        }
+
+        /* Status chips */
+        .status.info{
+        background: var(--gs-info-bg);
+        color: var(--gs-info-text);
+        border-left-color: var(--gs-primary);
+        }
+
+        /* Optional: links or code tags inside preview */
+        #preview-results code{
+        color: var(--gs-primary);
+        }
+
+        /* === Header === */
+        .header{
+        background: var(--gs-primary);
+        color: #fff;
+        border-bottom: 0;
+        }
+        .header .logo-text h1{ color: #fff; }
+        .header .logo-text p{ color: rgba(255,255,255,.85); }
+
+        .header .logo-icon{
+        background: #fff;
+        color: var(--gs-primary);
+        }
+        .panel-header{
+        background: #fff6e0; /* subtle warm */
+        }
+
+        /* Preview button → GameShow orange */
+        .btn-success{
+        background: var(--gs-primary) !important;
+        }
+        .btn-success:hover{
+        background: var(--gs-hover) !important;
+        }
+
+
     </style>
 </head>
 <body>
@@ -568,6 +668,95 @@ class TemplateProvider:
                 </div>
             </div>
         </div>
+
+        
+
+        <!-- Preview Panel -->
+        <div class="panel full-width-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">🔍 Preview Ranking</h2>
+                <p class="panel-subtitle">Preview ranking details for questions</p>
+            </div>
+            
+            <div class="section">
+                <button class="btn btn-success" onclick="previewRanking()">🔍 Preview Ranking</button>
+                <div id="preview-results" style="margin-top: 16px; font-size: 13px; color: #4a5568;"></div>
+            </div>
+
+        </div>
+
+        <script>
+        async function previewRanking() {
+        const el = document.getElementById('preview-results');
+        el.innerHTML = 'Loading preview…';
+
+        try {
+            const res = await fetch('/api/preview-ranking');
+            const json = await res.json();
+
+            if (json.status !== 'success') {
+            el.innerHTML = `❌ Error: ${json.message || 'Unknown error'}`;
+            return;
+            }
+
+            const items = json.data || json.results || [];
+            if (!items.length) {
+            el.innerHTML = 'No questions found to preview.';
+            return;
+            }
+
+            const html = items.map(q => {
+            // ✅ Robust text + meta fallbacks
+            const text = (q.text || q.question || q.questionText || '(no text)').trim();
+            const metaBits = [
+                q.questionCategory,          // e.g., "Vocabulary"
+                q.questionLevel,             // e.g., "Beginner"
+                q.questionType               // e.g., "input" | "mcq"
+            ].filter(Boolean);
+            const meta = metaBits.join(' • ');
+
+            const header = `
+                <div style="margin-bottom:6px;">
+                <strong>${text}</strong>
+                ${meta ? `<span style="opacity:.7;"> — ${meta}</span>` : ''}
+                <span style="margin-left:8px; opacity:.7;">(${q.responseCount ?? 0} responses)</span>
+                </div>`;
+
+            const status = q.rankable
+                ? `<div style="color:#166534; margin-bottom:4px;">Rankable ✅</div>`
+                : `<div style="color:#9a3412; margin-bottom:4px;">Skipped ⚠️ (${q.skipReason || 'unknown'})</div>`;
+
+            const clusters = (q.clusters || []).slice(0, 5).map(c => {
+                const label = c.value || c.original || '(empty)';
+                const count = c.count ?? c.responseCount ?? 0;
+                return `<li><code>${label}</code> — count: ${count}${c.rank ? `, rank: ${c.rank}` : ''}${c.score ? `, score: ${c.score}` : ''}</li>`;
+            }).join('');
+
+            // Optional tiny debug line if you exposed it from the API
+            const debug = q.debug ? 
+                `<div style="opacity:.6; font-size:12px; margin-top:6px;">ranked: ${q.debug.ranked_cnt ?? 0}, scored: ${q.debug.scored_cnt ?? 0}</div>` 
+                : '';
+
+            return `
+                <div style="padding:12px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:12px;">
+                ${header}
+                ${status}
+                ${clusters ? `<ul style="margin-left:16px;">${clusters}</ul>` : '<div style="opacity:.7;">No clusters</div>'}
+                ${debug}
+                </div>`;
+            }).join('');
+
+            el.innerHTML = html;
+        } catch (err) {
+            el.innerHTML = `❌ Error: ${err.message}`;
+        }
+        }
+        </script>
+
+
+
+        
+
 
         <!-- Logs Panel -->
         <div class="panel full-width-panel">
@@ -767,6 +956,26 @@ def get_logs():
             {"timestamp": time.time(), "level": "INFO", "message": "Configuration validated"},
         ]
     })
+
+######################################### Addition for Preview Ranking
+@app.route('/api/preview-ranking')
+def preview_ranking():
+    try:
+        # Fetch questions
+        questions = db_handler.fetch_all_questions()
+        details = ranking_service.preview_details(questions, top_n=5)
+
+        return jsonify({
+            "status": "success",
+            "data": details
+        })
+    except Exception as e:
+        logger.error(f"Error in preview_ranking: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+##################################################################
+
 
 if __name__ == '__main__':
     logger.info("🌐 Starting Debug UI Server")

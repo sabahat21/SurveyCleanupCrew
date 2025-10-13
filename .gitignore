@@ -6,3 +6,6 @@
 .terraform/
 .github/workflows/
 crash.log
+
+
+ranking-logic/.venv/

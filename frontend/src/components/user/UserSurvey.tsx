@@ -80,6 +80,24 @@ const UserSurvey: React.FC = () => {
         questionID: q.questionID,
         answerText: answers[i] === "skip" ? "" : (answers[i] || ""),
       }));
+
+
+console.table(
+  questions.map((q: any, i: number) => ({
+    i,
+    questionID: q.questionID,
+    _id: String(q._id ?? ""),
+    text: q.questionText ?? q.question ?? q.text ?? "(no text)",
+  }))
+);
+
+
+
+
+
+
+
+
       await submitAllAnswers(payload);
       
       setPopupMessage("Survey submitted successfully! Thank you for your participation.");

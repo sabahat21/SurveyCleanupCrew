@@ -31,7 +31,7 @@ export function useUserSurveyApi(level: string) {
     setSubmitting(true);
     setError("");
     try {
-      await api.submitAllAnswers(answers);
+      await api.submitAllAnswers(answers, questions);
     } catch (e: any) {
       setError(e.message);
       throw e;
