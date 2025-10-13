@@ -236,12 +236,10 @@ const UserSurvey: React.FC = () => {
 
           {/* Main content - centered on desktop */}
           <div className={`
-            flex-1 flex flex-col w-full md:w-auto md:max-w-2xl
+            flex-1 flex flex-col justify-center items-center transition-opacity duration-300 ease-in-out p-4 sm:p-6 md:p-8
             ${showSidebar ? 'opacity-30 md:opacity-100' : 'opacity-100'} 
-            transition-opacity duration-300 ease-in-out
-            md:max-h-[85vh]
-            p-4 md:p-0
-          `}>
+          `}
+          >
             <UserQuestionCard
               questions={questions}
               answers={answers}
