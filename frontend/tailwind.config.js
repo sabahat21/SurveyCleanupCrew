@@ -241,6 +241,20 @@ module.exports = {
         'user-survey-btn-ok-success-hover': 'var(--user-survey-btn-ok-success-hover)',
         'user-survey-btn-ok-error': 'var(--user-survey-btn-ok-error)',
         'user-survey-btn-ok-error-hover': 'var(--user-survey-btn-ok-error-hover)',
+
+        //Sidebar Colors
+        'sb-bg': 'var(--sb-bg)',
+        'sb-border': 'var(--sb-border)',
+        'sb-text': 'var(--sb-text)',
+        'sb-active-bg': 'var(--sb-active-bg)',
+        'sb-active-border': 'var(--sb-active-border)',
+        'sb-hover-bg': 'var(--sb-hover-bg)',
+        'sb-progress-bar-from': 'var(--sb-progress-bar-from)',
+        'sb-progress-bar-to': 'var(--sb-progress-bar-to)',
+        'sb-progress-text': 'var(--sb-progress-text)',
+        'sb-indicator-active': 'var(--sb-indicator-active)',
+        'sb-indicator-skip': 'var(--sb-indicator-skip)',
+        'sb-indicator-border': 'var(--sb-indicator-border)',
       },
 
       fontFamily: {
