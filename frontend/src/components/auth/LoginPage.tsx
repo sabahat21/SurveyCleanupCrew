@@ -47,11 +47,11 @@ const LoginPage: React.FC<LoginPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-login-bg">
-      <div className="bg-login-card-bg p-8 rounded-lg shadow-md w-full max-w-md">
-        <div className="flex mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-login-bg px-4 sm:px-6 py-10">
+      <div className="bg-login-card-bg p-6 sm:p-8 rounded-xl shadow-md w-full max-w-sm sm:max-w-md md:max-w-lg transition-all duration-300">
+        <div className="flex mb-5 sm:mb-6">
           <button
-            className={`flex-1 py-2 rounded-l-lg font-semibold text-lg ${
+            className={`flex-1 py-2 sm:py-3 text-lg sm:text-base font-semibold rounded-l-lg transition-colors ${
               tab === "participant"
                 ? "bg-login-primary text-login-active-text"
                 : "bg-login-nonactive-bg text-login-nonactive-text"
@@ -65,7 +65,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
             Participant
           </button>
           <button
-            className={`flex-1 py-2 rounded-r-lg font-semibold text-lg ${
+            className={`flex-1 py-2 sm:py-3 text-lg sm:text-base font-semibold rounded-r-lg transition-colors ${
               tab === "admin"
                 ? "bg-login-primary text-login-active-text"
                 : "bg-login-nonactive-bg text-login-nonactive-text"
