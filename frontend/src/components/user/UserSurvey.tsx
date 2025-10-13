@@ -223,7 +223,7 @@ const UserSurvey: React.FC = () => {
             h-full md:h-auto md:max-h-[85vh]
           `}>
             {/* Wrapper with padding to prevent content overlapping with toggle button */}
-            <div className="h-full pt-16 md:pt-0">
+            <div className="h-full pt-16 md:pt-0 overflow-y-auto scrollbar-thin scrollbar-thumb-user-card-border scrollbar-track-transparent">
               <UserSidebar
                 questions={questions}
                 answers={answers}
