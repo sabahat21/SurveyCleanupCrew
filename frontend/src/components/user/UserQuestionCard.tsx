@@ -332,7 +332,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                   onChange={(e) => onAnswerChange(e.target.value)}
                 />
 
-                <div className="mt-3 flex items-center gap-3">
+                <div className="mt-3 flex flex-wrap items-center gap-3">
                   <button
                     type="button"
                     onClick={recording ? stopRecording : startRecording}
@@ -364,7 +364,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
                 {/* Errors */}
                 {recordingError && (
-                  <div className="mt-3 p-3 bg-error-bg border border-error-border rounded-xl">
+                  <div className="mt-3 p-3 bg-error-bg border border-error-border rounded-xl text-center">
                     <p className="text-error-text text-sm font-medium text-center">{recordingError}</p>
                     {permissionGranted === false && (
                       <button onClick={checkMicrophonePermission} className="mt-2 text-sm text-error-text hover:text-error-dismiss-hover underline">
@@ -375,14 +375,14 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 )}
 
                 {error && (
-                  <div className="mt-3 p-3 bg-error-bg border border-error-border rounded-xl">
-                    <p className="text-error-text text-sm font-medium text-center">{error}</p>
+                  <div className="mt-3 p-3 bg-error-bg border border-error-border rounded-xl text-center">
+                    <p className="text-error-text text-sm font-medium">{error}</p>
                   </div>
                 )}
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+              <div className="flex flex-col sm:flex-row justify-center item-stretch gap-3 sm:gap-4">
                 <button
                   onClick={onSaveNext}
                   disabled={submitting || recording}
