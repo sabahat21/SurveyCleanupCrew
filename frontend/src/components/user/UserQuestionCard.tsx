@@ -278,7 +278,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               <div className="relative mb-6 sm:mb-8 text-center">
                 {/* FIX: single H2 (the earlier code had two H2s, one unclosed) */}
                 <h2
-                  className={`text-2xl font-bold text-transparent bg-clip-text mb-4 transition-all duration-300 ${
+                  className={`text-xl sm:text-2xl font-bold text-transparent bg-clip-text mb-4 transition-all duration-300 ${
                     recording ? "bg-gradient-to-r from-red-600 to-pink-600" : "bg-gradient-to-r from-header-primary to-header-primary"
                   }`}
                 >
