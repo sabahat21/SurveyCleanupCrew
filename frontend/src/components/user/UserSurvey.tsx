@@ -130,15 +130,12 @@ const UserSurvey: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen"style={{ background: 'var(--secondary-light)' }}>
+      <div className="flex items-center justify-center h-screen bg-user-survey-bg">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 animate-spin mx-auto mb-4"
-          style ={{
-            borderColor: 'var(--prmary)',
-            borderTopColor: 'var(--header-primary)'
-          }}
+          <div className="w-16 h-16 border-4 border-user-survey-loading-spinner-border border-t-user-survey-loading-spinner-top rounded-full animate-spin mx-auto mb-4"
+          
           ></div>
-          <p className="text-lg font-medium" style={{ color: 'var(--sidebar-text)' }}>
+          <p className="text-lg font-medium text-user-survey-loading-text">
             Loading your survey...
           </p>
         </div>
@@ -148,15 +145,15 @@ const UserSurvey: React.FC = () => {
 
   if (!questions.length) {
     return (
-      <div className="flex items-center justify-center h-screen px-4" style={{ background: 'var(--secondary-light)' }}>
-        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center max-w-md w-full">
-          <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'var(--primary-lighter)' }}>
+      <div className="flex items-center justify-center h-screen px-4 bg-user-survey-bg" >
+        <div className="bg-user-survey-no-questions-bg rounded-2xl shadow-xl p-6 sm:p-8 text-center max-w-md w-full">
+          <div className="w-16 h-16 bg-user-survey-no-questions-icon-bg rounded-full mx-auto mb-4 flex items-center justify-center">
             <svg 
-              className="w-8 h-8 text-gray-600"
+              className="w-8 h-8 text-user-survey-no-questions-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              style={{ color: 'var(--header-primary)' }}
+              
             >
               <path
                 strokeLinecap="round"
@@ -166,20 +163,15 @@ const UserSurvey: React.FC = () => {
               />
             </svg>
           </div>
-          <p className="text-gray-700 text-lg font-medium">
+          <p className="text-user-survey-no-questions-text text-lg font-medium">
             No surveys available for {proficiency} level
           </p>
-          <p className="text-gray-500 text-sm mt-2">Please check back later</p>
+          <p className="text-user-survey-no-questions-subtext text-sm mt-2">Please check back later</p>
           <button
             onClick={() => navigate("/login")}
-            className="mt-4 px-6 py-2 text-white rounded-lg transition-colors"
+            className="mt-4 px-6 py-2 bg-user-survey-btn-back-bg text-white rounded-lg hover:bg-user-survey-btn-back-hover transition-colors"
 
-            style={{ //added extra functionality to button for hover effect: during Refactoring Phase..
-              backgroundColor: 'var(--header-primary)',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent)'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--header-primary)'}
-            // End of extra functionality code..
+           
           >
             Back to Login
           </button>
@@ -198,12 +190,12 @@ const UserSurvey: React.FC = () => {
 
       {/* Mobile menu toggle button - changes between hamburger and X */}
       <button 
-        className="md:hidden fixed top-4 left-4 z-30 text-white p-2 rounded-lg shadow-lg transition-all duration-300"
-        style={{ backgroundColor: 'var(--header-primary)' }}
+        className="md:hidden fixed top-4 left-4 z-30 bg-user-survey-menu-toggle-bg text-user-survey-menu-toggle-icon p-2 rounded-lg shadow-lg transition-all duration-300"
+        
         onClick={toggleSidebar}
         aria-label={showSidebar ? "Close menu" : "Open menu"}
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--secondary-light)' }}>
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" >
           <path 
             strokeLinecap="round" 
             strokeLinejoin="round" 
@@ -217,7 +209,7 @@ const UserSurvey: React.FC = () => {
       </button>
 
       {/* Main container - modified to center content on desktop */}
-      <div className="h-screen overflow-hidden" style={{ background: 'var(--secondary-light)' }}>
+      <div className="min-h-screen flex flex-col md:flex-row bg-user-survey-bg overflow-hidden" >
         <div className="h-full flex flex-col md:flex-row md:items-center md:justify-center md:gap-6 md:px-6">
           {/* Sidebar - hidden by default on mobile, shown when toggled */}
           {/* On desktop: positioned next to the question box instead of at the edge */}
@@ -231,7 +223,7 @@ const UserSurvey: React.FC = () => {
             h-full md:h-auto md:max-h-[85vh]
           `}>
             {/* Wrapper with padding to prevent content overlapping with toggle button */}
-            <div className="h-full pt-16 md:pt-0">
+            <div className="h-full pt-16 md:pt-0 overflow-y-auto scrollbar-thin scrollbar-thumb-user-card-border scrollbar-track-transparent">
               <UserSidebar
                 questions={questions}
                 answers={answers}
@@ -244,12 +236,10 @@ const UserSurvey: React.FC = () => {
 
           {/* Main content - centered on desktop */}
           <div className={`
-            flex-1 flex flex-col w-full md:w-auto md:max-w-2xl
+            flex-1 flex flex-col justify-center items-center transition-opacity duration-300 ease-in-out p-4 sm:p-6 md:p-8
             ${showSidebar ? 'opacity-30 md:opacity-100' : 'opacity-100'} 
-            transition-opacity duration-300 ease-in-out
-            md:max-h-[85vh]
-            p-4 md:p-0
-          `}>
+          `}
+          >
             <UserQuestionCard
               questions={questions}
               answers={answers}
@@ -275,39 +265,35 @@ const UserSurvey: React.FC = () => {
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center">
             <div className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center">
               {isSuccessPopup ? (
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" 
-                style={{ backgroundColor: 'var(--primary-lighter)' }}>
-                  <svg className="w-6 h-6" style={{ color: 'var(--header-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-user-survey-popup-success-bg rounded-full flex items-center justify-center"
+                >
+                  <svg className="w-6 h-6 text-user-survey-popup-success-icon"  fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
               ) : (
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-user-survey-popup-error-bg rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-user-survey-popup-error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </div>
               )}
             </div>
-            <h2 className={`text-xl font-bold mb-2`}
-                style={{ color: isSuccessPopup ? 'var(--header-primary)' : '#dc2626' }}>
+            <h2 className={`text-xl font-bold mb-2 ${
+              isSuccessPopup ? 'text-user-survey-popup-title-success' : 'text-user-survey-popup-title-error'
+            }`}>
               {isSuccessPopup ? "Success!" : "Submission Failed"}
             </h2>
             <p className="mb-6 text-gray-700">{popupMessage}</p>
 
           
-            <button // OK button adjusted with new color scheme: Refactoring phase..
+            <button
               onClick={handleClosePopup}
-              className="px-6 py-2 rounded-lg text-white transition-colors"
-              style={{ 
-                backgroundColor: isSuccessPopup ? 'var(--header-primary)' : '#dc2626'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = isSuccessPopup ? 'var(--accent)' : '#b91c1c';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = isSuccessPopup ? 'var(--header-primary)' : '#dc2626';
-              }}
+              className={`px-6 py-2 rounded-lg text-white transition-colors ${
+                isSuccessPopup 
+                  ? 'bg-user-survey-btn-ok-success hover:bg-user-survey-btn-ok-success-hover' 
+                  : 'bg-user-survey-btn-ok-error hover:bg-user-survey-btn-ok-error-hover'
+              }`}
             >
               OK
             </button>
@@ -318,7 +304,7 @@ const UserSurvey: React.FC = () => {
       {/* Overlay to close sidebar when clicking outside on mobile */}
       {showSidebar && (
         <div 
-          className="md:hidden fixed inset-0 z-10" 
+          className="md:hidden fixed inset-0 bg-black bg-opacity-30 z-10" 
           onClick={() => setShowSidebar(false)}
         ></div>
       )}
