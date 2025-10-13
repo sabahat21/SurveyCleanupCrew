@@ -230,11 +230,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
         {/* Decorative gradient overlay */}
         {/* <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary/5 to-secondary/5" /> */}
 
-        {/* ✅ Floating Logout Button (always visible, responsive) */}
+        {/*Floating Logout Button (always visible, responsive) */}
       <button
         onClick={onLogout}
         disabled={submitting || recording}
-        className={`fixed top-4 right-4 z-50 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg hover:from-red-600 hover:to-red-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
+        className={`fixed top-3 right-3 sm:top-4 sm:right-6 z-50 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg hover:from-red-600 hover:to-red-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
           submitting || recording ? "opacity-50 cursor-not-allowed" : ""
         }`}
       >
