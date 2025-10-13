@@ -16,12 +16,12 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
   onSelectQuestion,
 }) => {
   return (
-    <aside className="w-80 bg-sb-bg backdrop-blur-sm shadow-xl p-6 overflow-y-auto flex flex-col border-r border-sb-border">
+    <aside className="w-72 sm:w-80 bg-sb-bg backdrop-blur-sm border-r border-sb-border p-4 sm:p-6 shadow-xl flex flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-sb-border scrollbar-track-transparent">
       <div className="mb-6">
         <h2 className="text-xl font-bold mb-2 text-sb-progress-text">
           Survey Progress
         </h2>
-        <div className="w-full rounded-full h-3 shadow-inner bg-sb-border">
+        <div className="relative w-full h-3 rounded-full bg-sb-border overflow-hidden">
           <div
             className="h-3 rounded-full shadow-sm transition-all duration-500 ease-out bg-gradient-to-r from-sb-progress-bar-from to-sb-progress-bar-to" style={{ width: `${(answeredCount / questions.length) * 100}%` }}
           />
