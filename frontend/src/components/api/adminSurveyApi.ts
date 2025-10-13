@@ -398,13 +398,22 @@ export async function fetchAnswersByQuestionId(
     console.log("📋 Total questions in database:", questions.length);
 
     // Find the question by ID - handle both _id and questionID formats
-    const question = questions.find(
-      (q: any) =>
-        q._id === questionId ||
-        q.questionID === questionId ||
-        String(q._id) === String(questionId) ||
-        String(q.questionID) === String(questionId)
-    );
+    
+    //const question = questions.find(
+      //(q: any) =>
+        //q._id === questionId ||
+        //q.questionID === questionId ||
+        //String(q._id) === String(questionId) ||
+        //String(q.questionID) === String(questionId)
+    //);
+
+    const question = questions.find((q: any) => {
+  const id1 = q?._id != null ? String(q._id) : "";
+  const id2 = q?.questionID != null ? String(q.questionID) : "";
+  const target = String(questionId ?? "");
+  return id1 === target || id2 === target;
+});
+
 
     console.log("🎯 Found question:", question ? "Yes" : "No");
 
