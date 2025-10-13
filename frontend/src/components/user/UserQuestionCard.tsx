@@ -230,6 +230,17 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
         {/* Decorative gradient overlay */}
         {/* <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary/5 to-secondary/5" /> */}
 
+        {/* ✅ Floating Logout Button (always visible, responsive) */}
+      <button
+        onClick={onLogout}
+        disabled={submitting || recording}
+        className={`fixed top-4 right-4 z-50 px-4 py-2 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-user-btn-save-from to-user-btn-save-to text-white shadow-lg hover:from-user-btn-save-hover-from hover:to-user-btn-save-hover-to transition-all duration-300 transform hover:scale-105 ${
+          submitting || recording ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+      >
+        Logout
+      </button>
+
         {/* Card */}
         <div
           className={`bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-10 w-full max-w-lg sm:max-w-2xl relative border border-purple-100 transition-all duration-500 ${
@@ -258,15 +269,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               {!showPreviewDialog ? questions[index]?.questionLevel : "SURVEY"} Level
             </span>
 
-            <button
-              onClick={onLogout}
-              disabled={submitting || recording}
-              className={`text-xs sm:text-sm font-medium text-user-logout-color transition-colors duration-200 hover:text-user-logout-hover hover:underline ${
-                submitting || recording ? "opacity-30 cursor-not-allowed" : "opacity-100"
-              }`}
-            >
-              Logout
-            </button>
+
           </div>
 
           {!showPreviewDialog && (
