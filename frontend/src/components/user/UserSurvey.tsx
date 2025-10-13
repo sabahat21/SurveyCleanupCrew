@@ -209,7 +209,7 @@ const UserSurvey: React.FC = () => {
       </button>
 
       {/* Main container - modified to center content on desktop */}
-      <div className="h-screen overflow-hidden bg-user-survey-bg" >
+      <div className="min-h-screen flex flex-col md:flex-row bg-user-survey-bg overflow-hidden" >
         <div className="h-full flex flex-col md:flex-row md:items-center md:justify-center md:gap-6 md:px-6">
           {/* Sidebar - hidden by default on mobile, shown when toggled */}
           {/* On desktop: positioned next to the question box instead of at the edge */}
