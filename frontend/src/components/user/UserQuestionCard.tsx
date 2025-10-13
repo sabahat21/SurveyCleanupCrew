@@ -234,7 +234,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
       <button
         onClick={onLogout}
         disabled={submitting || recording}
-        className={`fixed top-4 right-4 z-50 px-4 py-2 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-user-btn-save-from to-user-btn-save-to text-white shadow-lg hover:from-user-btn-save-hover-from hover:to-user-btn-save-hover-to transition-all duration-300 transform hover:scale-105 ${
+        className={`fixed top-4 right-4 z-50 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg hover:from-red-600 hover:to-red-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
           submitting || recording ? "opacity-50 cursor-not-allowed" : ""
         }`}
       >
