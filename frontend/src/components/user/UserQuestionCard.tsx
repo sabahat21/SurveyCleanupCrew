@@ -364,10 +364,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
                 {/* Errors */}
                 {recordingError && (
-                  <div className="mt-3 p-3 bg-error-bg border border-error-border rounded-xl text-center">
+                  <div className=" mt-3 p-3 bg-error-bg border border-error-border rounded-xl text-center">
                     <p className="text-error-text text-sm font-medium text-center">{recordingError}</p>
                     {permissionGranted === false && (
-                      <button onClick={checkMicrophonePermission} className="mt-2 text-sm text-error-text hover:text-error-dismiss-hover underline">
+                      
+                      <button onClick={checkMicrophonePermission} className="mt-2 text-sm text-error-text hover:text-error-dismiss-hover ">
                         Try Again
                       </button>
                     )}
