@@ -239,30 +239,35 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
     <main className="flex-grow flex items-center justify-center px-8">
       <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 w-full max-w-2xl relative border border-orange-100">
         {/* Decorative gradient overlay */}
-        <div
-          className="absolute inset-0 rounded-3xl"
-          style={{
-            background:
-              "linear-gradient(to bottom right, rgba(242, 210, 182, 0.05), rgba(245, 200, 0, 0.05))",
-          }}
-        />
+        {/* <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary/5 to-secondary/5" /> */}
 
-        {/* Card */}
+        {/*Floating Logout Button (always visible, responsive) */}
+      <button
+        onClick={onLogout}
+        disabled={submitting || recording}
+        className={`fixed top-5 right-5 sm:top-4 sm:right-6 z-50 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg hover:from-red-600 hover:to-red-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
+          submitting || recording ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+      >
+        Logout
+      </button>
+
+        {/* Question Card */}
         <div
-          className={`bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 w-full max-w-2xl relative border border-purple-100 transition-all duration-500 ${
-            recording ? "opacity-70 scale-[0.98] shadow-3xl" : "opacity-100 scale-100"
+          className={`relative bg-white/90 backdrop-blur-sm border border-purple-100 rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-lg sm:max-w-xl md:max-w-2xl p-5 sm:p-8 transition-all duration-500 ${
+            recording ? "opacity-70 scale-[0.98]" : "opacity-100 scale-100"
           }`}
         >
           {/* Recording overlay */}
           <div
-            className={`absolute inset-0 bg-gradient-to-br rounded-3xl transition-all duration-500 ${
-              recording ? "from-red-500/20 to-pink-500/20 animate-pulse" : "from-purple-500/5 to-indigo-500/5"
+            className={`absolute inset-0 rounded-3xl transition-all duration-500 ${
+              recording ? "bg-gradient-to-br from-red-500/20 to-pink-500/20 animate-pulse" : "bg-gradient-to-br from-primary/5 to-accent/5"
             }`}
           />
 
           {recording && (
-            <div className="absolute inset-0 rounded-3xl border-2 border-red-400 animate-pulse pointer-events-none">
-              <div className="absolute top-4 right-4 flex items-center gap-2 bg-red-500/90 text-white px-3 py-1 rounded-full text-sm font-medium">
+            <div className="absolute inset-0 rounded-3xl border-2 border-user-recording-indicator animate-pulse pointer-events-none">
+              <div className="absolute top-4 right-4 flex items-center gap-2 bg-user-recording-indicator/90 text-white px-3 py-1 rounded-full text-sm font-medium">
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
                 LISTENING
               </div>
@@ -300,11 +305,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
           {!showPreviewDialog && (
             <>
               {/* Question + TTS */}
-              <div className="relative mb-8 text-center">
+              <div className="relative mb-6 sm:mb-8 text-center">
                 {/* FIX: single H2 (the earlier code had two H2s, one unclosed) */}
                 <h2
-                  className={`text-2xl font-bold text-transparent bg-clip-text mb-4 transition-all duration-300 ${
-                    recording ? "bg-gradient-to-r from-red-600 to-pink-600" : "bg-gradient-to-r from-purple-600 to-indigo-600"
+                  className={`text-xl sm:text-2xl font-bold text-transparent bg-clip-text mb-4 transition-all duration-300 ${
+                    recording ? "bg-gradient-to-r from-red-600 to-pink-600" : "bg-gradient-to-r from-header-primary to-header-primary"
                   }`}
                 >
                   {questions[index].question}
@@ -312,24 +317,24 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
                 <button
                   onClick={isPlayingTTS ? handleTTSStop : handleTTSPlay}
-                  className={`inline-flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 hover:scale-110 ${
+                  className={`inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-300 hover:scale-110 ${
                     isLoadingTTS
-                      ? "bg-yellow-500 cursor-not-allowed"
+                      ? "bg-user-tts-loading-bg cursor-not-allowed"
                       : isPlayingTTS
-                      ? "bg-red-500 hover:bg-red-600 text-white"
-                      : "bg-blue-500 hover:bg-blue-600 text-white"
+                      ? "bg-user-tts-stop-bg hover:bg-user-tts-stop-hover text-white"
+                      : "bg-user-tts-play-bg hover:bg-user-tts-play-hover text-white"
                   }`}
                   disabled={recording || isLoadingTTS}
                 >
-                  {isLoadingTTS ? <Loader2 className="w-6 h-6 animate-spin" /> : isPlayingTTS ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+                  {isLoadingTTS ? <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" /> : isPlayingTTS ? <VolumeX className="w-5 h-5 sm:w-6 sm:h-6" /> : <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />}
                 </button>
 
                 {isPlayingTTS && (
                   <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" />
-                      <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce delay-100" />
-                      <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce delay-200" />
+                      <div className="w-2 h-2 rounded-full bg-user-tts-play-bg animate-bounce" />
+                      <div className="w-2 h-2 rounded-full bg-user-tts-play-bg animate-bounce [animation-delay:0.1s]" />
+                      <div className="w-2 h-2 rounded-full bg-user-tts-play-bg animate-bounce [animation-delay:0.2s]" />
                     </div>
                   </div>
                 )}
@@ -339,16 +344,10 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               <div className="mb-6">
                 {/* FIX: merged duplicate className props */}
                 <textarea
-                  style={
-                    {
-                      borderColor: "var(--primary)",
-                      "--tw-ring-color": "rgba(242, 210, 182, 0.3)",
-                    } as React.CSSProperties
-                  }
-                  className={`w-full border-2 rounded-2xl p-4 text-lg focus:ring-4 transition-all duration-300 resize-none backdrop-blur-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed ${
+                  className={`w-full border-2 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-base sm:text-lg focus:ring-4 focus:ring-primary/30 transition-all duration-300 resize-none backdrop-blur-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed ${
                     recording
-                      ? "border-red-300 focus:border-red-400 focus:ring-red-100 bg-red-50/30"
-                      : "border-purple-200 focus:border-purple-400 focus:ring-purple-100 bg-white/50"
+                      ? "border-user-textarea-recording-border focus:border-red-400 bg-user-textarea-recording-bg"
+                      : "border-user-textarea-border focus:border-user-textarea-focus bg-user-textarea-bg"
                   } ${isSkipped ? "opacity-50" : ""}`}
                   placeholder={
                     recording
@@ -363,7 +362,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                   onChange={(e) => onAnswerChange(e.target.value)}
                 />
 
-                <div className="mt-3 flex items-center gap-3">
+                <div className="mt-3 flex flex-wrap items-center gap-3">
                   <button
                     type="button"
                     onClick={recording ? stopRecording : startRecording}
@@ -371,7 +370,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                     className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
                       recording
                         ? "bg-gradient-to-r from-red-500 to-pink-500 text-white animate-pulse shadow-red-200"
-                        : "bg-gradient-to-r from-purple-500 to-indigo-500 text-white hover:from-purple-600 hover:to-indigo-600 shadow-purple-200"
+                        : "bg-gradient-to-r from-user-btn-speak-from to-user-btn-speak-to text-white hover:from-user-btn-speak-hover-from hover:to-user-btn-speak-hover-to shadow-orange-200"
                     }`}
                   >
                     <span className="text-lg">{recording ? "🔴" : "🎤"}</span>
@@ -379,15 +378,15 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                   </button>
 
                   {loading && (
-                    <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-full">
-                      <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                      <span className="text-sm text-blue-600 font-medium">Transcribing...</span>
+                    <div className="flex items-center gap-2 bg-user-transcribing-bg border border-user-transcribing-border px-3 py-2 rounded-full">
+                      <div className="w-4 h-4 border-2 border-user-transcribing-text border-t-transparent rounded-full animate-spin" />
+                      <span className="text-sm text-user-transcribing-text font-medium">Transcribing...</span>
                     </div>
                   )}
 
                   {recording && (
                     <div className="flex items-center gap-2 bg-red-50 px-3 py-2 rounded-full animate-pulse">
-                      <div className="w-3 h-3 bg-red-500 rounded-full animate-ping" />
+                      <div className="w-3 h-3 bg-user-recording-indicator rounded-full animate-ping" />
                       <span className="text-sm text-red-600 font-medium">Recording...</span>
                     </div>
                   )}
@@ -395,10 +394,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
                 {/* Errors */}
                 {recordingError && (
-                  <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-xl">
-                    <p className="text-red-600 text-sm font-medium text-center">{recordingError}</p>
+                  <div className=" mt-3 p-3 bg-error-bg border border-error-border rounded-xl text-center">
+                    <p className="text-error-text text-sm font-medium text-center">{recordingError}</p>
                     {permissionGranted === false && (
-                      <button onClick={checkMicrophonePermission} className="mt-2 text-sm text-red-600 hover:text-red-800 underline">
+                      
+                      <button onClick={checkMicrophonePermission} className="mt-2 text-sm text-error-text hover:text-error-dismiss-hover ">
                         Try Again
                       </button>
                     )}
@@ -406,21 +406,21 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 )}
 
                 {error && (
-                  <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-xl">
-                    <p className="text-red-600 text-sm font-medium text-center">{error}</p>
+                  <div className="mt-3 p-3 bg-error-bg border border-error-border rounded-xl text-center">
+                    <p className="text-error-text text-sm font-medium">{error}</p>
                   </div>
                 )}
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center item-stretch gap-3 sm:gap-4">
                 <button
                   onClick={onSaveNext}
                   disabled={submitting || recording}
-                  className={`px-8 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-2xl font-semibold hover:from-purple-600 hover:to-indigo-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                  className={`w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-user-btn-save-from to-user-btn-save-to text-white rounded-xl sm:rounded-2xl font-semibold hover:from-user-btn-save-hover-from hover:to-user-btn-save-hover-to transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 ${
                     recording ? "opacity-50 cursor-not-allowed" : ""
                   }`}
-                  style={{}}
+
                 >
                   {index === questions.length - 1 ? "Review Answers" : "Save & Continue"}
                 </button>
@@ -428,9 +428,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 <button
                   onClick={onSkip}
                   disabled={submitting || recording}
-                  className={`px-8 py-3 rounded-2xl font-semibold transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                  className={`w-full sm:w-auto px-6 sm:px-8 py-3 rounded-xl sm:rounded-2xl font-semibold transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 ${
                     recording ? "opacity-50 cursor-not-allowed" : ""
-                  } ${isSkipped ? "bg-amber-200 text-amber-800 hover:bg-amber-300" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+                  } ${isSkipped ? "bg-user-btn-skip-active-bg text-user-btn-skip-active-text hover:bg-user-btn-skip-active-hover" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
                 >
                   {isSkipped ? "Unskip Question" : "Skip Question"}
                 </button>
@@ -441,17 +441,17 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
           {/* Preview Dialog */}
           {showPreviewDialog && (
             <div
-              className="bg-white/95 backdrop-blur-sm border-2 border-green-200 rounded-2xl shadow-xl p-6 animate-in slide-in-from-top-2 duration-300"
-              style={{ borderColor: "var(--success)" }}
+              className="bg-user-card-bg/95 backdrop-blur-sm border-2 border-user-preview-border rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6"
+              
             >
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "var(--header-primary)" }}>
+                  <div className="w-6 h-6 bg-gradient-to-r from-header-primary to-accent rounded-full flex items-center justify-center">
                     <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold" style={{ color: "var(--header-primary)" }}>
+                  <h3 className="text-base sm:text-lg font-bold text-user-preview-title">
                     Survey Complete!
                   </h3>
                 </div>
@@ -466,11 +466,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 </button>
               </div>
 
-              <p className="text-gray-600 mb-4 text-sm">
+              <p className="text-gray-600 mb-3 sm:mb-4 text-xs sm:text-sm">
                 You've answered {answeredCount} out of {questions.length} questions. Review your responses before submitting.
               </p>
 
-              <div className="max-h-48 overflow-y-auto mb-4 space-y-3">
+              <div className="max-h-40 sm:max-h-48 overflow-y-auto mb-3 sm:mb-4 space-y-3">
                 {questions.map((q, i) => (
                   // FIX: no duplicate key/className
                   <div key={q.questionID || q._id || `question-${i}`} className="bg-gray-50 rounded-xl p-3 text-sm">
@@ -478,7 +478,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                       Q{i + 1}: {q.question.substring(0, 60)}
                       {q.question.length > 60 ? "..." : ""}
                     </p>
-                    <p className="text-gray-600 text-xs">
+                    <p className="text-gray-600 ">
                       {answers[i] && answers[i] !== "skip"
                         ? answers[i].substring(0, 80) + (answers[i].length > 80 ? "..." : "")
                         : answers[i] === "skip"
@@ -489,12 +489,12 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 ))}
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   onClick={onPublish}
                   disabled={submitting}
-                  className="flex-1 px-4 py-2 text-white rounded-xl font-semibold transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg"
-                  style={{ background: "radial-gradient(ellipse at center, var(--header-primary), var(--accent))" }}
+                  className="flex-1 px-3 sm:px-4 py-2 bg-gradient-to-r from-user-preview-submit-from to-user-preview-submit-to text-white rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:shadow-lg"
+                 
                 >
                   {submitting && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                   {submitting ? "Submitting..." : "Submit Survey"}
@@ -502,7 +502,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                 <button
                   onClick={onClosePreview}
                   disabled={submitting}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-200 text-sm disabled:opacity-50"
+                  className="px-3 sm:px-4 py-2 bg-gray-200 text-gray-700 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:bg-gray-300"
                 >
                   Edit Answers
                 </button>
@@ -510,7 +510,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
             </div>
           )}
         </div>
-      </div> 
+      
     </main>
   );
   

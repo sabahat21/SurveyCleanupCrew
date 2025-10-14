@@ -90,6 +90,7 @@
   --btn-delete-all-questions-bg: #fee2e2;
   --btn-delete-all-questions-text: #dc2626;
   --btn-delete-all-questions-hover-bg: #fecaca;
+  --question-bank-text: #000000;
 
   /* Login page, Proficiency modal specific colors */
   --login-bg: #ffec97;
@@ -147,7 +148,7 @@
   --update-cancel-bg: #d8d8d8f7;
   --update-cancel-hover: #adadad;
   --update-cancel-text: #000000;
-  
+
   /* Analytics Page */
   --analytics-bg: #f5c800;
   --button-refresh-responses-back:#ff4500;
@@ -172,8 +173,99 @@
   --error-dismiss-text: #fe3434;
   --error-dismiss-hover: #ef9b1e;
 
-}
+  /*User Card Overlay*/
+  --usercard-bg: #ffffff;
+  --user-card-border: #f2d2b6;
+  --user-logout-color: #ff0000;
+  --user-logout-hover: #ff4500;
 
+  /* User Text Area*/
+  --user-textarea-border: #f2d2b6;
+  --user-textarea-focus: #ff4500;
+  --user-textarea-bg: rgba(255, 255, 255, 0.5);
+  --user-textarea-recording-bg: rgba(254, 226, 226, 0.3);
+  --user-textarea-recording-border: #fca5a5;
+
+  /* User-Speak-btn*/
+  --user-btn-speak-from: #ff4500;
+  --user-btn-speak-to: #f39800;
+  --user-btn-speak-hover-from: #f5c800;
+  --user-btn-speak-hover-to: #f39800;
+
+  /* User-Save-btn*/
+  --user-btn-save-from: #ff4500;
+  --user-btn-save-to: #f39800;
+  --user-btn-save-hover-from: #f5c800;
+  --user-btn-save-hover-to: #dfa800;
+
+  /* User-Skip-btn*/
+  --user-btn-skip-bg: #f3f4f6;
+  --user-btn-skip-text: #6b7280;
+  --user-btn-skip-hover: #e5e7eb;
+  --user-btn-skip-active-bg: #fef3c7;
+  --user-btn-skip-active-text: #92400e;
+  --user-btn-skip-active-hover: #fde68a;
+
+  /* TTS play-stop-loading */
+  --user-tts-play-bg: #ff4500;
+  --user-tts-play-hover: #f39800;
+  --user-tts-stop-bg: #ef4444;
+  --user-tts-stop-hover: #dc2626;
+  --user-tts-loading-bg: #f5c800;
+
+  /* User Preview colors */
+  --user-preview-border: #f5c800;
+  --user-preview-title: #ff4500;
+  --user-preview-submit-from: #ff4500;
+  --user-preview-submit-to: #f39800;
+
+  /* recording/transcribing */
+  --user-recording-indicator: #ef4444;
+  --user-transcribing-bg: #fef3c7;
+  --user-transcribing-text: #f39800;
+  --user-transcribing-border: #f5c800;
+
+  /* User Survey Page specific colors */
+  --user-survey-bg: #ffec97;
+  --user-survey-loading-spinner-border: #f2d2b6;
+  --user-survey-loading-spinner-top: #ff4500;
+  --user-survey-loading-text: #000000;
+  --user-survey-no-questions-bg: #ffffff;
+  --user-survey-no-questions-icon-bg: #f5d7be;
+  --user-survey-no-questions-icon: #ff4500;
+  --user-survey-no-questions-text: #374151;
+  --user-survey-no-questions-subtext: #6b7280;
+  --user-survey-btn-back-bg: #ff4500;
+  --user-survey-btn-back-hover: #f39800;
+  --user-survey-menu-toggle-bg: #ff4500;
+  --user-survey-menu-toggle-icon: #ffec97;
+  --user-survey-popup-success-bg: #f5d7be;
+  --user-survey-popup-success-icon: #ff4500;
+  --user-survey-popup-error-bg: #fee2e2;
+  --user-survey-popup-error-icon: #dc2626;
+  --user-survey-popup-title-success: #ff4500;
+  --user-survey-popup-title-error: #dc2626;
+  --user-survey-popup-text: #374151;
+  --user-survey-btn-ok-success: #ff4500;
+  --user-survey-btn-ok-success-hover: #f39800;
+  --user-survey-btn-ok-error: #dc2626;
+  --user-survey-btn-ok-error-hover: #b91c1c;
+
+  /* Sidebar specific colors */
+--sb-bg: #ffffff;
+--sb-border: #f2d2b6;
+--sb-text: #000000;
+--sb-active-bg: #aee3f8;
+--sb-active-border: #ff4500;
+--sb-hover-bg: #f5d7be;
+--sb-progress-bar-from: #e6b800;
+--sb-progress-bar-to: #e66000;
+--sb-progress-text: #000000;
+--sb-indicator-active: #ef4444;
+--sb-indicator-skip: #f39800;
+--sb-indicator-border: #f5c800;
+
+}
 
 body {
   font-family: "Inter", sans-serif;

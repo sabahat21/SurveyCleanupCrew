@@ -178,7 +178,7 @@ function SurveyLayout({
         <PreviewModal
           title={formTitle}
           description={formDescription}
-          questions={questions}
+          questions={Object.values(questionsByLevel).flat()}
           mode={mode}
           onClose={onClosePreview}
           onCreateNew={onCreateNew}

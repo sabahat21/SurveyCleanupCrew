@@ -92,38 +92,45 @@ export async function fetchQuestionsByLevel(
 
 // FIX: Update to use the correct submission format with proper ID mapping
 export async function submitAllAnswers(
-  answers: { questionID: string; answerText: string }[]
+  answers: { questionID: string; answerText: string }[],
+  questions: any[]
 ): Promise<void> {
   console.log("📤 Submitting answers:", answers.length);
 
-  // Transform to the correct format expected by the backend
-  // Backend expects _id format, so we need to map questionID back to _id
-  const payload = {
-    questions: answers.map((a) => ({ questionID: a.questionID })), // Use _id format for backend
-    answers: answers.map((a) => ({ answer: a.answerText })),
-  };
+  // Build a lookup from UI’s questionID -> backend’s id to send as questionID
+  const idMap = new Map<string, string>(
+    (questions || []).map((q: any) => {
+      const backendId = String(q?._id ?? q?.questionID ?? "");
+      const uiId      = String(q?.questionID ?? "");
+      return [uiId, backendId];
+    })
+  );
 
-  console.log("🚀 Submission payload:", JSON.stringify(payload, null, 2));
+  // Debug: print what we’ll send
+  console.table(
+    answers.map(a => ({
+      uiQuestionID: a.questionID,
+      backendQuestionID: idMap.get(String(a.questionID)) ?? "(missing)"
+    }))
+  );
 
-  const res = await fetch(`${API_BASE}/api/v1/survey/`, {
-    method: "PUT",
-    headers: defaultHeaders,
-    body: JSON.stringify(payload),
-  });
 
-  if (!res.ok) {
-    const text = await res.text();
-    console.error("❌ Submission failed:", res.status, text);
 
-    let message;
-    try {
-      const json = JSON.parse(text);
-      message = json.message || "Failed to submit answers";
-    } catch (e) {
-      message = `Server error (${res.status} ${res.statusText})`;
+
+
+
+   for (const { questionID, answerText } of answers) {
+    const backendQuestionID = idMap.get(String(questionID)) ?? String(questionID);
+
+    if (!backendQuestionID) {
+      console.error("❌ No backend question id for", questionID);
+      throw new Error("Missing question ID");
     }
-    throw new Error(message);
+
+    await submitSingleAnswer(backendQuestionID, answerText);
   }
+
+
 
   console.log("✅ Answers submitted successfully");
 }
@@ -135,9 +142,21 @@ export async function submitSingleAnswer(
 ): Promise<void> {
   console.log("📤 Submitting single answer for question:", questionID);
 
+
+
+  if (!questionID) {
+    console.error("❌ submitSingleAnswer called with empty questionID");
+    throw new Error("Missing question ID");
+  }
+
+
+
+
   const payload = {
-    questions: [{ questionID: questionID }], // Use _id format for backend
+    //questions: [{ questionID: questionID }], // Use _id format for backend
+    questions: [{ questionID: questionID }],
     answers: [{ answer: answer }],
+
   };
 
   console.log("🚀 Single answer payload:", JSON.stringify(payload, null, 2));
