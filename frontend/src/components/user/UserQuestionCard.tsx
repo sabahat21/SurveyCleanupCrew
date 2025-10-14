@@ -1,6 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Volume2, VolumeX, Loader2 } from "lucide-react";
 import { API_BASE, API_KEY } from "../api/config";
+import ProficiencyModal from "../common/ProficiencyModal";
+
+
+
+
 
 interface UserQuestionCardProps {
   questions: any[];
@@ -16,6 +21,7 @@ interface UserQuestionCardProps {
   onPublish: () => void;
   onClosePreview: () => void;
   onLogout: () => void;
+  proficiency:string;
 }
 
 const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
@@ -32,6 +38,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
   onPublish,
   onClosePreview,
   onLogout,
+  proficiency
+  // participantLevel,
+  
 }) => {
   const [recording, setRecording] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -225,8 +234,10 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
   const isSkipped = answers[index] === "skip";
 
   return (
-    <main className="flex-grow flex justify-center px-4 sm:px-8 py-16 sm:py-10 overflow-y-auto sm:items-center">
+
       
+    <main className="flex-grow flex items-center justify-center px-8">
+      <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 w-full max-w-2xl relative border border-orange-100">
         {/* Decorative gradient overlay */}
         {/* <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary/5 to-secondary/5" /> */}
 
@@ -264,13 +275,32 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
           )}
 
           {/* Header row */}
-          <div className="relative flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3">
-            <span className="px-4 py-2 bg-gradient-to-r from-header-primary to-accent text-white rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide shadow-lg">
-              {!showPreviewDialog ? questions[index]?.questionLevel : "SURVEY"} Level
+ 
+             
+         
+
+          <div className="relative flex justify-between items-start mb-8">
+            <span
+              className="px-4 py-2 text-white rounded-full text-sm font-bold uppercase tracking-wide shadow-lg"
+              style={{ background: "var(--header-primary)" }}
+            >
+              {!showPreviewDialog ? questions[index]?.questionLevel : proficiency} Level
             </span>
+            <button
+              onClick={onLogout}
+              disabled={submitting || recording}
+              className={`text-sm font-medium transition-colors duration-200 hover:underline ${
+                submitting || recording ? "opacity-30 cursor-not-allowed" : "opacity-100"
+              }`}
+              style={{ color: "var(--btn-logout-bg)" }}
+            >
+              Exit
+            </button>
 
-
+                      
+            
           </div>
+          
 
           {!showPreviewDialog && (
             <>
@@ -474,7 +504,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
                   disabled={submitting}
                   className="px-3 sm:px-4 py-2 bg-gray-200 text-gray-700 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:bg-gray-300"
                 >
-                  Review More
+                  Edit Answers
                 </button>
               </div>
             </div>
@@ -483,6 +513,11 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
       
     </main>
   );
+  
 };
+
+
+
+
 
 export default UserQuestionCard;

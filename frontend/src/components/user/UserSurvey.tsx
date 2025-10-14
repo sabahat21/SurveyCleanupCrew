@@ -272,6 +272,7 @@ console.table(
               onPublish={handlePublish}
               onClosePreview={handleClosePreview}
               onLogout={() => setShowLogoutPrompt(true)}
+              proficiency={proficiency}
             />
           </div>
         </div>
@@ -329,5 +330,8 @@ console.table(
     </>
   );
 };
+
+//
+
 
 export default UserSurvey;

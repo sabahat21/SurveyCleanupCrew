@@ -234,13 +234,13 @@ const ResponsesPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
+      <div className="min-h-screen bg-responses-bg p-6 space-y-6">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">📋</span>
-              </div>
+              {/* <div>
+                <span className="text-white font-bold text-sm"></span>
+              </div> */}
               <h2 className="text-2xl font-bold">Survey Responses</h2>
             </div>
             <div className="flex gap-2">
@@ -327,36 +327,35 @@ const ResponsesPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex flex-col">
+    <div className="min-h-screen bg-responses-bg p-6 space-y-6">
       <div className="flex-shrink-0 p-6 pb-0">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">📋</span>
-            </div>
-            <h2 className="text-2xl font-bold">Survey Responses</h2>
-          </div>
-          <div className="flex gap-2">
-            <button
-              className="bg-gray-200 px-3 py-2 rounded text-sm hover:bg-gray-300"
-              onClick={handleRefresh}
-            >
-              🔄 Refresh
-            </button>
-            <button
-              onClick={() => navigate("/analytics")}
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-            >
-              📈 Analytics
-            </button>
-            <button
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-              onClick={() => navigate("/dashboard")}
-            >
-              ← Back
-            </button>
-          </div>
-        </div>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+  <h2 className="text-3xl sm:text-4xl font-bold text-[var(--header-primary)] text-center sm:text-left">
+    Survey Responses
+  </h2>
+
+  <div className="flex flex-wrap justify-center sm:justify-end gap-1">
+    <button
+      className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition"
+      onClick={handleRefresh}
+    >
+      🔄 Refresh
+    </button>
+    <button
+      onClick={() => navigate("/analytics")}
+      className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition"
+    >
+      📈 Analytics
+    </button>
+    <button
+      className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition"
+      onClick={() => navigate("/dashboard")}
+    >
+      ← Back
+    </button>
+  </div>
+</div>
+
 
         <div className="mb-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
