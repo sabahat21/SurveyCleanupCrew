@@ -80,24 +80,6 @@ const UserSurvey: React.FC = () => {
         questionID: q.questionID,
         answerText: answers[i] === "skip" ? "" : (answers[i] || ""),
       }));
-
-
-console.table(
-  questions.map((q: any, i: number) => ({
-    i,
-    questionID: q.questionID,
-    _id: String(q._id ?? ""),
-    text: q.questionText ?? q.question ?? q.text ?? "(no text)",
-  }))
-);
-
-
-
-
-
-
-
-
       await submitAllAnswers(payload);
       
       setPopupMessage("Survey submitted successfully! Thank you for your participation.");
@@ -227,8 +209,8 @@ console.table(
       </button>
 
       {/* Main container - modified to center content on desktop */}
-      <div className="min-h-screen flex flex-col md:flex-row bg-user-survey-bg overflow-hidden" >
-        <div className="h-full flex flex-col md:flex-row md:items-center md:justify-center md:gap-6 md:px-6">
+      <div className="min-h-screen flex items-center justify-center bg-user-survey-bg px-4" >
+        <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-7xl gap-10">
           {/* Sidebar - hidden by default on mobile, shown when toggled */}
           {/* On desktop: positioned next to the question box instead of at the edge */}
           <div className={`
@@ -237,11 +219,11 @@ console.table(
             fixed md:static 
             z-20 
             transition-transform duration-300 ease-in-out 
-            w-full md:w-80 md:max-w-xs
-            h-full md:h-auto md:max-h-[85vh]
+            w-72 sm:w-2/3 md:w-72 lg:w-80
+            md:h-auto-0 left-0 pt-12 md:pt-0
           `}>
             {/* Wrapper with padding to prevent content overlapping with toggle button */}
-            <div className="h-full pt-16 md:pt-0 overflow-y-auto scrollbar-thin scrollbar-thumb-user-card-border scrollbar-track-transparent">
+            <div className="flex flex-col overflow-y-auto overflow-x-hidden bg-white rounded-r-xl md:rounded-2xl md:border md:border-white/40 scrollbar-thin scrollbar-thumb-user-card-border scrollbar-track-transparent h-[calc(100vh-7rem)] md:h-auto md:max-h-[80vh] md:bg-white/80 md:backdrop-blur-md">
               <UserSidebar
                 questions={questions}
                 answers={answers}
@@ -254,7 +236,7 @@ console.table(
 
           {/* Main content - centered on desktop */}
           <div className={`
-            flex-1 flex flex-col justify-center items-center transition-opacity duration-300 ease-in-out p-4 sm:p-6 md:p-8
+            flex flex-col justify-center items-center transition-opacity duration-300 ease-in-out
             ${showSidebar ? 'opacity-30 md:opacity-100' : 'opacity-100'} 
           `}
           >
@@ -272,7 +254,6 @@ console.table(
               onPublish={handlePublish}
               onClosePreview={handleClosePreview}
               onLogout={() => setShowLogoutPrompt(true)}
-              proficiency={proficiency}
             />
           </div>
         </div>
@@ -330,8 +311,5 @@ console.table(
     </>
   );
 };
-
-//
-
 
 export default UserSurvey;
