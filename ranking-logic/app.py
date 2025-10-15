@@ -11,10 +11,23 @@ from services.ranking_service import RankingService
 from services.final_service import FinalService
 from utils.logger import setup_logger
 from constants import LogMessages
+from flask_cors import CORS, cross_origin
 
-# Initialize Flask app
-app = Flask(__name__)
-CORS(app)  # allow all origins temporarily
+# Initialize CORS properly
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "https://your-vercel-app.vercel.app",
+            "http://localhost:3000",
+            # Add other domains as needed
+        ],
+        "methods": ["GET", "POST", "PUT", "DELETE"],
+        "allow_headers": ["Content-Type", "x-api-key"]
+    }
+})
+
+# Or allow all origins for testing
+CORS(app)  # This should allow all origins by default
 
 # Initialize Flask app
 app = Flask(__name__)
