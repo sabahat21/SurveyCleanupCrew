@@ -777,128 +777,310 @@ class TemplateProvider:
         </div>
     </div>
 
-    <script>
-        function addLog(message, level = 'INFO') {
-            const logs = document.getElementById('logs');
-            const timestamp = new Date().toLocaleTimeString();
-            logs.textContent += `\\n[${timestamp}] [${level}] ${message}`;
-            logs.scrollTop = logs.scrollHeight;
-        }
+    # <script>
+    #     function addLog(message, level = 'INFO') {
+    #         const logs = document.getElementById('logs');
+    #         const timestamp = new Date().toLocaleTimeString();
+    #         logs.textContent += `\\n[${timestamp}] [${level}] ${message}`;
+    #         logs.scrollTop = logs.scrollHeight;
+    #     }
 
-        function updateStatus(message, type = 'info') {
-            const container = document.getElementById('status-container');
-            container.innerHTML = `<div class="status ${type}">${message}</div>`;
-        }
+    #     function updateStatus(message, type = 'info') {
+    #         const container = document.getElementById('status-container');
+    #         container.innerHTML = `<div class="status ${type}">${message}</div>`;
+    #     }
 
-        function updateProgress(percent) {
-            document.getElementById('progress-bar').style.width = percent + '%';
-        }
+    #     function updateProgress(percent) {
+    #         document.getElementById('progress-bar').style.width = percent + '%';
+    #     }
 
-        function updateStats(stats) {
-            if (stats.total_questions !== undefined) {
-                document.getElementById('total-answered').textContent = stats.total_questions;
-            }
-            if (stats.processed_count !== undefined) {
-                document.getElementById('processed-questions').textContent = stats.processed_count;
-            }
-            if (stats.answers_ranked !== undefined) {
-                document.getElementById('ranked-answers').textContent = stats.answers_ranked;
-            }
+    #     function updateStats(stats) {
+    #         if (stats.total_questions !== undefined) {
+    #             document.getElementById('total-answered').textContent = stats.total_questions;
+    #         }
+    #         if (stats.processed_count !== undefined) {
+    #             document.getElementById('processed-questions').textContent = stats.processed_count;
+    #         }
+    #         if (stats.answers_ranked !== undefined) {
+    #             document.getElementById('ranked-answers').textContent = stats.answers_ranked;
+    #         }
            
-        }
+    #     }
 
-        async function makeRequest(endpoint, method = 'GET') {
-            try {
-                updateStatus('Processing...', 'info');
-                updateProgress(25);
+    #     async function makeRequest(endpoint, method = 'GET') {
+    #         try {
+    #             updateStatus('Processing...', 'info');
+    #             updateProgress(25);
                 
-                const response = await fetch(endpoint, { method });
-                updateProgress(75);
+    #             const response = await fetch(endpoint, { method });
+    #             updateProgress(75);
                 
-                const data = await response.json();
-                updateProgress(100);
+    #             const data = await response.json();
+    #             updateProgress(100);
                 
-                if (data.status === 'success') {
-                    updateStatus('✅ Success!', 'success');
-                    if (data.results) {
-                        updateStats(data.results);
-                    }
-                } else {
-                    updateStatus(`❌ Error: ${data.error}`, 'error');
-                }
+    #             if (data.status === 'success') {
+    #                 updateStatus('✅ Success!', 'success');
+    #                 if (data.results) {
+    #                     updateStats(data.results);
+    #                 }
+    #             } else {
+    #                 updateStatus(`❌ Error: ${data.error}`, 'error');
+    #             }
                 
-                addLog(`${method} ${endpoint}: ${data.status}`);
-                return data;
-            } catch (error) {
-                updateStatus(`❌ Network Error: ${error.message}`, 'error');
-                addLog(`Error: ${error.message}`, 'ERROR');
-                updateProgress(0);
-                throw error;
-            }
-        }
+    #             addLog(`${method} ${endpoint}: ${data.status}`);
+    #             return data;
+    #         } catch (error) {
+    #             updateStatus(`❌ Network Error: ${error.message}`, 'error');
+    #             addLog(`Error: ${error.message}`, 'ERROR');
+    #             updateProgress(0);
+    #             throw error;
+    #         }
+    #     }
 
-        async function testConnection() {
-            addLog('Testing API connection...');
-            await makeRequest('/api/test-connection');
-        }
+    #     async function testConnection() {
+    #         addLog('Testing API connection...');
+    #         await makeRequest('/api/test-connection');
+    #     }
 
-        async function fetchQuestions() {
-            addLog('Fetching questions from API...');
-            await makeRequest('/api/get-questions');
-        }
+    #     async function fetchQuestions() {
+    #         addLog('Fetching questions from API...');
+    #         await makeRequest('/api/get-questions');
+    #     }
 
-        async function processRanking() {
-            addLog('🏆 Processing ranking for Input questions only...');
-            updateStatus('🏆 Processing rankings...', 'info');
+    #     async function processRanking() {
+    #         addLog('🏆 Processing ranking for Input questions only...');
+    #         updateStatus('🏆 Processing rankings...', 'info');
             
-            try {
-                await testConnection();
-                await new Promise(resolve => setTimeout(resolve, 500));
+    #         try {
+    #             await testConnection();
+    #             await new Promise(resolve => setTimeout(resolve, 500));
                 
-                await fetchQuestions();
-                await new Promise(resolve => setTimeout(resolve, 500));
+    #             await fetchQuestions();
+    #             await new Promise(resolve => setTimeout(resolve, 500));
                 
-                await makeRequest('/api/process-ranking', 'POST');
+    #             await makeRequest('/api/process-ranking', 'POST');
                 
-                updateStatus('🎉 Ranking completed!', 'success');
-                addLog('Ranking process completed successfully!');
-            } catch (error) {
-                updateStatus('❌ Ranking failed', 'error');
-                addLog('Ranking process failed', 'ERROR');
-            }
-        }
+    #             updateStatus('🎉 Ranking completed!', 'success');
+    #             addLog('Ranking process completed successfully!');
+    #         } catch (error) {
+    #             updateStatus('❌ Ranking failed', 'error');
+    #             addLog('Ranking process failed', 'ERROR');
+    #         }
+    #     }
 
-        async function postFinalAnswers() {
-            addLog('📤 Starting final endpoint operation: GET → DELETE → POST...');
-            updateStatus('📤 Getting existing questions...', 'info');
+    #     async function postFinalAnswers() {
+    #         addLog('📤 Starting final endpoint operation: GET → DELETE → POST...');
+    #         updateStatus('📤 Getting existing questions...', 'info');
             
-            try {
-                await makeRequest('/api/post-final-answers', 'POST');
+    #         try {
+    #             await makeRequest('/api/post-final-answers', 'POST');
                 
-                updateStatus('🎉 Final operation completed!', 'success');
-                addLog('Final operation completed successfully: GET → DELETE → POST');
-            } catch (error) {
-                updateStatus('❌ Final operation failed', 'error');
-                addLog('Final operation failed', 'ERROR');
+    #             updateStatus('🎉 Final operation completed!', 'success');
+    #             addLog('Final operation completed successfully: GET → DELETE → POST');
+    #         } catch (error) {
+    #             updateStatus('❌ Final operation failed', 'error');
+    #             addLog('Final operation failed', 'ERROR');
+    #         }
+    #     }
+
+    #     function clearLogs() {
+    #         document.getElementById('logs').textContent = '[INFO] Logs cleared\\n[INFO] Ready for new operations...';
+    #         updateProgress(0);
+    #         updateStatus('Ready to start', 'info');
+    #     }
+
+    #     // Auto-refresh connection status every 30 seconds
+    #     setInterval(async () => {
+    #         try {
+    #             await fetch('/api/health');
+    #             // Only log if debug logging is enabled
+    #         } catch (error) {
+    #             addLog('Health check: Failed', 'WARNING');
+    #         }
+    #     }, 30000);
+    # </script>
+    <script>
+const API_BASE = 'https://survey-cleanup-crew.onrender.com'; // <-- your Render backend URL
+
+function addLog(message, level = 'INFO') {
+    const logs = document.getElementById('logs');
+    const timestamp = new Date().toLocaleTimeString();
+    logs.textContent += `\n[${timestamp}] [${level}] ${message}`;
+    logs.scrollTop = logs.scrollHeight;
+}
+
+function updateStatus(message, type = 'info') {
+    const container = document.getElementById('status-container');
+    container.innerHTML = `<div class="status ${type}">${message}</div>`;
+}
+
+function updateProgress(percent) {
+    document.getElementById('progress-bar').style.width = percent + '%';
+}
+
+function updateStats(stats) {
+    if (stats.total_questions !== undefined) {
+        document.getElementById('total-answered').textContent = stats.total_questions;
+    }
+    if (stats.processed_count !== undefined) {
+        document.getElementById('processed-questions').textContent = stats.processed_count;
+    }
+    if (stats.answers_ranked !== undefined) {
+        document.getElementById('ranked-answers').textContent = stats.answers_ranked;
+    }
+}
+
+async function makeRequest(endpoint, method = 'GET') {
+    try {
+        updateStatus('Processing...', 'info');
+        updateProgress(25);
+        
+        const response = await fetch(`${API_BASE}${endpoint}`, { method });
+        updateProgress(75);
+        
+        const data = await response.json();
+        updateProgress(100);
+        
+        if (data.status === 'success') {
+            updateStatus('✅ Success!', 'success');
+            if (data.results) {
+                updateStats(data.results);
             }
+        } else {
+            updateStatus(`❌ Error: ${data.error || data.message}`, 'error');
+        }
+        
+        addLog(`${method} ${endpoint}: ${data.status}`);
+        return data;
+    } catch (error) {
+        updateStatus(`❌ Network Error: ${error.message}`, 'error');
+        addLog(`Error: ${error.message}`, 'ERROR');
+        updateProgress(0);
+        throw error;
+    }
+}
+
+async function testConnection() {
+    addLog('Testing API connection...');
+    await makeRequest('/api/test-connection');
+}
+
+async function fetchQuestions() {
+    addLog('Fetching questions from API...');
+    await makeRequest('/api/get-questions');
+}
+
+async function processRanking() {
+    addLog('🏆 Processing ranking for Input questions only...');
+    updateStatus('🏆 Processing rankings...', 'info');
+    
+    try {
+        await testConnection();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        await fetchQuestions();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        await makeRequest('/api/process-ranking', 'POST');
+        
+        updateStatus('🎉 Ranking completed!', 'success');
+        addLog('Ranking process completed successfully!');
+    } catch (error) {
+        updateStatus('❌ Ranking failed', 'error');
+        addLog('Ranking process failed', 'ERROR');
+    }
+}
+
+async function postFinalAnswers() {
+    addLog('📤 Starting final endpoint operation: GET → DELETE → POST...');
+    updateStatus('📤 Getting existing questions...', 'info');
+    
+    try {
+        await makeRequest('/api/post-final-answers', 'POST');
+        
+        updateStatus('🎉 Final operation completed!', 'success');
+        addLog('Final operation completed successfully: GET → DELETE → POST');
+    } catch (error) {
+        updateStatus('❌ Final operation failed', 'error');
+        addLog('Final operation failed', 'ERROR');
+    }
+}
+
+async function previewRanking() {
+    const el = document.getElementById('preview-results');
+    el.innerHTML = 'Loading preview…';
+
+    try {
+        const res = await fetch(`${API_BASE}/api/preview-ranking`);
+        const json = await res.json();
+
+        if (json.status !== 'success') {
+            el.innerHTML = `❌ Error: ${json.message || 'Unknown error'}`;
+            return;
         }
 
-        function clearLogs() {
-            document.getElementById('logs').textContent = '[INFO] Logs cleared\\n[INFO] Ready for new operations...';
-            updateProgress(0);
-            updateStatus('Ready to start', 'info');
+        const items = json.data || json.results || [];
+        if (!items.length) {
+            el.innerHTML = 'No questions found to preview.';
+            return;
         }
 
-        // Auto-refresh connection status every 30 seconds
-        setInterval(async () => {
-            try {
-                await fetch('/api/health');
-                // Only log if debug logging is enabled
-            } catch (error) {
-                addLog('Health check: Failed', 'WARNING');
-            }
-        }, 30000);
-    </script>
+        const html = items.map(q => {
+            const text = (q.text || q.question || q.questionText || '(no text)').trim();
+            const metaBits = [q.questionCategory, q.questionLevel, q.questionType].filter(Boolean);
+            const meta = metaBits.join(' • ');
+
+            const header = `
+                <div style="margin-bottom:6px;">
+                    <strong>${text}</strong>
+                    ${meta ? `<span style="opacity:.7;"> — ${meta}</span>` : ''}
+                    <span style="margin-left:8px; opacity:.7;">(${q.responseCount ?? 0} responses)</span>
+                </div>`;
+
+            const status = q.rankable
+                ? `<div style="color:#166534; margin-bottom:4px;">Rankable ✅</div>`
+                : `<div style="color:#9a3412; margin-bottom:4px;">Skipped ⚠️ (${q.skipReason || 'unknown'})</div>`;
+
+            const clusters = (q.clusters || []).slice(0, 5).map(c => {
+                const label = c.value || c.original || '(empty)';
+                const count = c.count ?? c.responseCount ?? 0;
+                return `<li><code>${label}</code> — count: ${count}${c.rank ? `, rank: ${c.rank}` : ''}${c.score ? `, score: ${c.score}` : ''}</li>`;
+            }).join('');
+
+            const debug = q.debug ? 
+                `<div style="opacity:.6; font-size:12px; margin-top:6px;">ranked: ${q.debug.ranked_cnt ?? 0}, scored: ${q.debug.scored_cnt ?? 0}</div>` 
+                : '';
+
+            return `
+                <div style="padding:12px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:12px;">
+                    ${header}
+                    ${status}
+                    ${clusters ? `<ul style="margin-left:16px;">${clusters}</ul>` : '<div style="opacity:.7;">No clusters</div>'}
+                    ${debug}
+                </div>`;
+        }).join('');
+
+        el.innerHTML = html;
+    } catch (err) {
+        el.innerHTML = `❌ Error: ${err.message}`;
+    }
+}
+
+function clearLogs() {
+    document.getElementById('logs').textContent = '[INFO] Logs cleared\n[INFO] Ready for new operations...';
+    updateProgress(0);
+    updateStatus('Ready to start', 'info');
+}
+
+// Auto-refresh health status every 30 seconds
+setInterval(async () => {
+    try {
+        await fetch(`${API_BASE}/api/health`);
+    } catch (error) {
+        addLog('Health check: Failed', 'WARNING');
+    }
+}, 30000);
+</script>
 </body>
 </html>
 '''
