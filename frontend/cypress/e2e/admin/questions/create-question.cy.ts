@@ -38,50 +38,24 @@ describe("Login as admin and create a question", () => {
     });
   });
 
-  it("Create input questions in each category in the Beginner Tab", () => {
-    cy.get('[data-cy="add-header-button"]').should("exist").click();
-    cy.get('[data-cy="add-question-button"]').should("exist").click();
-    cy.get('[data-cy="question-category-select"]').select("Vocabulary");
-    cy.get('[data-cy="question-level-select"]').select("Beginner");
-    cy.get('[data-cy="question-type-select"]').select("Text");
-    cy.get('[data-cy="question-textarea"]').type(
-      "Is this test vocabulary beginner text question working?"
-    );
-
-    cy.get('[data-cy="add-question-button"]').should("exist").click();
-    cy.get('[data-cy="question-category-select"]').select("Grammar");
-    cy.get('[data-cy="question-level-select"]').select("Beginner");
-    cy.get('[data-cy="question-type-select"]').select("Text");
-    cy.get('[data-cy="question-textarea"]').type(
-      "Is this test grammar beginner text question working?"
-    );
-
-    cy.get('[data-cy="add-question-button"]').should("exist").click();
-    cy.get('[data-cy="question-category-select"]').select("Culture");
-    cy.get('[data-cy="question-level-select"]').select("Beginner");
-    cy.get('[data-cy="question-type-select"]').select("Text");
-    cy.get('[data-cy="question-textarea"]').type(
-      "Is this test culture beginner text question working?"
-    );
-
-    cy.get('[data-cy="add-question-button"]').should("exist").click();
-    cy.get('[data-cy="question-category-select"]').select("Literature");
-    cy.get('[data-cy="question-level-select"]').select("Beginner");
-    cy.get('[data-cy="question-type-select"]').select("Text");
-    cy.get('[data-cy="question-textarea"]').type(
-      "Is this test literature beginner text question working?"
-    );
-
-    cy.get('[data-cy="add-question-button"]').should("exist").click();
-    cy.get('[data-cy="question-category-select"]').select("History");
-    cy.get('[data-cy="question-level-select"]').select("Beginner");
-    cy.get('[data-cy="question-type-select"]').select("Text");
-    cy.get('[data-cy="question-textarea"]').type(
-      "Is this test history beginner text question working?"
-    );
-
-    cy.get('[data-cy="save-questions-button"]').click();
-    cy.get('[data-cy="save-confirm-button"]').click();
+  LEVELS.forEach((level) => {
+    it(`Create input questions in each category in the ${level} Tab`, () => {
+      cy.get('[data-cy="add-header-button"]').should("exist").click();
+      cy.get(`[data-cy="level-tab-${level.toLowerCase()}"]`)
+        .should("exist")
+        .click();
+      CATEGORIES.forEach((category) => {
+        cy.get('[data-cy="add-question-button"]').should("exist").click();
+        cy.get('[data-cy="question-category-select"]').select(category);
+        cy.get('[data-cy="question-level-select"]').select(level);
+        cy.get('[data-cy="question-type-select"]').select("Text");
+        cy.get('[data-cy="question-textarea"]').type(
+          `Is this test ${category.toLowerCase()} ${level.toLowerCase()} text question working?`
+        );
+      });
+      cy.get('[data-cy="save-questions-button"]').click();
+      cy.get('[data-cy="save-confirm-button"]').click();
+    });
   });
 
   it("Create MCQ questions in each category in the Beginner tab", () => {
