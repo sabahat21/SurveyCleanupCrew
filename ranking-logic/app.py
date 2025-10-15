@@ -12,6 +12,8 @@ from services.final_service import FinalService
 from utils.logger import setup_logger
 from constants import LogMessages
 from flask_cors import CORS, cross_origin
+# Initialize Flask app
+app = Flask(__name__)
 
 # Initialize CORS properly
 CORS(app, resources={
@@ -29,8 +31,8 @@ CORS(app, resources={
 # Or allow all origins for testing
 CORS(app)  # This should allow all origins by default
 
-# Initialize Flask app
-app = Flask(__name__)
+# # Initialize Flask app
+# app = Flask(__name__)
 
 # Setup logging
 logger = setup_logger()
