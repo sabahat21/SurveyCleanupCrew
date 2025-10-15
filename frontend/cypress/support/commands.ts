@@ -29,6 +29,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       loginAsAdmin(): Chainable<void>;
+      notEmpty(): Chainable<void>;
       // login(email: string, password: string): Chainable<void>
       // drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
       // dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
@@ -49,6 +50,26 @@ Cypress.Commands.add("loginAsAdmin", () => {
 
   // Always visit dashboard after session
   cy.visit("http://localhost:3000/dashboard");
+});
+
+Cypress.Commands.add("notEmpty", () => {
+  cy.wait(2000);
+  cy.get("body").then(($body) => {
+    if ($body.find('[data-cy="empty-add-beginner-button"]').length > 0) {
+      cy.log(
+        "Empty state detected, creating initial question to enable dashboard..."
+      );
+      cy.get('[data-cy="empty-add-beginner-button"]').click();
+      cy.get('[data-cy="add-question-button"]').should("exist").click();
+      cy.get('[data-cy="question-category-select"]').select("Vocabulary");
+      cy.get('[data-cy="question-level-select"]').select("Beginner");
+      cy.get('[data-cy="question-type-select"]').select("Text");
+      cy.get('[data-cy="question-textarea"]').type("Initial setup question");
+      cy.get('[data-cy="save-questions-button"]').click();
+      cy.get('[data-cy="save-confirm-button"]').click();
+      cy.url().should("eq", "http://localhost:3000/dashboard");
+    }
+  });
 });
 
 export {};

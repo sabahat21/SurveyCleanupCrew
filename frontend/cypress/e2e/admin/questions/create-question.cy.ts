@@ -14,6 +14,7 @@ describe("Login as admin and create a question", () => {
 
   beforeEach(() => {
     cy.loginAsAdmin();
+    cy.notEmpty();
   });
 
   it("Should be logged in as admin", () => {
