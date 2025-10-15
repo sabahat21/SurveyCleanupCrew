@@ -1094,6 +1094,42 @@ def preview_ranking():
             "status": "error", 
             "message": f"Server error: {str(e)}"
         }), 500
+        #simple testing api
+@app.route('/api/test-preview')
+@cross_origin()
+def test_preview():
+    """Simple test endpoint that always returns JSON"""
+    try:
+        return jsonify({
+            "status": "success",
+            "data": [
+                {
+                    "text": "Test question 1",
+                    "questionType": "input", 
+                    "rankable": True,
+                    "skipReason": None,
+                    "responseCount": 5,
+                    "clusters": [
+                        {"value": "Test answer 1", "count": 3, "rank": 1, "score": 10},
+                        {"value": "Test answer 2", "count": 2, "rank": 2, "score": 5}
+                    ]
+                },
+                {
+                    "text": "Test question 2", 
+                    "questionType": "mcq",
+                    "rankable": False,
+                    "skipReason": "mcq",
+                    "responseCount": 4,
+                    "clusters": []
+                }
+            ],
+            "message": "Test preview working correctly"
+        })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": f"Test error: {str(e)}"
+        }), 500
 
 if __name__ == '__main__':
     logger.info("🌐 Starting Debug UI Server")
