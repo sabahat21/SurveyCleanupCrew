@@ -964,20 +964,136 @@ def get_logs():
     })
 
 ######################################### Addition for Preview Ranking
-@app.route('/api/preview-ranking')
-def preview_ranking():
-    try:
-        # Fetch questions
-        questions = db_handler.fetch_all_questions()
-        details = ranking_service.preview_details(questions, top_n=5)
+# @app.route('/api/preview-ranking')
+# def preview_ranking():
+#     try:
+#         # Fetch questions
+#         questions = db_handler.fetch_all_questions()
+#         details = ranking_service.preview_details(questions, top_n=5)
 
-        return jsonify({
-            "status": "success",
-            "data": details
-        })
+#         return jsonify({
+#             "status": "success",
+#             "data": details
+#         })
+#     except Exception as e:
+#         logger.error(f"Error in preview_ranking: {e}")
+#         return jsonify({"status": "error", "message": str(e)}), 500
+@app.route('/api/preview-ranking')
+@cross_origin()
+def preview_ranking():
+    """Preview ranking details with comprehensive error handling"""
+    try:
+        logger.info("🔍 Starting preview ranking endpoint...")
+        
+        # Test if services are properly initialized
+        if not db_handler or not ranking_service:
+            logger.error("❌ Services not initialized properly")
+            return jsonify({
+                "status": "error", 
+                "message": "Services not initialized"
+            }), 500
+        
+        # Test database connection
+        try:
+            logger.info("🔌 Testing database connection...")
+            connection_ok = db_handler.test_connection()
+            if not connection_ok:
+                logger.error("❌ Database connection test failed")
+                return jsonify({
+                    "status": "error", 
+                    "message": "Database connection failed"
+                }), 500
+            logger.info("✅ Database connection OK")
+        except Exception as conn_error:
+            logger.error(f"❌ Database connection error: {conn_error}")
+            return jsonify({
+                "status": "error", 
+                "message": f"Database connection error: {str(conn_error)}"
+            }), 500
+        
+        # Fetch questions
+        try:
+            logger.info("📥 Fetching questions...")
+            questions = db_handler.fetch_all_questions()
+            logger.info(f"📊 Fetched {len(questions)} questions")
+            
+            if not questions:
+                logger.info("📭 No questions found")
+                return jsonify({
+                    "status": "success",
+                    "data": [],
+                    "message": "No questions found in database"
+                })
+                
+        except Exception as fetch_error:
+            logger.error(f"❌ Error fetching questions: {fetch_error}")
+            return jsonify({
+                "status": "error", 
+                "message": f"Failed to fetch questions: {str(fetch_error)}"
+            }), 500
+        
+        # Generate preview details
+        try:
+            logger.info("🎯 Generating preview details...")
+            
+            # Check if preview_details method exists
+            if not hasattr(ranking_service, 'preview_details'):
+                logger.error("❌ preview_details method not found in ranking_service")
+                # Fallback: create simple preview
+                fallback_data = []
+                for i, q in enumerate(questions[:5]):  # Limit to 5 for testing
+                    fallback_data.append({
+                        "text": q.get('question', f'Question {i}'),
+                        "questionType": q.get('questionType', 'unknown'),
+                        "rankable": False,
+                        "skipReason": "preview method missing",
+                        "clusters": []
+                    })
+                
+                return jsonify({
+                    "status": "success",
+                    "data": fallback_data,
+                    "message": "Using fallback preview (main method not available)"
+                })
+            
+            details = ranking_service.preview_details(questions, top_n=5)
+            logger.info(f"✅ Generated preview for {len(details)} questions")
+            
+            return jsonify({
+                "status": "success",
+                "data": details,
+                "count": len(details)
+            })
+            
+        except Exception as preview_error:
+            logger.error(f"❌ Error in preview_details: {preview_error}")
+            logger.error(f"🔍 Traceback: {traceback.format_exc()}")
+            
+            # Fallback: return basic question info
+            fallback_data = []
+            for i, q in enumerate(questions[:3]):  # Limit to 3 for error case
+                fallback_data.append({
+                    "text": q.get('question', f'Question {i}'),
+                    "questionType": q.get('questionType', 'unknown'),
+                    "rankable": False,
+                    "skipReason": f"Error: {str(preview_error)}",
+                    "clusters": []
+                })
+            
+            return jsonify({
+                "status": "success",
+                "data": fallback_data,
+                "message": "Preview generated with fallback due to error"
+            })
+        
     except Exception as e:
-        logger.error(f"Error in preview_ranking: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
+        logger.error(f"💥 Critical error in preview_ranking: {e}")
+        logger.error(f"🔍 Full traceback: {traceback.format_exc()}")
+        
+        return jsonify({
+            "status": "error", 
+            "message": f"Server error: {str(e)}"
+        }), 500
 
 if __name__ == '__main__':
     logger.info("🌐 Starting Debug UI Server")
