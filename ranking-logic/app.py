@@ -15,19 +15,6 @@ from flask_cors import CORS, cross_origin
 # Initialize Flask app
 app = Flask(__name__)
 
-# Initialize CORS properly
-CORS(app, resources={
-    r"/api/*": {
-        "origins": [
-            "https://survey-cleanup-crew.vercel.app",
-            "http://localhost:3000",
-            # Add other domains as needed
-        ],
-        "methods": ["GET", "POST", "PUT", "DELETE"],
-        "allow_headers": ["Content-Type", "x-api-key"]
-    }
-})
-
 # Or allow all origins for testing
 CORS(app)  # This should allow all origins by default
 
