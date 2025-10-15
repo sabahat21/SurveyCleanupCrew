@@ -900,7 +900,7 @@ class TemplateProvider:
     #     }, 30000);
     # </script>
     <script>
-const API_BASE = 'https://survey-cleanup-crew.onrender.com'; // <-- your Render backend URL
+const API_BASE = 'https://rankingpagecleanupcrew.onrender.com'; // <-- your Render backend URL
 
 function addLog(message, level = 'INFO') {
     const logs = document.getElementById('logs');
