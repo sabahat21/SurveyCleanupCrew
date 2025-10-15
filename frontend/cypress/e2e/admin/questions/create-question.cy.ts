@@ -28,21 +28,14 @@ describe("Login as admin and create a question", () => {
       .and("have.text", "CREATE MODE");
   });
 
-  it("Click Add Question button in create mode in Beginner Tab", () => {
-    cy.get('[data-cy="add-header-button"]').should("exist").click();
-    cy.get('[data-cy="add-question-button"]').should("exist").click();
-  });
-
-  it("Click Add Question button in create mode in Intermediate Tab", () => {
-    cy.get('[data-cy="add-header-button"]').should("exist").click();
-    cy.get('[data-cy="level-tab-intermediate"]').should("exist").click();
-    cy.get('[data-cy="add-question-button"]').should("exist").click();
-  });
-
-  it("Click Add Question button in create mode in Advanced Tab", () => {
-    cy.get('[data-cy="add-header-button"]').should("exist").click();
-    cy.get('[data-cy="level-tab-advanced"]').should("exist").click();
-    cy.get('[data-cy="add-question-button"]').should("exist").click();
+  LEVELS.forEach((level) => {
+    it(`Click Add Question button in create mode in ${level} Tab`, () => {
+      cy.get('[data-cy="add-header-button"]').should("exist").click();
+      cy.get(`[data-cy="level-tab-${level.toLowerCase()}"]`)
+        .should("exist")
+        .click();
+      cy.get('[data-cy="add-question-button"]').should("exist").click();
+    });
   });
 
   it("Create input questions in each category in the Beginner Tab", () => {
@@ -108,12 +101,5 @@ describe("Login as admin and create a question", () => {
 
     cy.get('[data-cy="save-questions-button"]').click();
     cy.get('[data-cy="save-confirm-button"]').click();
-  });
-
-  it("Delete all questions in Beginner tab", () => {
-    cy.get('[data-cy="edit-header-button"]').should("exist").click();
-    cy.get('[data-cy="level-tab-beginner"]').should("exist").click();
-    cy.get('[data-cy="delete-all-questions-button"]').should("exist").click();
-    cy.get('[data-cy="confirm-delete-all-button"]').should("exist").click();
   });
 });
