@@ -1176,7 +1176,39 @@ def preview_ranking():
 
 
 ##################################################################
+# ✅ New Preview Ranking API
+# =============================
 
+@app.route("/api/preview-ranking", methods=["GET"])
+def preview_ranking():
+    try:
+        # Fetch all questions from the database
+        db_handler = DatabaseHandler()
+        ranking_service = RankingService(db_handler)
+
+        questions = db_handler.fetch_all_questions()
+        if not questions:
+            return jsonify({
+                "status": "success",
+                "data": [],
+                "message": "No questions found"
+            }), 200
+
+        # Generate preview data (without saving anything)
+        preview_data = ranking_service.preview_ranking(questions)
+
+        return jsonify({
+            "status": "success",
+            "data": preview_data
+        }), 200
+
+    except Exception as e:
+        print("❌ Preview ranking failed:", str(e))
+        traceback.print_exc()
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
 
 if __name__ == '__main__':
     logger.info("🌐 Starting Debug UI Server")
