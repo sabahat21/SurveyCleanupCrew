@@ -1,7 +1,10 @@
 """
 Updated Flask Application - Two separate buttons for ranking and final POST
 """
+from flask_cors import CORS
 
+app = Flask(__name__)
+CORS(app)  # allow all origins temporarily
 import time
 import traceback
 from flask import Flask, render_template_string, jsonify, request
