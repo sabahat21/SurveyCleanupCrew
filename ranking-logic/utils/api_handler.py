@@ -275,22 +275,62 @@ class APIHandler:
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug(f"← {response.status_code} ({len(response.text)} chars)")
     
-    def _parse_json_response(self, response: requests.Response) -> Dict:
-        """Parse JSON response with minimal logging"""
-        try:
-            response_data = response.json()
+    # def _parse_json_response(self, response: requests.Response) -> Dict:
+    #     """Parse JSON response with minimal logging"""
+    #     try:
+    #         response_data = response.json()
             
-            # Only analyze response for issues if debug logging is enabled
-            if logger.isEnabledFor(logging.DEBUG):
-                analysis = self._analyze_response_for_issues(response_data)
-                if analysis["has_issues"]:
-                    logger.debug(f"⚠️ Response issues: {len(analysis['issues'])} found")
+    #         # Only analyze response for issues if debug logging is enabled
+    #         if logger.isEnabledFor(logging.DEBUG):
+    #             analysis = self._analyze_response_for_issues(response_data)
+    #             if analysis["has_issues"]:
+    #                 logger.debug(f"⚠️ Response issues: {len(analysis['issues'])} found")
             
-            return response_data
+    #         return response_data
             
-        except ValueError as e:
-            logger.error(f"❌ Invalid JSON response")
-            raise APIException(f"Invalid JSON response: {str(e)}")
+    #     except ValueError as e:
+    #         logger.error(f"❌ Invalid JSON response")
+    #         raise APIException(f"Invalid JSON response: {str(e)}")
+    def _parse_json_response(self, response):
+    """Safely parse API JSON response and handle empty or invalid content."""
+    try:
+        # Check for empty response
+        if not response.text.strip():
+            logging.warning("⚠️ Empty response body received from API")
+            return {
+                "success": False,
+                "message": "Empty response from API",
+                "data": []
+            }
+
+        # Validate Content-Type
+        content_type = response.headers.get("Content-Type", "")
+        if "application/json" not in content_type:
+            logging.warning(f"⚠️ Non-JSON response (Content-Type: {content_type})")
+            return {
+                "success": False,
+                "message": "API did not return JSON",
+                "raw_response": response.text[:200]
+            }
+
+        # Try to parse JSON
+        response_data = response.json()
+
+        # Optionally analyze content for issues
+        if hasattr(self, "_analyze_response_for_issues"):
+            analysis = self._analyze_response_for_issues(response_data)
+            if analysis.get("has_issues"):
+                logging.debug(f"⚠️ Response issues found: {len(analysis['issues'])}")
+
+        return response_data
+
+    except ValueError as e:
+        logging.error(f"❌ Invalid JSON response: {e}")
+        return {
+            "success": False,
+            "message": f"Invalid JSON response: {str(e)}",
+            "raw_response": response.text[:200]
+        }
     
     def _make_http_request(self, method: str, data: Optional[Dict] = None) -> requests.Response:
         """Make HTTP request with clean error handling - now supports DELETE"""
