@@ -293,6 +293,7 @@ class APIHandler:
     #         raise APIException(f"Invalid JSON response: {str(e)}")
     def _parse_json_response(self, response):
     """Safely parse API JSON response and handle empty or invalid content."""
+    import logging
     try:
         # Check for empty response
         if not response.text.strip():
@@ -330,8 +331,7 @@ class APIHandler:
             "success": False,
             "message": f"Invalid JSON response: {str(e)}",
             "raw_response": response.text[:200]
-        }
-    
+        }   
     def _make_http_request(self, method: str, data: Optional[Dict] = None) -> requests.Response:
         """Make HTTP request with clean error handling - now supports DELETE"""
         try:
