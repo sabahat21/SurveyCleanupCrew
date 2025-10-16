@@ -59,22 +59,28 @@ describe("Login as admin and create a question", () => {
     });
   });
 
-  it("Create MCQ questions in each category in the Beginner tab", () => {
-    cy.get('[data-cy="add-header-button"]').should("exist").click();
-    cy.get('[data-cy="add-question-button"]').should("exist").click();
-    cy.get('[data-cy="question-category-select"]').select("Vocabulary");
-    cy.get('[data-cy="question-level-select"]').select("Beginner");
-    cy.get('[data-cy="question-type-select"]').select("Multiple Choice");
-    cy.get('[data-cy="question-textarea"]').type(
-      "Is this test vocabulary beginner MCQ question working?"
-    );
-    cy.get('[data-cy="mcq-option-0-input"]').type("Option 1");
-    cy.get('[data-cy="mcq-option-1-input"]').type("Option 2");
-    cy.get('[data-cy="mcq-option-2-input"]').type("Option 3");
-    cy.get('[data-cy="mcq-option-3-input"]').type("Option 4");
-    cy.get('[data-cy="mcq-correct-answer-1-button"]').click();
-
-    cy.get('[data-cy="save-questions-button"]').click();
-    cy.get('[data-cy="save-confirm-button"]').click();
+  LEVELS.forEach((level) => {
+    it(`Create MCQ questions in each category in the ${level} Tab`, () => {
+      cy.get('[data-cy="add-header-button"]').should("exist").click();
+      cy.get(`[data-cy="level-tab-${level.toLowerCase()}"]`)
+        .should("exist")
+        .click();
+      CATEGORIES.forEach((category) => {
+        cy.get('[data-cy="add-question-button"]').should("exist").click();
+        cy.get('[data-cy="question-category-select"]').select(category);
+        cy.get('[data-cy="question-level-select"]').select(level);
+        cy.get('[data-cy="question-type-select"]').select("Multiple Choice");
+        cy.get('[data-cy="question-textarea"]').type(
+          `Is this test ${category.toLowerCase()} ${level.toLowerCase()} MCQ question working?`
+        );
+        cy.get('[data-cy="mcq-option-0-input"]').type("Option 1");
+        cy.get('[data-cy="mcq-option-1-input"]').type("Option 2");
+        cy.get('[data-cy="mcq-option-2-input"]').type("Option 3");
+        cy.get('[data-cy="mcq-option-3-input"]').type("Option 4");
+        cy.get('[data-cy="mcq-correct-answer-1-button"]').click();
+      });
+      cy.get('[data-cy="save-questions-button"]').click();
+      cy.get('[data-cy="save-confirm-button"]').click();
+    });
   });
 });
