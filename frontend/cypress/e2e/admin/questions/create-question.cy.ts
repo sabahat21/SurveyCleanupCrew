@@ -7,10 +7,6 @@ describe("Login as admin and create a question", () => {
     "Literature",
     "History",
   ];
-  const QUESTION_TYPES = [
-    { type: "Text", displayName: "Text" },
-    { type: "Multiple Choice", displayName: "Multiple Choice" },
-  ];
 
   beforeEach(() => {
     cy.loginAsAdmin();
