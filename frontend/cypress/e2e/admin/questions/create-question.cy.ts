@@ -79,6 +79,8 @@ describe("Login as admin and create a question", () => {
         .should("exist")
         .click();
       CATEGORIES.forEach((category) => {
+        const randomAnswerIndex = Math.floor(Math.random() * 4);
+
         cy.get('[data-cy="add-question-button"]').should("exist").click();
         cy.get('[data-cy="question-category-select"]').select(category);
         cy.get('[data-cy="question-level-select"]').select(level);
@@ -90,7 +92,9 @@ describe("Login as admin and create a question", () => {
         cy.get('[data-cy="mcq-option-1-input"]').type("Option 2");
         cy.get('[data-cy="mcq-option-2-input"]').type("Option 3");
         cy.get('[data-cy="mcq-option-3-input"]').type("Option 4");
-        cy.get('[data-cy="mcq-correct-answer-1-button"]').click();
+        cy.get(
+          `[data-cy="mcq-correct-answer-${randomAnswerIndex}-button"]`
+        ).click();
       });
       cy.get('[data-cy="save-questions-button"]').click();
       cy.get('[data-cy="save-confirm-button"]').click();
