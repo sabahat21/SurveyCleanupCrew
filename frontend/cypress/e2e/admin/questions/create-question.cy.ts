@@ -26,6 +26,22 @@ describe("Login as admin and create a question", () => {
       .and("have.text", "CREATE MODE");
   });
 
+  it("Create question and delete before saving", () => {
+    cy.get('[data-cy="add-header-button"]').should("exist").click();
+    cy.get(`[data-cy="level-tab-beginner"]`).should("exist").click();
+    cy.get('[data-cy="add-question-button"]').should("exist").click();
+    cy.get('[data-cy="question-category-select"]').select("Vocabulary");
+    cy.get('[data-cy="question-level-select"]').select("Beginner");
+    cy.get('[data-cy="question-type-select"]').select("Text");
+    cy.get('[data-cy="question-textarea"]').type(
+      "Is this a test question that will be discarded?"
+    );
+    cy.get('[data-cy="delete-question-button"]').should("exist").click();
+    cy.get('[data-cy="confirm-delete-question-button"]')
+      .should("exist")
+      .click();
+  });
+
   LEVELS.forEach((level) => {
     it(`Click Add Question button in create mode in ${level} Tab`, () => {
       cy.get('[data-cy="add-header-button"]').should("exist").click();
