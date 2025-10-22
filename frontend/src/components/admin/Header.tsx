@@ -155,6 +155,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               ) : (
                 <button
+                  data-cy="save-changes-button"
                   onClick={handleUpdateClick}
                   disabled={isSubmitting || completedCount === 0}
                   className="flex items-center gap-2 px-5 py-2.5 bg-btn-save-changes-bg text-btn-save-changes-text rounded-lg hover:bg-btn-save-changes-hover-bg disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-sm shadow-md"
