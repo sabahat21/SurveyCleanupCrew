@@ -2,6 +2,7 @@ describe("Login as admin and delete questions", () => {
   const LEVELS = ["Beginner", "Intermediate", "Advanced"];
 
   beforeEach(() => {
+    cy.viewport("macbook-15");
     cy.loginAsAdmin();
   });
 

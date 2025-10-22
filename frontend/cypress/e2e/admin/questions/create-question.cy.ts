@@ -9,6 +9,7 @@ describe("Login as admin and create a question", () => {
   ];
 
   beforeEach(() => {
+    cy.viewport("macbook-15");
     cy.loginAsAdmin();
     cy.notEmpty();
   });

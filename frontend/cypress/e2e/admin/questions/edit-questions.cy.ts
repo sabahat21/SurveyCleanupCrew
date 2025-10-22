@@ -9,6 +9,7 @@ describe("Login as admin and delete questions", () => {
   ];
 
   beforeEach(() => {
+    cy.viewport("macbook-15");
     cy.loginAsAdmin();
     cy.notEmpty();
   });
@@ -29,7 +30,7 @@ describe("Login as admin and delete questions", () => {
     cy.get('[data-cy="update-confirm-button"]').should("exist").click();
   });
 
-  it(`Verify the updated question in Beginner tab`, () => {
+  it("Verify the updated question in Beginner tab", () => {
     cy.get('[data-cy="edit-header-button"]').should("exist").click();
     cy.get(`[data-cy="level-tab-beginner"]`).should("exist").click();
     cy.get('[data-cy="Beginner-question-0"]').click();
@@ -37,5 +38,14 @@ describe("Login as admin and delete questions", () => {
       "have.text",
       "updated question text for testing purposes."
     );
+  });
+
+  it("Change the level of the first question in Beginner tab to Intermediate and save changes", () => {
+    cy.get('[data-cy="Beginner-question-0"]').should("exist").click();
+    cy.get('[data-cy="question-level-select"]')
+      .should("exist")
+      .select("Intermediate");
+    cy.get('[data-cy="save-changes-button"]').should("exist").click();
+    cy.get('[data-cy="update-confirm-button"]').should("exist").click();
   });
 });
