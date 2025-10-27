@@ -620,7 +620,7 @@ class TemplateProvider:
                     <button class="btn btn-final" onclick="postFinalAnswers()">📤 POST</button>
                 </div>
                 <div style="margin-top: 16px; padding: 12px; background: #f7fafc; border-radius: 6px; font-size: 13px; color: #4a5568;">
-                    <strong>🏆 RANK:</strong> Process questions with 3+ correct answers to rank and score<br>
+                    <strong>🏆 RANK:</strong> Process questions with 3+ answers to rank and score<br>
                     <strong>📤 POST:</strong> POST final ranked questions
                 </div>
             </div>
@@ -705,6 +705,21 @@ class TemplateProvider:
             return;
             }
 
+            // put Beginner first, then Intermediate, then Advanced
+            const LEVEL_ORDER = { Beginner: 0, Intermediate: 1, Advanced: 2, Unknown: 3 };
+            
+            items.sort((a, b) => {
+            const la = (a.questionLevel || 'Unknown');
+            const lb = (b.questionLevel || 'Unknown');
+
+            // primary: level order
+            const d = (LEVEL_ORDER[la] ?? 3) - (LEVEL_ORDER[lb] ?? 3);
+            if (d !== 0) return d;
+
+            // secondary (optional): more responses first
+            return (b.responseCount ?? 0) - (a.responseCount ?? 0);
+            });
+
             const html = items.map(q => {
             // ✅ Robust text + meta fallbacks
             const text = (q.text || q.question || q.questionText || '(no text)').trim();
@@ -729,7 +744,7 @@ class TemplateProvider:
             const clusters = (q.clusters || []).slice(0, 5).map(c => {
                 const label = c.value || c.original || '(empty)';
                 const count = c.count ?? c.responseCount ?? 0;
-                return `<li><code>${label}</code> — count: ${count}${c.rank ? `, rank: ${c.rank}` : ''}${c.score ? `, score: ${c.score}` : ''}</li>`;
+                return `<li><code>${label}</code> — Count: ${count}${c.rank ? `, Rank: ${c.rank}` : ''}${c.score ? `, Score: ${c.score}` : ''}</li>`;
             }).join('');
 
             // Optional tiny debug line if you exposed it from the API

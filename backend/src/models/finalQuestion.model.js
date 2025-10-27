@@ -40,4 +40,4 @@ const finalQuestionSchema = new Schema(
   { timestamps: true }
 );
 
-export const FinalQuestion = mongoose.model("FinalQuestion", finalQuestionSchema);
+export const FinalQuestion = mongoose.model("FinalQuestion", finalQuestionSchema, process.env.FINAL_QUESTION_COLLECTION || "finalquestions");
