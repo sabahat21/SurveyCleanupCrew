@@ -360,6 +360,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
             <div className="mb-6">
               {/* FIX: merged duplicate className props */}
               <textarea
+                data-cy="text-area"
                 className={`w-full border-2 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-base sm:text-lg focus:ring-4 focus:ring-primary/30 transition-all duration-300 resize-none backdrop-blur-sm disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed ${
                   recording
                     ? "border-user-textarea-recording-border focus:border-red-400 bg-user-textarea-recording-bg"
@@ -444,6 +445,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row justify-center item-stretch gap-3 sm:gap-4">
               <button
+              data-cy={index === questions.length - 1 
+                  ? "review-answers-button" 
+                    : "save-continue-button"} 
                 onClick={onSaveNext}
                 disabled={submitting || recording}
                 className={`w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-user-btn-save-from to-user-btn-save-to text-white rounded-xl sm:rounded-2xl font-semibold hover:from-user-btn-save-hover-from hover:to-user-btn-save-hover-to transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 ${
@@ -458,6 +462,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
               <button
                 onClick={onSkip}
                 disabled={submitting || recording}
+                data-cy="skip-button"
                 className={`w-full sm:w-auto px-6 sm:px-8 py-3 rounded-xl sm:rounded-2xl font-semibold transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 ${
                   recording ? "opacity-50 cursor-not-allowed" : ""
                 } ${
@@ -547,8 +552,9 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
 
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <button
-                onClick={onPublish}
+                             onClick={onPublish}
                 disabled={submitting}
+                data-cy="submit-survey"
                 className="flex-1 px-3 sm:px-4 py-2 bg-gradient-to-r from-user-preview-submit-from to-user-preview-submit-to text-white rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm hover:shadow-lg"
               >
                 {submitting && (
