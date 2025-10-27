@@ -19,12 +19,14 @@ const LogoutPrompt: React.FC<LogoutPromptProps> = ({
         <p className="mb-6 text-logout-text">Are you sure you want to Exit?</p>
         <div className="flex justify-center gap-4">
           <button
+            data-cy="confirm-logout-button"
             className="px-6 py-2 bg-logout-primary text-logout-button-text rounded hover:bg-logout-hover"
             onClick={onConfirm}
           >
             Exit
           </button>
           <button
+            data-cy="cancel-logout-button"
             className="px-6 py-2 bg-logout-cancel-bg text-logout-cancel-text rounded hover:bg-logout-cancel-hover"
             onClick={onCancel}
           >

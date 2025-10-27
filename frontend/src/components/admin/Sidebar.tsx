@@ -130,6 +130,7 @@ export function Sidebar({
           ) : (
             levelQuestions.map((q, idx) => (
               <div
+                data-cy={`${currentLevel}-question-${idx}`}
                 key={q.id || idx}
                 className={`group flex items-start gap-2 p-2.5 rounded-lg cursor-pointer transition-all duration-200 mb-1 ${
                   idx === currentIndex
