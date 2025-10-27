@@ -40,4 +40,4 @@ const questionSchema = new Schema(
   { timestamps: true }
 );
 
-export const Question = mongoose.model("Question", questionSchema);
+export const Question = mongoose.model("Question", questionSchema, process.env.QUESTION_COLLECTION || "questions");
