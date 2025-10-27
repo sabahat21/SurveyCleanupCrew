@@ -43,9 +43,9 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
           <li
             key={q.questionID || q._id || `sidebar-question-${i}`} // FIX: Added proper key
             onClick={() => onSelectQuestion(i)}
-            className={`group relative flex items-center justify-between px-4 py-3 rounded-xl text-sm cursor-pointer transition-all duration-200 ${
+            className={`group relative flex items-center justify-between px-4 py-3 mx-1 sm:mx-2 rounded-xl text-sm cursor-pointer transition-all duration-200 ${
               index === i
-                ? "text-btn-active-text shadow-lg transform scale-105 border-2 border-sb-active-border bg-gradient-to-r from-sb-progress-bar-from to-sb-progress-bar-to"
+                ? "text-btn-active-text shadow-lg transform scale-105 border-2 border-transparent bg-gradient-to-r from-sb-progress-bar-from to-sb-progress-bar-to"
                 : "hover:shadow-md hover:bg-sb-hover-bg"
             }`}
           >
