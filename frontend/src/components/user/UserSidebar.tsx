@@ -16,9 +16,8 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
   onSelectQuestion,
 }) => {
   return (
-    <aside className="w-80 bg-white/80 backdrop-blur-sm shadow-xl flex flex-col p-6 overflow-hidden" 
-           style={{ borderRight: `1px solid var(--primary)`, height: '100vh' }}>
-      <div className="mb-6">
+    <aside className="w-80 h-screen bg-white/80 backdrop-blur-sm shadow-xl flex flex-col rounded-2xl overflow-hidden p-6 border-r border-sb-primary">
+      <div className="mb-6 pr-6">
         <h2 className="text-xl font-bold mb-2 text-sb-progress-text">
           Survey Progress
         </h2>
@@ -32,13 +31,13 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
         </p>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 pr-6">
         <p className="text-base font-semibold mb-3 text-sb-text">
           Questions
         </p>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-1 pb-12">
+      <div className="min-h-0 flex-1 overflow-y-auto px-1 pb-12 pr-3 [scrollbar-gutter:stable]">
         <ul className="space-y-2">
         {questions.map((q, i) => (
           <li
