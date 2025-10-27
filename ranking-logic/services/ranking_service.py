@@ -11,10 +11,50 @@ from utils.data_formatters import QuestionFormatter, DataValidator
 
 logger = logging.getLogger('survey_analytics')
 
-######
-# services/ranking_service.py (or put in a shared constants module)
+# Minimum Response to be Rankable
 MIN_RESPONSES = 3
-######
+
+
+SCORE_BY_RANK = {
+    1: 10,
+    2: 8,
+    3: 6,
+    4: 4,
+    5: 2,
+}
+
+def dense_rank_by_count(rows, score_map=SCORE_BY_RANK):
+
+    rows.sort(key=lambda r: (-_to_int(r.get("responseCount", 0)),
+                             str(r.get("answer") or "")))
+    prev = None
+    cur_rank = 0
+    for r in rows:
+        cnt = _to_int(r.get("responseCount", 0))
+        if cnt != prev:
+            cur_rank += 1           # dense: 1,2,2,3...
+            prev = cnt
+        r["rank"]  = cur_rank
+        r["score"] = int(score_map.get(cur_rank, 0))
+    return rows
+    ##if not rows:
+        ##return []
+    ##rows = sorted(rows, key=lambda r: (-int(r.get("responseCount", 0)), str(r.get("answer", ""))))
+
+    ##prev_count = None
+    ##current_rank = 0     # 1,2,3... (dense)
+    ##for i, r in enumerate(rows):
+        ##cnt = int(r.get("responseCount", 0))
+        ##if cnt != prev_count:
+            ##current_rank += 1     # new distinct count → next rank number
+            ##prev_count = cnt
+
+        ##r["rank"] = current_rank
+        ##r["score"] = int(score_map.get(current_rank, 0))  # 0 if rank > table
+    ##return rows
+
+
+
 
 def _to_bool(v) -> bool:
     if isinstance(v, bool):
@@ -26,67 +66,115 @@ def _to_bool(v) -> bool:
 def _to_int(v) -> int:
     try:
         return int(v)
-    except Exception:
+    except: ##Exception:
         return 0
     
-###############
+def _is_true(v) -> bool:
+    if isinstance(v, bool): return v
+    if isinstance(v, str):  return v.strip().lower() in {"true","1","yes","y"}
+    return bool(v)
+    
+
 def _total_responses(answers: list[dict]) -> int:
     def _to_int(v):
         try: return int(v)
         except: return 0
     return sum(_to_int(a.get(AnswerFields.RESPONSE_COUNT, 1)) for a in answers)
-#####################
+
 
 class AnswerRanker:
-    def __init__(self, scoring_values: List[int]):
+    ##def __init__(self, scoring_values: List[int]):
+        ##self.scoring_values = scoring_values or []
+
+    def __init__(self, scoring_values=None):
+        # kept for compatibility (we now use SCORE_BY_RANK above)
         self.scoring_values = scoring_values or []
 
-    def rank_answers(self, answers: List[Dict]) -> Tuple[List[Dict], int, int]:
-        logger.debug("Processing %d answers for ranking", len(answers))
+    def rank_answers(self, answers):
+        answers = answers or []
 
-        correct = [a for a in answers if _to_bool(a.get(AnswerFields.IS_CORRECT))]
-        incorrect = [a for a in answers if not _to_bool(a.get(AnswerFields.IS_CORRECT))]
-        logger.debug("Found %d correct answers, %d incorrect answers", len(correct), len(incorrect))
+        correct   = [a for a in answers if _is_true(a.get("isCorrect"))]
+        incorrect = [a for a in answers if not _is_true(a.get("isCorrect"))]
+
+        # Non-correct → zeroed
+        for a in incorrect:
+            a["rank"]  = 0
+            a["score"] = 0
+
+        ranked_cnt = 0
+        scored_cnt = 0
+        if correct:
+            dense_rank_by_count(correct, SCORE_BY_RANK)
+            ranked_cnt = len(correct)
+            scored_cnt = sum(1 for a in correct if _to_int(a.get("score")) > 0)
+
+        # Return ranked-correct first, then the zeroed incorrect
+        return correct + incorrect, ranked_cnt, scored_cnt
+
+    ##def rank_answers(self, answers: List[Dict]) -> Tuple[List[Dict], int, int]:
+        ##logger.debug("Processing %d answers for ranking", len(answers))
+
+        ##if not answers:
+            ##return answers, 0, 0
+        
+        ##rows_to_rank = [a for a in answers]
+        
+        ##for a in rows_to_rank:
+            ##a.setdefault("responseCount", 0)
+
+        # Apply dense ranking
+        ##ranked_rows = dense_rank_by_count(rows_to_rank)
+
+        # Count stats
+        ##ranked_cnt = len(ranked_rows)
+        ##scored_cnt = sum(1 for a in ranked_rows if int(a.get("score", 0)) > 0)
+
+        ##logger.debug("Ranking complete: %d ranked, %d scored", ranked_cnt, scored_cnt)
+        ##return answers, ranked_cnt, scored_cnt
+
+        ##correct = [a for a in answers if _to_bool(a.get(AnswerFields.IS_CORRECT))]
+        ##incorrect = [a for a in answers if not _to_bool(a.get(AnswerFields.IS_CORRECT))]
+        ##logger.debug("Found %d correct answers, %d incorrect answers", len(correct), len(incorrect))
 
         # Pre-rank diagnostics
-        for a in correct:
-            logger.debug("[PRE-RANK] correct ans='%s' rc=%s old_rank=%s",
-                         str(a.get(AnswerFields.ANSWER))[:30],
-                         a.get(AnswerFields.RESPONSE_COUNT),
-                         a.get(AnswerFields.RANK))
+        ##for a in correct:
+            ##logger.debug("[PRE-RANK] correct ans='%s' rc=%s old_rank=%s",
+                         ##str(a.get(AnswerFields.ANSWER))[:30],
+                         ##a.get(AnswerFields.RESPONSE_COUNT),
+                         ##a.get(AnswerFields.RANK))
 
         # Sort by responseCount desc, then by answer text asc for stability
-        correct.sort(
-            key=lambda a: (
-                -_to_int(a.get(AnswerFields.RESPONSE_COUNT)),
-                str(a.get(AnswerFields.ANSWER) or "").lower()
-            )
-        )
+        ##correct.sort(
+            ##key=lambda a: (
+                ##-_to_int(a.get(AnswerFields.RESPONSE_COUNT)),
+                ##str(a.get(AnswerFields.ANSWER) or "").lower()
+            ##)
+        ##)
 
-        ranked = 0
-        scored = 0
-        for i, a in enumerate(correct):
-            a[AnswerFields.RANK] = i + 1
-            score = self.scoring_values[i] if i < len(self.scoring_values) else 0
-            a[AnswerFields.SCORE] = score
-            ranked += 1
-            if score > 0:
-                scored += 1
-            logger.debug("Ranked answer '%s' - rank: %s, score: %s, responseCount: %s",
-                         str(a.get(AnswerFields.ANSWER))[:30],
-                         a.get(AnswerFields.RANK),
-                         a.get(AnswerFields.SCORE),
-                         a.get(AnswerFields.RESPONSE_COUNT))
+        ##ranked = 0
+        ##scored = 0
+        ##for i, a in enumerate(correct):
+            ##a[AnswerFields.RANK] = i + 1
+            ##score = self.scoring_values[i] if i < len(self.scoring_values) else 0
+            ##a[AnswerFields.SCORE] = score
+            ##ranked += 1
+            ##if score > 0:
+                ##scored += 1
+            ##logger.debug("Ranked answer '%s' - rank: %s, score: %s, responseCount: %s",
+                         ##str(a.get(AnswerFields.ANSWER))[:30],
+                         ##a.get(AnswerFields.RANK),
+                         ##a.get(AnswerFields.SCORE),
+                         ##a.get(AnswerFields.RESPONSE_COUNT))
 
         # Reset incorrect
-        for a in incorrect:
-            a[AnswerFields.RANK] = 0
-            a[AnswerFields.SCORE] = 0
-            logger.debug("Set incorrect answer '%s' to rank=0, score=0",
-                         str(a.get(AnswerFields.ANSWER))[:30])
+        ##for a in incorrect:
+            ##a[AnswerFields.RANK] = 0
+            ##a[AnswerFields.SCORE] = 0
+            ##logger.debug("Set incorrect answer '%s' to rank=0, score=0",
+                         ##str(a.get(AnswerFields.ANSWER))[:30])
 
-        logger.debug("Ranking complete: %d ranked, %d scored", ranked, scored)
-        return correct + incorrect, ranked, scored
+        ##logger.debug("Ranking complete: %d ranked, %d scored", ranked, scored)
+        ##return correct + incorrect, ranked, scored
 
 
 
@@ -100,11 +188,17 @@ class QuestionProcessor:
             reason["skipped_mcq"] = True
             return False, reason
         answers = q.get(QuestionFields.ANSWERS) or []
-        #correct_count = sum(1 for a in answers if _to_bool(a.get(AnswerFields.IS_CORRECT)))
-        ##if correct_count < 3:
-        #########################
-        total = _total_responses(answers)
-        if total < MIN_RESPONSES:
+        ##total = _total_responses(answers)
+        ##if total < MIN_RESPONSES:
+            ##reason["skipped_insufficient"] = True
+            ##return False, reason
+        ##return True, reason
+        total_correct = sum(
+            _to_int(a.get(AnswerFields.RESPONSE_COUNT, 0))
+            for a in answers
+            if _to_bool(a.get(AnswerFields.IS_CORRECT))
+            )
+        if total_correct < MIN_RESPONSES:
             reason["skipped_insufficient"] = True
             return False, reason
         return True, reason
@@ -149,8 +243,8 @@ class RankingService:
             answers = q.get("answers") or []
             qtext = q.get("questionText") or q.get("question") or q.get("text") or ""
 
-             # ✅ Sum actual responses, not unique row
-            total = _total_responses(answers)
+            
+            ##total = _total_responses(answers)
 
             lvl = q.get("questionLevel") or q.get("level")
             cat = q.get("questionCategory") or q.get("category")
@@ -169,21 +263,39 @@ class RankingService:
                 })
                 continue
 
-            # Example threshold; match whatever your QuestionProcessor uses
-            if total < MIN_RESPONSES:
+            total_correct = sum(_to_int(a.get(AnswerFields.RESPONSE_COUNT, 0))
+                                for a in answers
+                                if _to_bool(a.get(AnswerFields.IS_CORRECT))
+                                )
+
+            if total_correct < MIN_RESPONSES:
                 results.append({
                     "questionId": q.get("_id"),
                     "questionType": qtype,
-                    "questionLevel": lvl,         
+                    "questionLevel": lvl,
                     "questionCategory": cat,
                     "text": qtext,
-                    "responseCount": total,
+                    "responseCount": total_correct,   # show the correct-responses total here
                     "rankable": False,
                     "skipReason": "insufficient"
                 })
                 continue
 
-            # Reuse the real processing path, but don't write to DB.
+            # Example threshold; match what QuestionProcessor uses
+            ##if total < MIN_RESPONSES:
+                ##results.append({
+                    ##"questionId": q.get("_id"),
+                    ##"questionType": qtype,
+                    ##"questionLevel": lvl,         
+                    ##"questionCategory": cat,
+                    ##"text": qtext,
+                    ##"responseCount": total,
+                    ##"rankable": False,
+                    ##"skipReason": "insufficient"
+                ##})
+                ##continue
+
+            # Reuse the real processing path, but read only, not affect DB
             # process_question returns (processed_question, meta)
             processed_q, meta = self.question_processor.process_question(q)
 
@@ -196,7 +308,7 @@ class RankingService:
 
             top = ranked[:top_n]
 
-            # Normalize the preview payload to a compact shape
+            # Preview Cluster Shape, format
             preview_clusters = [
                 {
                     "value": a.get("normalized") or a.get("answer") or a.get("value"),
@@ -215,11 +327,10 @@ class RankingService:
                 "text": qtext,
                 "questionLevel": lvl,         
                 "questionCategory": cat,
-                "responseCount": total,
+                "responseCount": total_correct,
                 "rankable": True,
                 "skipReason": None,
                 "clusters": preview_clusters,
-                # Optional: surface a few meta numbers the UI can show
                 "debug": {
                     "ranked_cnt": int(meta.get("ranked_cnt", 0)),
                     "scored_cnt": int(meta.get("scored_cnt", 0)),

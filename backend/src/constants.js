@@ -1,6 +1,10 @@
-export const DB_NAME = "Data_Test_Pathfinder";
+//export const DB_NAME = "Data_Test_Pathfinder";
 //export const DB_NAME = "Data_Jimmy_Test";
 //export const DB_NAME = "database_test_June05";
+
+//export const DB_NAME = "Ranking-Test-Sunggyu";
+
+
 
 // Enums for question Type
 export const QUESTION_TYPE = Object.freeze({

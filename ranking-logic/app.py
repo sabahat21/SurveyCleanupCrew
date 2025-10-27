@@ -626,7 +626,7 @@ class TemplateProvider:
                     <button class="btn btn-final" onclick="postFinalAnswers()">📤 POST</button>
                 </div>
                 <div style="margin-top: 16px; padding: 12px; background: #f7fafc; border-radius: 6px; font-size: 13px; color: #4a5568;">
-                    <strong>🏆 RANK:</strong> Process questions with 3+ correct answers to rank and score<br>
+                    <strong>🏆 RANK:</strong> Process questions with 3+ answers to rank and score<br>
                     <strong>📤 POST:</strong> POST final ranked questions
                 </div>
             </div>
@@ -758,102 +758,84 @@ class TemplateProvider:
         # }
         # }
         async function previewRanking() {
-            const el = document.getElementById('preview-results');
-            el.innerHTML = 'Loading preview…';
-        
-            try {
-                console.log('🔍 Starting preview request to /api/preview-ranking...');
-                
-                const response = await fetch('/api/preview-ranking');
-                console.log('📊 Response status:', response.status);
-                console.log('📊 Response ok:', response.ok);
-                
-                // Get raw text first to see what's actually returned
-                const rawText = await response.text();
-                console.log('📊 Raw response (first 500 chars):', rawText.substring(0, 500));
-                
-                // Check if response is empty
-                if (!rawText.trim()) {
-                    console.error('❌ Server returned empty response');
-                    el.innerHTML = '❌ Server returned empty response';
-                    return;
-                }
-                
-                // Check if response is HTML (error page)
-                if (rawText.trim().startsWith('<!DOCTYPE') || rawText.includes('<html>')) {
-                    console.error('❌ Server returned HTML instead of JSON');
-                    console.error('📊 Full response:', rawText);
-                    el.innerHTML = '❌ Server returned error page. Check backend logs.';
-                    return;
-                }
-                
-                // Try to parse as JSON
-                let json;
-                try {
-                    json = JSON.parse(rawText);
-                } catch (parseError) {
-                    console.error('❌ JSON parse error:', parseError);
-                    console.error('📊 Full response:', rawText);
-                    el.innerHTML = `❌ Server returned invalid JSON. Check browser console for details.`;
-                    return;
-                }
-        
-                console.log('✅ Parsed JSON:', json);
-        
-                if (json.status !== 'success') {
-                    el.innerHTML = `❌ Error: ${json.message || 'Unknown error'}`;
-                    return;
-                }
-        
-                const items = json.data || [];
-                console.log(`📊 Found ${items.length} items to preview`);
-                
-                if (!items.length) {
-                    el.innerHTML = 'No questions found to preview.';
-                    return;
-                }
-        
-                // Render the preview
-                const html = items.map(q => {
-                    const text = (q.text || q.question || q.questionText || '(no text)').trim();
-                    const metaBits = [
-                        q.questionCategory,
-                        q.questionLevel, 
-                        q.questionType
-                    ].filter(Boolean);
-                    const meta = metaBits.join(' • ');
-        
-                    const header = `
-                        <div style="margin-bottom:6px;">
-                            <strong>${text}</strong>
-                            ${meta ? `<span style="opacity:.7;"> — ${meta}</span>` : ''}
-                            <span style="margin-left:8px; opacity:.7;">(${q.responseCount ?? 0} responses)</span>
-                        </div>`;
-        
-                    const status = q.rankable
-                        ? `<div style="color:#166534; margin-bottom:4px;">Rankable ✅</div>`
-                        : `<div style="color:#9a3412; margin-bottom:4px;">Skipped ⚠️ (${q.skipReason || 'unknown'})</div>`;
-        
-                    const clusters = (q.clusters || []).slice(0, 5).map(c => {
-                        const label = c.value || c.original || '(empty)';
-                        const count = c.count ?? c.responseCount ?? 0;
-                        return `<li><code>${label}</code> — count: ${count}${c.rank ? `, rank: ${c.rank}` : ''}${c.score ? `, score: ${c.score}` : ''}</li>`;
-                    }).join('');
-        
-                    return `
-                        <div style="padding:12px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:12px;">
-                            ${header}
-                            ${status}
-                            ${clusters ? `<ul style="margin-left:16px;">${clusters}</ul>` : '<div style="opacity:.7;">No clusters</div>'}
-                        </div>`;
-                }).join('');
-        
-                el.innerHTML = html;
-                
-            } catch (err) {
-                console.error('💥 Network error:', err);
-                el.innerHTML = `❌ Network Error: ${err.message}`;
+        const el = document.getElementById('preview-results');
+        el.innerHTML = 'Loading preview…';
+
+        try {
+            const res = await fetch('/api/preview-ranking');
+            const json = await res.json();
+
+            if (json.status !== 'success') {
+            el.innerHTML = `❌ Error: ${json.message || 'Unknown error'}`;
+            return;
             }
+
+            const items = json.data || json.results || [];
+            if (!items.length) {
+            el.innerHTML = 'No questions found to preview.';
+            return;
+            }
+
+            // put Beginner first, then Intermediate, then Advanced
+            const LEVEL_ORDER = { Beginner: 0, Intermediate: 1, Advanced: 2, Unknown: 3 };
+            
+            items.sort((a, b) => {
+            const la = (a.questionLevel || 'Unknown');
+            const lb = (b.questionLevel || 'Unknown');
+
+            // primary: level order
+            const d = (LEVEL_ORDER[la] ?? 3) - (LEVEL_ORDER[lb] ?? 3);
+            if (d !== 0) return d;
+
+            // secondary (optional): more responses first
+            return (b.responseCount ?? 0) - (a.responseCount ?? 0);
+            });
+
+            const html = items.map(q => {
+            // ✅ Robust text + meta fallbacks
+            const text = (q.text || q.question || q.questionText || '(no text)').trim();
+            const metaBits = [
+                q.questionCategory,          // e.g., "Vocabulary"
+                q.questionLevel,             // e.g., "Beginner"
+                q.questionType               // e.g., "input" | "mcq"
+            ].filter(Boolean);
+            const meta = metaBits.join(' • ');
+
+            const header = `
+                <div style="margin-bottom:6px;">
+                <strong>${text}</strong>
+                ${meta ? `<span style="opacity:.7;"> — ${meta}</span>` : ''}
+                <span style="margin-left:8px; opacity:.7;">(${q.responseCount ?? 0} responses)</span>
+                </div>`;
+
+            const status = q.rankable
+                ? `<div style="color:#166534; margin-bottom:4px;">Rankable ✅</div>`
+                : `<div style="color:#9a3412; margin-bottom:4px;">Skipped ⚠️ (${q.skipReason || 'unknown'})</div>`;
+
+            const clusters = (q.clusters || []).slice(0, 5).map(c => {
+                const label = c.value || c.original || '(empty)';
+                const count = c.count ?? c.responseCount ?? 0;
+                return `<li><code>${label}</code> — Count: ${count}${c.rank ? `, Rank: ${c.rank}` : ''}${c.score ? `, Score: ${c.score}` : ''}</li>`;
+            }).join('');
+
+            // Optional tiny debug line if you exposed it from the API
+            const debug = q.debug ? 
+                `<div style="opacity:.6; font-size:12px; margin-top:6px;">ranked: ${q.debug.ranked_cnt ?? 0}, scored: ${q.debug.scored_cnt ?? 0}</div>` 
+                : '';
+
+            return `
+                <div style="padding:12px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:12px;">
+                ${header}
+                ${status}
+                ${clusters ? `<ul style="margin-left:16px;">${clusters}</ul>` : '<div style="opacity:.7;">No clusters</div>'}
+                ${debug}
+                </div>`;
+            }).join('');
+
+            el.innerHTML = html;
+        } catch (err) {
+            el.innerHTML = `❌ Error: ${err.message}`;
+        }
         }
         </script>      
         <!-- Logs Panel -->

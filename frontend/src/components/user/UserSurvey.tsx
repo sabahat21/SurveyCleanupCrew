@@ -213,7 +213,7 @@ const UserSurvey: React.FC = () => {
       </button>
 
       {/* Main container - modified to center content on desktop */}
-      <div className="min-h-screen flex items-center justify-center bg-user-survey-bg px-4">
+      <div className="min-h-[100dvh] flex items-center justify-center bg-user-survey-bg px-4 ``overscroll-contain touch-pan-y">
         <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-7xl gap-10">
           {/* Sidebar - hidden by default on mobile, shown when toggled */}
           {/* On desktop: positioned next to the question box instead of at the edge */}
@@ -229,7 +229,7 @@ const UserSurvey: React.FC = () => {
           `}
           >
             {/* Wrapper with padding to prevent content overlapping with toggle button */}
-            <div className="flex flex-col overflow-y-auto overflow-x-hidden bg-white rounded-r-xl md:rounded-2xl md:border md:border-white/40 scrollbar-thin scrollbar-thumb-user-card-border scrollbar-track-transparent h-[calc(100vh-7rem)] md:h-auto md:max-h-[80vh] md:bg-white/80 md:backdrop-blur-md">
+            <div className="flex flex-col overflow-y-auto overflow-x-hidden bg-white rounded-r-2xl md:rounded-2xl md:border md:border-white/40 scrollbar-thin scrollbar-thumb-user-card-border scrollbar-track-transparent h-[calc(100dvh-7rem)] md:h-auto md:max-h-[80vh] md:bg-white/80 md:backdrop-blur-md pr-3">
               <UserSidebar
                 questions={questions}
                 answers={answers}
