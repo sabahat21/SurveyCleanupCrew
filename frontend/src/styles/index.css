@@ -74,7 +74,7 @@
   --btn-delete-question-hover-bg: #b91c1c;
   --btn-delete-question-hover-text: #ffffff;
 
-  /* Sidebar specific colors */
+  /* Admin Sidebar specific colors */
   --sidebar-bg: #ffffff;
   --sidebar-text: #000000;
   --active-level-tab-bg: #ffffff;
@@ -151,10 +151,8 @@
 
   /* Analytics Page */
   --analytics-bg: #f5c800;
-  --button-refresh-responses-back:#ff4500;
-  --responses-bg:#f5c800;
-
-
+  --button-refresh-responses-back: #ff4500;
+  --responses-bg: #f5c800;
 
   /* Admin database connection lost */
   --adminlost-bg: #f5c800;
@@ -252,19 +250,18 @@
   --user-survey-btn-ok-error-hover: #b91c1c;
 
   /* Sidebar specific colors */
---sb-bg: #ffffff;
---sb-border: #f2d2b6;
---sb-text: #000000;
---sb-active-bg: #aee3f8;
---sb-active-border: #ff4500;
---sb-hover-bg: #f5d7be;
---sb-progress-bar-from: #e6b800;
---sb-progress-bar-to: #e66000;
---sb-progress-text: #000000;
---sb-indicator-active: #ef4444;
---sb-indicator-skip: #f39800;
---sb-indicator-border: #f5c800;
-
+  --sb-bg: #ffffff;
+  --sb-border: #f2d2b6;
+  --sb-text: #000000;
+  --sb-active-bg: #aee3f8;
+  --sb-active-border: #ff4500;
+  --sb-hover-bg: #f5d7be;
+  --sb-progress-bar-from: #e6b800;
+  --sb-progress-bar-to: #e66000;
+  --sb-progress-text: #000000;
+  --sb-indicator-active: #ef4444;
+  --sb-indicator-skip: #f39800;
+  --sb-indicator-border: #f5c800;
 }
 
 body {

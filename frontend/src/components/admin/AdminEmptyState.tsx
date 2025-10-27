@@ -102,6 +102,7 @@ const AdminEmptyState: React.FC<AdminEmptyStateProps> = ({
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {LEVELS.map((level) => (
                 <button
+                  data-cy={`empty-add-${level.toLowerCase()}-button`}
                   key={level}
                   onClick={() => handleButtonClick(level)}
                   className={`group relative px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl overflow-hidden ${
