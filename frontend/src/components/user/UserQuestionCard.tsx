@@ -307,18 +307,7 @@ const UserQuestionCard: React.FC<UserQuestionCardProps> = ({
             {!showPreviewDialog ? questions[index]?.questionLevel : proficiency}{" "}
             Level
           </span>
-          <button
-            onClick={onLogout}
-            disabled={submitting || recording}
-            className={`text-sm font-medium transition-colors duration-200 hover:underline ${
-              submitting || recording
-                ? "opacity-30 cursor-not-allowed"
-                : "opacity-100"
-            }`}
-            style={{ color: "var(--btn-logout-bg)" }}
-          >
-            Exit
-          </button>
+          
         </div>
 
         {!showPreviewDialog && (
