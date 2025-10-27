@@ -10,9 +10,11 @@ describe('E2E Full Tests', () => {
     cy.get('.rounded-r-lg').click();
 
     //Sign into admin dashboard
-    cy.get('.space-y-5 > :nth-child(1) > .w-full').type('Luqman')
+    // cy.get('.space-y-5 > :nth-child(1) > .w-full').type('Luqman');
+    cy.get('[data-cy="username-input"]').type('Luqman')
     cy.get('.rounded-r-lg').click();
-    cy.get('.space-y-5 > :nth-child(2) > .w-full').type('AdminForm123')
+    // cy.get('.space-y-5 > :nth-child(2) > .w-full').type('AdminForm123')
+    cy.get('[data-cy="password-input"]').type('AdminForm123')
     cy.get('.bg-purple-600').click();
     
     const apiBase = Cypress.env('apiBase');
