@@ -1,7 +1,6 @@
 """
 Updated Flask Application - Two separate buttons for ranking and final POST
 """
-
 import time
 import traceback
 from flask import Flask, render_template_string, jsonify, request
@@ -13,12 +12,14 @@ from services.final_service import FinalService
 from utils.logger import setup_logger
 from constants import LogMessages
 from flask_cors import CORS, cross_origin
-
 # Initialize Flask app
 app = Flask(__name__)
 
 # Or allow all origins for testing
 CORS(app)  # This should allow all origins by default
+
+# # Initialize Flask app
+# app = Flask(__name__)
 
 # Setup logging
 logger = setup_logger()
@@ -199,7 +200,7 @@ class TemplateProvider:
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: "Inter", sans-serif;
             background: #f5f7fa;
             min-height: 100vh;
         }
@@ -496,6 +497,106 @@ class TemplateProvider:
                 display: none;
             }
         }
+
+        /* === GameShow theme override === */
+
+        :root{
+        --gs-bg:            #ffec97;   
+        --gs-surface:       #ffffff;   
+        --gs-border:        #ededed;
+        --gs-text:          #000000;
+        --gs-muted:         #656565;
+
+        --gs-primary:       #ff4500;   /* brand orange */
+        --gs-hover:         #f5c800;   /* warm yellow hover */
+
+       
+        --gs-info-bg:       #fff5e6;   /* soft orange wash */
+        --gs-info-text:     #7a2e00;
+        }
+
+        /* Background & text */
+        body{
+        background: var(--gs-bg);
+        color: var(--gs-text);
+        }
+
+        /* Panels */
+        .panel{
+        background: var(--gs-surface);
+        border-color: var(--gs-border);
+        }
+        .panel-header{
+        background: #fffaf0;          /* faint warm header */
+        border-bottom-color: var(--gs-border);
+        }
+        .panel-title{ color: var(--gs-text); }
+        .panel-subtitle{ color: var(--gs-muted); }
+
+        /* Logo pill → orange */
+        .logo-icon{
+        background: linear-gradient(135deg, var(--gs-primary), #ff5900);
+        }
+
+        /* Buttons */
+        .btn{
+        border-radius: 10px;           
+        }
+        .btn-warning,                  /* RANK */
+        .btn-final{                    /* POST */
+        background: var(--gs-primary);
+        }
+        .btn-warning:hover,
+        .btn-final:hover{
+        background: var(--gs-hover);
+        }
+        .btn:disabled{
+        opacity: .6;
+        }
+
+        /* Progress */
+        .progress-bar{
+        background: linear-gradient(90deg, var(--gs-primary), var(--gs-hover));
+        }
+
+        /* Status chips */
+        .status.info{
+        background: var(--gs-info-bg);
+        color: var(--gs-info-text);
+        border-left-color: var(--gs-primary);
+        }
+
+        /* Optional: links or code tags inside preview */
+        #preview-results code{
+        color: var(--gs-primary);
+        }
+
+        /* === Header === */
+        .header{
+        background: var(--gs-primary);
+        color: #fff;
+        border-bottom: 0;
+        }
+        .header .logo-text h1{ color: #fff; }
+        .header .logo-text p{ color: rgba(255,255,255,.85); }
+
+        .header .logo-icon{
+        background: #fff;
+        color: var(--gs-primary);
+        }
+        .panel-header{
+        background: #fff6e0; /* subtle warm */
+        }
+
+        /* Preview button → GameShow orange */
+        .btn-success{
+        background: var(--gs-primary) !important;
+        }
+        .btn-success:hover{
+        background: var(--gs-hover) !important;
+        }
+
+
     </style>
 </head>
 <body>
@@ -525,7 +626,7 @@ class TemplateProvider:
                     <button class="btn btn-final" onclick="postFinalAnswers()">📤 POST</button>
                 </div>
                 <div style="margin-top: 16px; padding: 12px; background: #f7fafc; border-radius: 6px; font-size: 13px; color: #4a5568;">
-                    <strong>🏆 RANK:</strong> Process questions with 3+ correct answers to rank and score<br>
+                    <strong>🏆 RANK:</strong> Process questions with 3+ answers to rank and score<br>
                     <strong>📤 POST:</strong> POST final ranked questions
                 </div>
             </div>
@@ -574,6 +675,169 @@ class TemplateProvider:
             </div>
         </div>
 
+        
+
+        <!-- Preview Panel -->
+        <div class="panel full-width-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">🔍 Preview Ranking</h2>
+                <p class="panel-subtitle">Preview ranking details for questions</p>
+            </div>
+            
+            <div class="section">
+                <button class="btn btn-success" onclick="previewRanking()">🔍 Preview Ranking</button>
+                <div id="preview-results" style="margin-top: 16px; font-size: 13px; color: #4a5568;"></div>
+            </div>
+
+        </div>
+
+        <script>
+        # async function previewRanking() {
+        # const el = document.getElementById('preview-results');
+        # el.innerHTML = 'Loading preview…';
+
+        # try {
+        #     const res = await fetch('/api/preview-ranking');
+        #     const json = await res.json();
+
+        #     if (json.status !== 'success') {
+        #     el.innerHTML = `❌ Error: ${json.message || 'Unknown error'}`;
+        #     return;
+        #     }
+
+        #     const items = json.data || json.results || [];
+        #     if (!items.length) {
+        #     el.innerHTML = 'No questions found to preview.';
+        #     return;
+        #     }
+
+        #     const html = items.map(q => {
+        #     // ✅ Robust text + meta fallbacks
+        #     const text = (q.text || q.question || q.questionText || '(no text)').trim();
+        #     const metaBits = [
+        #         q.questionCategory,          // e.g., "Vocabulary"
+        #         q.questionLevel,             // e.g., "Beginner"
+        #         q.questionType               // e.g., "input" | "mcq"
+        #     ].filter(Boolean);
+        #     const meta = metaBits.join(' • ');
+
+        #     const header = `
+        #         <div style="margin-bottom:6px;">
+        #         <strong>${text}</strong>
+        #         ${meta ? `<span style="opacity:.7;"> — ${meta}</span>` : ''}
+        #         <span style="margin-left:8px; opacity:.7;">(${q.responseCount ?? 0} responses)</span>
+        #         </div>`;
+
+        #     const status = q.rankable
+        #         ? `<div style="color:#166534; margin-bottom:4px;">Rankable ✅</div>`
+        #         : `<div style="color:#9a3412; margin-bottom:4px;">Skipped ⚠️ (${q.skipReason || 'unknown'})</div>`;
+
+        #     const clusters = (q.clusters || []).slice(0, 5).map(c => {
+        #         const label = c.value || c.original || '(empty)';
+        #         const count = c.count ?? c.responseCount ?? 0;
+        #         return `<li><code>${label}</code> — count: ${count}${c.rank ? `, rank: ${c.rank}` : ''}${c.score ? `, score: ${c.score}` : ''}</li>`;
+        #     }).join('');
+
+        #     // Optional tiny debug line if you exposed it from the API
+        #     const debug = q.debug ? 
+        #         `<div style="opacity:.6; font-size:12px; margin-top:6px;">ranked: ${q.debug.ranked_cnt ?? 0}, scored: ${q.debug.scored_cnt ?? 0}</div>` 
+        #         : '';
+
+        #     return `
+        #         <div style="padding:12px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:12px;">
+        #         ${header}
+        #         ${status}
+        #         ${clusters ? `<ul style="margin-left:16px;">${clusters}</ul>` : '<div style="opacity:.7;">No clusters</div>'}
+        #         ${debug}
+        #         </div>`;
+        #     }).join('');
+
+        #     el.innerHTML = html;
+        # } catch (err) {
+        #     el.innerHTML = `❌ Error: ${err.message}`;
+        # }
+        # }
+        async function previewRanking() {
+        const el = document.getElementById('preview-results');
+        el.innerHTML = 'Loading preview…';
+
+        try {
+            const res = await fetch('/api/preview-ranking');
+            const json = await res.json();
+
+            if (json.status !== 'success') {
+            el.innerHTML = `❌ Error: ${json.message || 'Unknown error'}`;
+            return;
+            }
+
+            const items = json.data || json.results || [];
+            if (!items.length) {
+            el.innerHTML = 'No questions found to preview.';
+            return;
+            }
+
+            // put Beginner first, then Intermediate, then Advanced
+            const LEVEL_ORDER = { Beginner: 0, Intermediate: 1, Advanced: 2, Unknown: 3 };
+            
+            items.sort((a, b) => {
+            const la = (a.questionLevel || 'Unknown');
+            const lb = (b.questionLevel || 'Unknown');
+
+            // primary: level order
+            const d = (LEVEL_ORDER[la] ?? 3) - (LEVEL_ORDER[lb] ?? 3);
+            if (d !== 0) return d;
+
+            // secondary (optional): more responses first
+            return (b.responseCount ?? 0) - (a.responseCount ?? 0);
+            });
+
+            const html = items.map(q => {
+            // ✅ Robust text + meta fallbacks
+            const text = (q.text || q.question || q.questionText || '(no text)').trim();
+            const metaBits = [
+                q.questionCategory,          // e.g., "Vocabulary"
+                q.questionLevel,             // e.g., "Beginner"
+                q.questionType               // e.g., "input" | "mcq"
+            ].filter(Boolean);
+            const meta = metaBits.join(' • ');
+
+            const header = `
+                <div style="margin-bottom:6px;">
+                <strong>${text}</strong>
+                ${meta ? `<span style="opacity:.7;"> — ${meta}</span>` : ''}
+                <span style="margin-left:8px; opacity:.7;">(${q.responseCount ?? 0} responses)</span>
+                </div>`;
+
+            const status = q.rankable
+                ? `<div style="color:#166534; margin-bottom:4px;">Rankable ✅</div>`
+                : `<div style="color:#9a3412; margin-bottom:4px;">Skipped ⚠️ (${q.skipReason || 'unknown'})</div>`;
+
+            const clusters = (q.clusters || []).slice(0, 5).map(c => {
+                const label = c.value || c.original || '(empty)';
+                const count = c.count ?? c.responseCount ?? 0;
+                return `<li><code>${label}</code> — Count: ${count}${c.rank ? `, Rank: ${c.rank}` : ''}${c.score ? `, Score: ${c.score}` : ''}</li>`;
+            }).join('');
+
+            // Optional tiny debug line if you exposed it from the API
+            const debug = q.debug ? 
+                `<div style="opacity:.6; font-size:12px; margin-top:6px;">ranked: ${q.debug.ranked_cnt ?? 0}, scored: ${q.debug.scored_cnt ?? 0}</div>` 
+                : '';
+
+            return `
+                <div style="padding:12px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:12px;">
+                ${header}
+                ${status}
+                ${clusters ? `<ul style="margin-left:16px;">${clusters}</ul>` : '<div style="opacity:.7;">No clusters</div>'}
+                ${debug}
+                </div>`;
+            }).join('');
+
+            el.innerHTML = html;
+        } catch (err) {
+            el.innerHTML = `❌ Error: ${err.message}`;
+        }
+        }
+        </script>      
         <!-- Logs Panel -->
         <div class="panel full-width-panel">
             <div class="panel-header">
@@ -772,6 +1036,174 @@ def get_logs():
             {"timestamp": time.time(), "level": "INFO", "message": "Configuration validated"},
         ]
     })
+
+######################################### Addition for Preview Ranking
+# @app.route('/api/preview-ranking')
+# def preview_ranking():
+#     try:
+#         # Fetch questions
+#         questions = db_handler.fetch_all_questions()
+#         details = ranking_service.preview_details(questions, top_n=5)
+
+#         return jsonify({
+#             "status": "success",
+#             "data": details
+#         })
+#     except Exception as e:
+#         logger.error(f"Error in preview_ranking: {e}")
+#         return jsonify({"status": "error", "message": str(e)}), 500
+@app.route('/api/preview-ranking')
+@cross_origin()
+def preview_ranking():
+    """Preview ranking details with comprehensive error handling"""
+    try:
+        logger.info("🔍 Starting preview ranking endpoint...")
+        
+        # Test if services are properly initialized
+        if not db_handler or not ranking_service:
+            logger.error("❌ Services not initialized properly")
+            return jsonify({
+                "status": "error", 
+                "message": "Services not initialized"
+            }), 500
+        
+        # Test database connection
+        try:
+            logger.info("🔌 Testing database connection...")
+            connection_ok = db_handler.test_connection()
+            if not connection_ok:
+                logger.error("❌ Database connection test failed")
+                return jsonify({
+                    "status": "error", 
+                    "message": "Database connection failed"
+                }), 500
+            logger.info("✅ Database connection OK")
+        except Exception as conn_error:
+            logger.error(f"❌ Database connection error: {conn_error}")
+            return jsonify({
+                "status": "error", 
+                "message": f"Database connection error: {str(conn_error)}"
+            }), 500
+        
+        # Fetch questions
+        try:
+            logger.info("📥 Fetching questions...")
+            questions = db_handler.fetch_all_questions()
+            logger.info(f"📊 Fetched {len(questions)} questions")
+            
+            if not questions:
+                logger.info("📭 No questions found")
+                return jsonify({
+                    "status": "success",
+                    "data": [],
+                    "message": "No questions found in database"
+                })
+                
+        except Exception as fetch_error:
+            logger.error(f"❌ Error fetching questions: {fetch_error}")
+            return jsonify({
+                "status": "error", 
+                "message": f"Failed to fetch questions: {str(fetch_error)}"
+            }), 500
+        
+        # Generate preview details
+        try:
+            logger.info("🎯 Generating preview details...")
+            
+            # Check if preview_details method exists
+            if not hasattr(ranking_service, 'preview_details'):
+                logger.error("❌ preview_details method not found in ranking_service")
+                # Fallback: create simple preview
+                fallback_data = []
+                for i, q in enumerate(questions[:5]):  # Limit to 5 for testing
+                    fallback_data.append({
+                        "text": q.get('question', f'Question {i}'),
+                        "questionType": q.get('questionType', 'unknown'),
+                        "rankable": False,
+                        "skipReason": "preview method missing",
+                        "clusters": []
+                    })
+                
+                return jsonify({
+                    "status": "success",
+                    "data": fallback_data,
+                    "message": "Using fallback preview (main method not available)"
+                })
+            
+            details = ranking_service.preview_details(questions, top_n=5)
+            logger.info(f"✅ Generated preview for {len(details)} questions")
+            
+            return jsonify({
+                "status": "success",
+                "data": details,
+                "count": len(details)
+            })
+            
+        except Exception as preview_error:
+            logger.error(f"❌ Error in preview_details: {preview_error}")
+            logger.error(f"🔍 Traceback: {traceback.format_exc()}")
+            
+            # Fallback: return basic question info
+            fallback_data = []
+            for i, q in enumerate(questions[:3]):  # Limit to 3 for error case
+                fallback_data.append({
+                    "text": q.get('question', f'Question {i}'),
+                    "questionType": q.get('questionType', 'unknown'),
+                    "rankable": False,
+                    "skipReason": f"Error: {str(preview_error)}",
+                    "clusters": []
+                })
+            
+            return jsonify({
+                "status": "success",
+                "data": fallback_data,
+                "message": "Preview generated with fallback due to error"
+            })
+        
+    except Exception as e:
+        logger.error(f"💥 Critical error in preview_ranking: {e}")
+        logger.error(f"🔍 Full traceback: {traceback.format_exc()}")
+        
+        return jsonify({
+            "status": "error", 
+            "message": f"Server error: {str(e)}"
+        }), 500
+        #simple testing api
+@app.route('/api/test-preview')
+@cross_origin()
+def test_preview():
+    """Simple test endpoint that always returns JSON"""
+    try:
+        return jsonify({
+            "status": "success",
+            "data": [
+                {
+                    "text": "Test question 1",
+                    "questionType": "input", 
+                    "rankable": True,
+                    "skipReason": None,
+                    "responseCount": 5,
+                    "clusters": [
+                        {"value": "Test answer 1", "count": 3, "rank": 1, "score": 10},
+                        {"value": "Test answer 2", "count": 2, "rank": 2, "score": 5}
+                    ]
+                },
+                {
+                    "text": "Test question 2", 
+                    "questionType": "mcq",
+                    "rankable": False,
+                    "skipReason": "mcq",
+                    "responseCount": 4,
+                    "clusters": []
+                }
+            ],
+            "message": "Test preview working correctly"
+        })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": f"Test error: {str(e)}"
+        }), 500
 
 if __name__ == '__main__':
     logger.info("🌐 Starting Debug UI Server")
