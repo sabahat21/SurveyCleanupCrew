@@ -14,11 +14,11 @@ from utils.logger import setup_logger
 from constants import LogMessages
 from flask_cors import CORS, cross_origin
 
-# Or allow all origins for testing
-CORS(app)  # This should allow all origins by default
-
 # Initialize Flask app
 app = Flask(__name__)
+
+# Or allow all origins for testing
+CORS(app)  # This should allow all origins by default
 
 # Setup logging
 logger = setup_logger()
