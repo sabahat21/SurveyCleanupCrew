@@ -2,15 +2,6 @@
 Updated Flask Application - Two separate buttons for ranking and final POST
 """
 
-# import time
-# import traceback
-# from flask import Flask, render_template_string, jsonify, request
-# from config.settings import Config
-# from database.db_handler import DatabaseHandler
-# from services.ranking_service import RankingService
-# from services.final_service import FinalService
-# from utils.logger import setup_logger
-# from constants import LogMessages
 import time
 import traceback
 from flask import Flask, render_template_string, jsonify, request
@@ -22,8 +13,6 @@ from services.final_service import FinalService
 from utils.logger import setup_logger
 from constants import LogMessages
 from flask_cors import CORS, cross_origin
-# # Initialize Flask app
-# app = Flask(__name__)
 
 # Or allow all origins for testing
 CORS(app)  # This should allow all origins by default
