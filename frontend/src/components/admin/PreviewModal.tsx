@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { X } from "lucide-react";
 import { Question } from "../../types/types";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";

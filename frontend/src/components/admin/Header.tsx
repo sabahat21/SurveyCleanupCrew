@@ -1,5 +1,5 @@
 // Updated Header.tsx - Improved colors, text clarity, and layout spacing
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoutPrompt from "../common/LogoutPrompt";
 import UpdatePrompt from "../common/UpdateConfirmPrompt";

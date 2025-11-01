@@ -1,6 +1,4 @@
 // src/components/admin/AdminEmptyState.tsx
-import React from "react";
-
 const LEVELS = ["Beginner", "Intermediate", "Advanced"] as const;
 type Level = (typeof LEVELS)[number];
 

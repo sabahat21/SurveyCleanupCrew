@@ -1,5 +1,4 @@
 // src/components/admin/Sidebar.tsx
-import React from "react";
 import { Trash2, Plus } from "lucide-react";
 
 const LEVELS = ["Beginner", "Intermediate", "Advanced"] as const;

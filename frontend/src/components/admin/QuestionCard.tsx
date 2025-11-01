@@ -1,5 +1,5 @@
 // Updated QuestionCard.tsx - Removed unused Plus import and fixed other issues
-import React, { useState } from "react";
+import { useState } from "react";
 import { X, Check } from "lucide-react"; // Removed unused Plus import
 import { Question } from "../../types/types";
 
