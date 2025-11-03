@@ -53,12 +53,10 @@ export const Header: React.FC<HeaderProps> = ({
   const [showLogoutPrompt, setShowLogoutPrompt] = useState(false);
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
 
-  const handleLogoutClick = () => setShowLogoutPrompt(true);
-  const handleConfirmLogout = () => {
+  const handleLogout = (confirm: boolean) => {
     setShowLogoutPrompt(false);
-    onLogout();
+    if (confirm) onLogout();
   };
-  const handleCancelLogout = () => setShowLogoutPrompt(false);
 
   // Update popup logic - now for batch operations only
   const handleUpdateClick = () => setShowUpdatePrompt(true);
@@ -199,7 +197,7 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Logout Button - Right Corner */}
               <button
                 data-cy="logout-button"
-                onClick={handleLogoutClick}
+                onClick={() => setShowLogoutPrompt(true)}
                 className={getButtonClasses("logout")}
               >
                 <span className="text-base">🚪</span>
@@ -216,8 +214,8 @@ export const Header: React.FC<HeaderProps> = ({
       {/* LOGOUT MODAL */}
       <LogoutPrompt
         show={showLogoutPrompt}
-        onConfirm={handleConfirmLogout}
-        onCancel={handleCancelLogout}
+        onConfirm={() => handleLogout(true)}
+        onCancel={() => handleLogout(false)}
       />
       {/* BATCH UPDATE MODAL */}
       <UpdatePrompt
