@@ -837,6 +837,7 @@ class TemplateProvider:
             el.innerHTML = `❌ Error: ${err.message}`;
         }
         }
+            window.previewRanking = previewRanking;
         </script>      
         <!-- Logs Panel -->
         <div class="panel full-width-panel">
