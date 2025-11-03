@@ -1038,20 +1038,7 @@ def get_logs():
     })
 
 ######################################### Addition for Preview Ranking
-# @app.route('/api/preview-ranking')
-# def preview_ranking():
-#     try:
-#         # Fetch questions
-#         questions = db_handler.fetch_all_questions()
-#         details = ranking_service.preview_details(questions, top_n=5)
 
-#         return jsonify({
-#             "status": "success",
-#             "data": details
-#         })
-#     except Exception as e:
-#         logger.error(f"Error in preview_ranking: {e}")
-#         return jsonify({"status": "error", "message": str(e)}), 500
 @app.route('/api/preview-ranking')
 @cross_origin()
 def preview_ranking():
@@ -1167,42 +1154,6 @@ def preview_ranking():
         return jsonify({
             "status": "error", 
             "message": f"Server error: {str(e)}"
-        }), 500
-        #simple testing api
-@app.route('/api/test-preview')
-@cross_origin()
-def test_preview():
-    """Simple test endpoint that always returns JSON"""
-    try:
-        return jsonify({
-            "status": "success",
-            "data": [
-                {
-                    "text": "Test question 1",
-                    "questionType": "input", 
-                    "rankable": True,
-                    "skipReason": None,
-                    "responseCount": 5,
-                    "clusters": [
-                        {"value": "Test answer 1", "count": 3, "rank": 1, "score": 10},
-                        {"value": "Test answer 2", "count": 2, "rank": 2, "score": 5}
-                    ]
-                },
-                {
-                    "text": "Test question 2", 
-                    "questionType": "mcq",
-                    "rankable": False,
-                    "skipReason": "mcq",
-                    "responseCount": 4,
-                    "clusters": []
-                }
-            ],
-            "message": "Test preview working correctly"
-        })
-    except Exception as e:
-        return jsonify({
-            "status": "error",
-            "message": f"Test error: {str(e)}"
         }), 500
 
 if __name__ == '__main__':
