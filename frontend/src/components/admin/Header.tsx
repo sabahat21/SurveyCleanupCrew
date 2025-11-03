@@ -28,7 +28,7 @@ const getButtonClasses = (
     mode: isActive
       ? "bg-secondary text-btn-active-text border-accent shadow-md px-6 py-2.5 font-semibold shadow-sm border"
       : "bg-secondary-light text-btn-inactive-text border-accent hover:bg-btn-inactive-hover-bg hover:border-btn-inactive-hover-border px-6 py-2.5 font-semibold shadow-sm border",
-    nav: "text-btn-analytics-text bg-btn-analytics-bg border-indigo-200 hover:bg-btn-analytics-hover-bg hover:border-btn-analytics-hover-border border hover:opacity-90",
+    nav: "border hover:opacity-90",
     action:
       "px-5 py-2.5 font-semibold shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed",
     logout:
@@ -69,6 +69,33 @@ export const Header: React.FC<HeaderProps> = ({
   const handleCancelUpdate = () => setShowUpdatePrompt(false);
 
   const rankingPageUrl = process.env.REACT_APP_RANKING_UI_URL;
+
+  const navButtons = [
+    {
+      icon: "📊",
+      "data-cy": "analytics-button",
+      label: "Analytics",
+      onClick: () => navigate("/analytics"),
+      className:
+        "text-btn-analytics-text bg-btn-analytics-bg border-indigo-200 hover:bg-btn-analytics-hover-bg",
+    },
+    {
+      icon: "🏆",
+      "data-cy": "ranking-page-button",
+      label: "Ranking Page",
+      onClick: () => window.open(rankingPageUrl, "_blank"),
+      className:
+        "text-btn-ranking-text bg-btn-ranking-bg border-orange-200 hover:bg-btn-ranking-hover-bg",
+    },
+    {
+      icon: "👁️",
+      "data-cy": "preview-button",
+      label: "Preview",
+      onClick: onPreview,
+      className:
+        "text-btn-preview-text bg-btn-preview-bg border-purple-200 hover:bg-btn-preview-hover-bg",
+    },
+  ];
 
   return (
     <>
@@ -130,33 +157,17 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Right: Navigation & Action Buttons */}
             <div className="flex items-center gap-3">
               {/* Navigation Buttons */}
-              <button
-                onClick={() => navigate("/analytics")}
-                className={`${getButtonClasses("nav")} `}
-              >
-                <span className="text-base">📊</span>
-                <span>Analytics</span>
-              </button>
-
-              <button
-                onClick={() => window.open(rankingPageUrl, "_blank")}
-                className={`${getButtonClasses(
-                  "nav"
-                )} text-btn-ranking-text bg-btn-ranking-bg border-orange-200 hover:bg-btn-ranking-hover-bg hover:border-btn-ranking-hover-border`}
-              >
-                <span className="text-base">🏆</span>
-                <span>Ranking Page</span>
-              </button>
-
-              <button
-                onClick={onPreview}
-                className={`${getButtonClasses(
-                  "nav"
-                )} text-btn-preview-text bg-btn-preview-bg border-purple-200 hover:bg-btn-preview-hover-bg hover:border-btn-preview-hover-border`}
-              >
-                <span className="text-base">👁️</span>
-                <span>Preview</span>
-              </button>
+              {navButtons.map((btn, idx) => (
+                <button
+                  key={idx}
+                  data-cy={btn["data-cy"]}
+                  onClick={btn.onClick}
+                  className={`${getButtonClasses("nav")} ${btn.className}`}
+                >
+                  <span className="text-base">{btn.icon}</span>
+                  <span>{btn.label}</span>
+                </button>
+              ))}
 
               {/* Action Button */}
               {mode === "create" ? (
