@@ -58,13 +58,10 @@ export const Header: React.FC<HeaderProps> = ({
     if (confirm) onLogout();
   };
 
-  // Update popup logic - now for batch operations only
-  const handleUpdateClick = () => setShowUpdatePrompt(true);
-  const handleConfirmUpdate = () => {
+  const handleUpdate = (confirm: boolean) => {
     setShowUpdatePrompt(false);
-    onUpdate();
+    if (confirm) onUpdate();
   };
-  const handleCancelUpdate = () => setShowUpdatePrompt(false);
 
   const rankingPageUrl = process.env.REACT_APP_RANKING_UI_URL;
 
@@ -183,7 +180,7 @@ export const Header: React.FC<HeaderProps> = ({
               ) : (
                 <button
                   data-cy="save-changes-button"
-                  onClick={handleUpdateClick}
+                  onClick={() => setShowUpdatePrompt(true)}
                   disabled={isSubmitting || completedCount === 0}
                   className={`${getButtonClasses(
                     "action"
@@ -220,8 +217,8 @@ export const Header: React.FC<HeaderProps> = ({
       {/* BATCH UPDATE MODAL */}
       <UpdatePrompt
         show={showUpdatePrompt}
-        onConfirm={handleConfirmUpdate}
-        onCancel={handleCancelUpdate}
+        onConfirm={() => handleUpdate(true)}
+        onCancel={() => handleUpdate(false)}
       />
     </>
   );
