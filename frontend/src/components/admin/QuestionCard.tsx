@@ -81,17 +81,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     onUpdate("answers", updated);
   };
 
-  const handleDeleteClick = () => {
-    setShowDeleteDialog(true);
-  };
-
-  const handleConfirmDelete = () => {
+  const handleDelete = (confirm: boolean) => {
     setShowDeleteDialog(false);
-    onDelete();
-  };
-
-  const handleCancelDelete = () => {
-    setShowDeleteDialog(false);
+    if (confirm) onDelete();
   };
 
   const isCategorySelected = () => !!question.questionCategory?.trim();
@@ -139,7 +131,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             )}
             <button
               data-cy="delete-question-button"
-              onClick={handleDeleteClick}
+              onClick={() => setShowDeleteDialog(true)}
               className="p-2 rounded-lg transition-colors bg-btn-delete-question-bg text-btn-delete-question-text hover:bg-btn-delete-question-hover-bg hover:text-btn-delete-question-hover-text"
               title="Delete this question"
             >
@@ -338,14 +330,14 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             <div className="flex gap-3">
               <button
                 data-cy="cancel-delete-question-button"
-                onClick={handleCancelDelete}
+                onClick={() => handleDelete(false)}
                 className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
               >
                 Cancel
               </button>
               <button
                 data-cy="confirm-delete-question-button"
-                onClick={handleConfirmDelete}
+                onClick={() => handleDelete(true)}
                 className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
                 Delete
