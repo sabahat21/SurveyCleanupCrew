@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoutPrompt from "../common/LogoutPrompt";
 import UpdatePrompt from "../common/UpdateConfirmPrompt";
+import { Plus } from "lucide-react";
 
 interface HeaderProps {
   completedCount: number;
@@ -123,19 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className={getButtonClasses("mode", mode === "create")}
               >
                 <span className="text-base ">
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    />
-                  </svg>
+                  <Plus size={16} />
                 </span>
                 <span>Add</span>
               </button>
