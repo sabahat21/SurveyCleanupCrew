@@ -1,6 +1,6 @@
 // Updated QuestionCard.tsx - Removed unused Plus import and fixed other issues
 import { useState } from "react";
-import { X, Check } from "lucide-react"; // Removed unused Plus import
+import { X, Check, Plus } from "lucide-react";
 import { Question } from "../../types/types";
 
 const categories = [
@@ -113,19 +113,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
                 className="p-2 rounded-lg transition-colors text-green-600 hover:bg-green-100 hover:text-green-700 flex items-center gap-1 text-sm font-medium"
                 title="Add another question"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  />
-                </svg>
+                <Plus size={16} />
                 Add
               </button>
             )}
