@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   fetchAnswersByQuestionId,
   fetchAllQuestionsAdmin,
@@ -6,7 +6,6 @@ import {
 } from "../api/adminSurveyApi";
 import { useParams, useNavigate } from "react-router-dom";
 import { Question } from "../../types/types";
-import { CircleAlert, CircleQuestionMark } from "lucide-react";
 
 interface Answer {
   answerID: string;
@@ -167,12 +166,12 @@ const QuestionDetailPage: React.FC = () => {
   // UI rendering logic
   if (loading) {
     return (
-<div className="min-h-screen bg-yellow-400 p-6">
-      <div className="p-6">
+      <div className="min-h-screen bg-survey-bg p-6">
+        <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">Question Details</h2>
             <button
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              className="bg-button-refresh-responses-back text-white px-4 py-2 rounded hover:bg-purple-700"
               onClick={() => navigate(-1)}
             >
               ← Back
@@ -198,7 +197,7 @@ const QuestionDetailPage: React.FC = () => {
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">Question Details</h2>
             <button
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              className="bg-button-refresh-responses-back text-white px-4 py-2 rounded hover:bg-purple-700"
               onClick={() => navigate(-1)}
             >
               ← Back
@@ -207,7 +206,19 @@ const QuestionDetailPage: React.FC = () => {
           <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
             <div className="text-red-600 mb-4">
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <CircleAlert className="w-6 h-6 text-red-500" />
+                <svg
+                  className="w-6 h-6 text-red-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
               </div>
               <p className="text-lg font-semibold">
                 Error loading question details
@@ -228,65 +239,57 @@ const QuestionDetailPage: React.FC = () => {
 
   if (!question || answers.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
+      <div className="min-h-screen bg-yellow-50">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">Question Details</h2>
+            <h2 className="text-2xl font-bold text-yellow-900">
+              Question Details
+            </h2>
             <button
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition-colors"
               onClick={() => navigate(-1)}
             >
               ← Back
             </button>
           </div>
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CircleQuestionMark className="w-8 h-8 text-blue-600" />
+          <div className="bg-yellow-100 border border-yellow-200 rounded-lg p-6 text-center">
+            <div className="w-16 h-16 bg-yellow-200 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="w-8 h-8 text-yellow-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
             </div>
-            <h3 className="text-xl font-semibold text-blue-900 mb-2">
+            <h3 className="text-xl font-semibold text-yellow-900 mb-2">
               No Responses Found
             </h3>
-            <p className="text-blue-700 mb-4">
+            <p className="text-yellow-800 mb-4">
               {question
                 ? "This question hasn't received any responses yet."
                 : "Question not found in the database."}
             </p>
             <button
               onClick={() => navigate("/responses")}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+              View All Questions
+            </button>
           </div>
-          <h3 className="text-xl font-semibold text-yellow-900 mb-2">
-            No Responses Found
-          </h3>
-          <p className="text-yellow-800 mb-4">
-            {question
-              ? "This question hasn't received any responses yet."
-              : "Question not found in the database."}
-          </p>
-          <button
-            onClick={() => navigate("/responses")}
-            className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
-          >
-            View All Questions
-          </button>
         </div>
       </div>
-    </div>
-  );
-}
-
+    );
+  }
 
   return (
-<div className="min-h-screen bg-yellow-400">
-
+    <div className="min-h-screen bg-survey-bg">
       <div className="p-6 space-y-6">
         {/* Toast */}
         {toast && (
@@ -333,14 +336,11 @@ const QuestionDetailPage: React.FC = () => {
 
         {/* Header */}
 
-
         {/* <div className="min-h-screen bg-yellow-50">
            <div className="p-6">
           <div className="flex justify-between items-center mb-6"> */}
 
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-
-
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--header-primary)] text-center sm:text-left">
               Question Analysis
@@ -350,24 +350,18 @@ const QuestionDetailPage: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-2">
-            <button
-              className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition"
-
-            >
+            <button className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition">
               🔄 Refresh
             </button>
             <button
-            className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition"
-
+              className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition"
               // className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors text-lg"
               onClick={() => navigate(-1)}
             >
               ← Back
             </button>
           </div>
-          
-    
-          </div>
+        </div>
 
         {/* Question Info Card */}
         <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
