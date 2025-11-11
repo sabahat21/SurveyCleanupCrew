@@ -167,8 +167,8 @@ const QuestionDetailPage: React.FC = () => {
   // UI rendering logic
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
-        <div className="p-6">
+<div className="min-h-screen bg-yellow-400 p-6">
+      <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">Question Details</h2>
             <button
@@ -255,16 +255,38 @@ const QuestionDetailPage: React.FC = () => {
               onClick={() => navigate("/responses")}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              View All Questions
-            </button>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
           </div>
+          <h3 className="text-xl font-semibold text-yellow-900 mb-2">
+            No Responses Found
+          </h3>
+          <p className="text-yellow-800 mb-4">
+            {question
+              ? "This question hasn't received any responses yet."
+              : "Question not found in the database."}
+          </p>
+          <button
+            onClick={() => navigate("/responses")}
+            className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
+          >
+            View All Questions
+          </button>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
+<div className="min-h-screen bg-yellow-400">
+
       <div className="p-6 space-y-6">
         {/* Toast */}
         {toast && (
@@ -310,30 +332,42 @@ const QuestionDetailPage: React.FC = () => {
         )}
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+
+
+        {/* <div className="min-h-screen bg-yellow-50">
+           <div className="p-6">
+          <div className="flex justify-between items-center mb-6"> */}
+
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+
+
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--header-primary)] text-center sm:text-left">
               Question Analysis
             </h2>
-            <p className="text-gray-600 mt-1">
+            <p className="text-1xl sm:text-1xl font-bold text-[var(--header-primary)] text-center sm:text-left">
               Detailed response analysis and statistics
             </p>
           </div>
           <div className="flex gap-2">
             <button
-              className="bg-gray-200 px-4 py-2 rounded-lg text-lg hover:bg-gray-300 transition-colors"
-              onClick={() => window.location.reload()}
+              className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition"
+
             >
               🔄 Refresh
             </button>
             <button
-              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors text-lg"
+            className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition"
+
+              // className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors text-lg"
               onClick={() => navigate(-1)}
             >
               ← Back
             </button>
           </div>
-        </div>
+          
+    
+          </div>
 
         {/* Question Info Card */}
         <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
@@ -431,7 +465,7 @@ const QuestionDetailPage: React.FC = () => {
         <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <button
-              className="px-5 py-3 rounded-lg font-bold text-lg bg-purple-600 text-white min-w-[120px]"
+              className="bg-button-refresh-responses-back px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition"
               disabled
             >
               📋 List View
