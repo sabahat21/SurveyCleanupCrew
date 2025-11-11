@@ -6,6 +6,7 @@ import {
 } from "../api/adminSurveyApi";
 import { useParams, useNavigate } from "react-router-dom";
 import { Question } from "../../types/types";
+import { CircleAlert, CircleQuestionMark, Info, X, Check } from "lucide-react";
 
 interface Answer {
   answerID: string;
@@ -206,19 +207,7 @@ const QuestionDetailPage: React.FC = () => {
           <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
             <div className="text-red-600 mb-4">
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <svg
-                  className="w-6 h-6 text-red-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                <CircleAlert className="w-6 h-6 text-red-600" />
               </div>
               <p className="text-lg font-semibold">
                 Error loading question details
@@ -254,19 +243,7 @@ const QuestionDetailPage: React.FC = () => {
           </div>
           <div className="bg-yellow-100 border border-yellow-200 rounded-lg p-6 text-center">
             <div className="w-16 h-16 bg-yellow-200 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-8 h-8 text-yellow-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <CircleQuestionMark className="w-8 h-8 text-yellow-800" />
             </div>
             <h3 className="text-xl font-semibold text-yellow-900 mb-2">
               No Responses Found
@@ -298,38 +275,14 @@ const QuestionDetailPage: React.FC = () => {
             aria-live="polite"
             className="fixed bottom-6 right-6 z-50 bg-gray-900 text-white px-5 py-4 rounded-lg shadow-lg flex items-start gap-3 animate-fade-in"
           >
-            <svg
-              className="w-6 h-6 text-amber-400 flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
-              />
-            </svg>
+            <Info className="w-6 h-6 flex-shrink-0" />
             <div className="text-sm font-medium">{toast.message}</div>
             <button
               onClick={() => setToast(null)}
               className="ml-2 text-gray-300 hover:text-white"
               title="Dismiss"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <X className="w-5 h-5" />
             </button>
           </div>
         )}
@@ -419,37 +372,13 @@ const QuestionDetailPage: React.FC = () => {
         {updateError && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <div className="flex items-center gap-2">
-              <svg
-                className="w-5 h-5 text-red-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <CircleAlert className="w-6 h-6 text-red-600" />
               <p className="text-red-700 text-lg font-medium">{updateError}</p>
               <button
                 onClick={() => setUpdateError("")}
                 className="ml-auto text-red-600 hover:text-red-800"
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <X className="w-6 h-6" />
               </button>
             </div>
           </div>
@@ -563,19 +492,7 @@ const QuestionDetailPage: React.FC = () => {
                                 className="flex items-center justify-center px-3 py-2 rounded-full border border-green-200 text-green-700 bg-green-50 hover:bg-green-200 transition disabled:opacity-50 disabled:cursor-not-allowed text-2xl"
                                 title="Mark as correct"
                               >
-                                <svg
-                                  className="w-6 h-6"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
+                                <Check className="w-6 h-6" />
                               </button>
                               <button
                                 onClick={() =>
@@ -585,20 +502,7 @@ const QuestionDetailPage: React.FC = () => {
                                 className="flex items-center justify-center px-3 py-2 rounded-full border border-red-200 text-red-700 bg-red-50 hover:bg-red-200 transition disabled:opacity-50 disabled:cursor-not-allowed text-2xl"
                                 title="Mark as incorrect"
                               >
-                                <svg
-                                  className="w-6 h-6"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                  />
-                                </svg>
+                                <X className="w-6 h-6" />
                               </button>
                             </div>
                           </div>
