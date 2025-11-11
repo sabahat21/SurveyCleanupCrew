@@ -7,6 +7,7 @@ import {
   updateQuestionWithAnswers,
 } from "../api/adminSurveyApi";
 import { useAnalyticsData } from "../hooks/useAnalyticsData";
+import { X, Check } from "lucide-react";
 
 const ResponsesPage: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -682,19 +683,7 @@ const ResponsesPage: React.FC = () => {
                 onClick={() => setShowAnswerModal(false)}
                 className="text-gray-500 hover:text-gray-700 transition-colors"
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <X className="w-6 h-6" />
               </button>
             </div>
 
@@ -776,19 +765,7 @@ const ResponsesPage: React.FC = () => {
                           <div className="flex items-center gap-2 flex-shrink-0">
                             {answer.isCorrect ? (
                               <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium flex items-center gap-1">
-                                <svg
-                                  className="w-4 h-4"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
+                                <Check className="w-4 h-4" />
                                 True
                               </span>
                             ) : (
@@ -813,19 +790,7 @@ const ResponsesPage: React.FC = () => {
                                 {isUpdating ? (
                                   <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
                                 ) : (
-                                  <svg
-                                    className="w-4 h-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M5 13l4 4L19 7"
-                                    />
-                                  </svg>
+                                  <Check className="w-4 h-4" />
                                 )}
                               </button>
 
@@ -844,19 +809,7 @@ const ResponsesPage: React.FC = () => {
                                 {isUpdating ? (
                                   <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
                                 ) : (
-                                  <svg
-                                    className="w-4 h-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M6 18L18 6M6 6l12 12"
-                                    />
-                                  </svg>
+                                  <X className="w-4 h-4" />
                                 )}
                               </button>
                             </div>
