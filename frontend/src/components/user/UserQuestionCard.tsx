@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Volume2, VolumeX, Loader2, CircleCheck, X } from "lucide-react";
 import { API_BASE, API_KEY } from "../api/config";
-import ProficiencyModal from "../common/ProficiencyModal";
 
 interface UserQuestionCardProps {
   questions: any[];
